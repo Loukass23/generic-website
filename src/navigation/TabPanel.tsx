@@ -6,11 +6,13 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { createStyles, Theme, Container } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
+import TabArticle from '../components/TabArticle';
+import Article from '../components/TabArticle';
 
-interface Navbar {
-    title: String,
-    sections: Array<string>
+interface TabArticles {
+    tabs: Array<any>
 }
+
 
 const TabPanel = (props: { [x: string]: any; children: any; value: any; index: any; }) => {
     const { children, value, index, ...other } = props;
@@ -50,12 +52,12 @@ const styles = (theme: Theme) => createStyles({
 
 interface Props extends WithStyles<typeof styles> {
     classes: any,
-    content: Navbar
+    content: TabArticles
 }
 
-const ScrollableTabsButtonPrevent: React.FC<Props> = ({ classes, content }) => {
+const ScrollableTabsBar: React.FC<Props> = ({ classes, content }) => {
     const [value, setValue] = React.useState(0);
-    const { sections } = content
+    const { tabs } = content
 
     const handleChange = (event: any, newValue: React.SetStateAction<number>) => {
         setValue(newValue);
@@ -71,17 +73,17 @@ const ScrollableTabsButtonPrevent: React.FC<Props> = ({ classes, content }) => {
                     scrollButtons="on"
                     aria-label="tabs"
                 >
-                    {sections.map((section, i) => (
-                        <Tab key={section} label={section} {...a11yProps(i)} />
+                    {tabs.map((tab, i) => (
+                        <Tab key={tab.tabName} label={tab.tabName} {...a11yProps(i)} />
                     ))
                     }
                 </Tabs>
             </AppBar>
 
-            {sections.map((section, i) => (
-                <Container maxWidth="lg">
-                    <TabPanel key={section} value={value} index={i}>
-                        {section}
+            {tabs.map((tab, i) => (
+                <Container key={tab.tabName} maxWidth="lg">
+                    <TabPanel value={value} index={i}>
+                        <TabArticle content={tab.article} />
                     </TabPanel>
                 </Container>
 
@@ -92,4 +94,4 @@ const ScrollableTabsButtonPrevent: React.FC<Props> = ({ classes, content }) => {
     );
 
 }
-export default withStyles(styles)(ScrollableTabsButtonPrevent)
+export default withStyles(styles)(ScrollableTabsBar)

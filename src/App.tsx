@@ -9,12 +9,12 @@ import { content } from './content'
 
 
 const App: React.FC = () => {
-  const { navbar, hero, footer } = content
+  const { articles, hero, footer } = content
   return (
     <div className="App">
       <MuiThemeProvider theme={theme}>
         <Hero content={hero} />
-        <TabPanel content={navbar} />
+        <TabPanel content={articles} />
 
         <Footer content={footer} />
 

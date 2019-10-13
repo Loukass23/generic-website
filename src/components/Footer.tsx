@@ -20,6 +20,7 @@ const styles = (theme: Theme) => createStyles({
         backgroundColor: theme.palette.background.paper,
         marginTop: theme.spacing(4),
         padding: theme.spacing(4, 0),
+        marginBottom: 0
     },
 });
 
