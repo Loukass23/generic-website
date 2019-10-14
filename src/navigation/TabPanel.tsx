@@ -9,9 +9,8 @@ import { WithStyles, withStyles } from '@material-ui/styles';
 import TabArticle from '../components/TabArticle';
 import SwipeableViews from 'react-swipeable-views';
 
-interface TabArticles {
-    tabs: Array<any>
-}
+
+
 
 const TabPanel = (props: { [x: string]: any; children: any; value: any; index: any; }) => {
     const { children, value, index, ...other } = props;
@@ -28,6 +27,8 @@ const TabPanel = (props: { [x: string]: any; children: any; value: any; index: a
         </Typography>
     );
 }
+
+
 
 const a11yProps = (index: number) => {
     return {
@@ -51,8 +52,8 @@ const styles = (theme: Theme) => createStyles({
 
     },
     articleContainer: {
+        overflow: 'hidden',
         padding: theme.spacing(2),
-        // margin: theme.spacing(2),
         [theme.breakpoints.down('xs')]: {
             padding: 0,
 
@@ -63,9 +64,14 @@ const styles = (theme: Theme) => createStyles({
 });
 
 interface Props extends WithStyles<typeof styles> {
-    classes: any,
-    content: TabArticles
+    classes: {
+        root: string,
+        tabs: string,
+        articleContainer: string,
+    },
+    content: TabArticles,
 }
+
 
 const ScrollableTabsBar: React.FC<Props> = ({ classes, content }) => {
     const [value, setValue] = React.useState(0);
@@ -73,6 +79,7 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, content }) => {
 
 
     const handleChange = (event: any, newValue: React.SetStateAction<number>) => {
+
         setValue(newValue);
     };
     const handleChangeIndex = (index: number) => {
@@ -80,7 +87,8 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, content }) => {
     };
     return (
         <div className={classes.root}>
-            <AppBar className={classes.tabs} position="static">
+
+            <AppBar className={classes.tabs} position="sticky">
                 <Tabs
                     value={value}
                     onChange={handleChange}

@@ -3,7 +3,7 @@ import { content } from './content'
 
 const { color } = content
 const defaultTheme = createMuiTheme({})
-const { breakpoints, typography: { pxToRem }, palette } = defaultTheme
+const { breakpoints } = defaultTheme
 let theme = createMuiTheme({
     ...defaultTheme,
     typography: {

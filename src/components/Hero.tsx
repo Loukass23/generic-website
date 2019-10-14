@@ -2,12 +2,7 @@ import React from 'react'
 import { createStyles, Theme, Paper, Grid, Typography, CssBaseline, CardMedia } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
 
-interface Hero {
-    title: String,
-    text: String,
-    img: string,
-    logo: string
-}
+
 
 const styles = (theme: Theme) => createStyles({
     toolbar: {
@@ -45,24 +40,36 @@ const styles = (theme: Theme) => createStyles({
     hero: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignContent: 'center',
+        [theme.breakpoints.down('xs')]: {
+            height: '100px'
+        },
+        // alignItems: 'center'
     },
     logo: {
     },
     mainFeaturedPostContent: {
         position: 'relative',
         padding: theme.spacing(3),
-        // [theme.breakpoints.up('xs')]: {
-        //     padding: theme.spacing(6),
-        //     paddingRight: 0,
-        // },
+
     },
 });
 
 interface Props extends WithStyles<typeof styles> {
-    classes: any,
+    classes: {
+        toolbar: string,
+        toolbarTitle: string,
+        toolbarSecondary: string,
+        toolbarLink: string,
+        mainFeaturedPost: string,
+        overlay: string,
+        hero: string,
+        logo: string,
+        mainFeaturedPostContent: string,
+    }
     content: Hero
 }
+
 const Hero: React.FC<Props> = ({ classes, content }) => {
     const { title, text, img, logo } = content
     return (
@@ -84,6 +91,7 @@ const Hero: React.FC<Props> = ({ classes, content }) => {
                         component="img"
                         alt="logo"
                         height="100%"
+                        width="100%"
                         image={logo}
                         title="logo"
                     />

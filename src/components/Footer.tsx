@@ -6,15 +6,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { createStyles, Theme } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
 
-
-interface Footer {
-    title: String,
-    text: String,
-    copyright: String,
-}
-
-
-
 const styles = (theme: Theme) => createStyles({
     footer: {
         backgroundColor: theme.palette.background.paper,
@@ -28,7 +19,10 @@ const styles = (theme: Theme) => createStyles({
 });
 
 interface Props extends WithStyles<typeof styles> {
-    classes: any,
+    classes: {
+        footer: string,
+        text: string,
+    },
     content: Footer
 }
 

@@ -1,13 +1,21 @@
 import React from 'react'
-import { Container, Toolbar, Typography, Link } from '@material-ui/core';
+import { Container, Toolbar, Link } from '@material-ui/core';
 import { createStyles, Theme } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
+
 
 
 interface Navbar {
     title: String,
     sections: Array<string>
 }
+interface Props extends WithStyles<typeof styles> {
+    classes: any,
+    content: Navbar,
+    props: Props,
+
+}
+
 
 
 const styles = (theme: Theme) => createStyles({
@@ -29,14 +37,12 @@ const styles = (theme: Theme) => createStyles({
 
 
 
-interface Props extends WithStyles<typeof styles> {
-    classes: any,
-    content: Navbar
-}
 
-const Navbar: React.FC<Props> = ({ classes, content }) => {
+
+const Navbar: React.FC<Props> = ({ classes, content, props }) => {
     const { title, sections } = content
     return (
+
         <Container maxWidth="lg">
 
             {/* <Toolbar
@@ -70,6 +76,7 @@ const Navbar: React.FC<Props> = ({ classes, content }) => {
                 ))}
             </Toolbar>
         </Container>
+
     )
 }
 
