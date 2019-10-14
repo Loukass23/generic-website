@@ -51,6 +51,9 @@ const styles = (theme: Theme) => createStyles({
 
 
     },
+    tabTitle: {
+        margin: theme.spacing(2),
+    },
     articleContainer: {
         overflow: 'hidden',
         padding: theme.spacing(2),
@@ -68,6 +71,7 @@ interface Props extends WithStyles<typeof styles> {
         root: string,
         tabs: string,
         articleContainer: string,
+        tabTitle: string,
     },
     content: TabArticles,
 }
@@ -111,6 +115,10 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, content }) => {
                 {tabs.map((tab, i) => (
                     <Container className={classes.articleContainer} key={tab.tabName} maxWidth="lg">
                         <TabPanel value={value} index={i}>
+                            {tab.tabTitle &&
+                                <Typography className={classes.tabTitle} variant="h2" color="textSecondary">
+                                    {tab.tabTitle}
+                                </Typography>}
                             <TabArticle content={tab.article} />
                         </TabPanel>
                     </Container>
