@@ -1,10 +1,10 @@
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 import { content } from './content'
 
 const { color } = content
 const defaultTheme = createMuiTheme({})
 const { breakpoints, typography: { pxToRem }, palette } = defaultTheme
-const theme = createMuiTheme({
+let theme = createMuiTheme({
     ...defaultTheme,
     typography: {
         subtitle1: {
@@ -15,7 +15,7 @@ const theme = createMuiTheme({
         },
         h1: {
             fontSize: "5rem",
-            [breakpoints.down("xs")]: {
+            [breakpoints.down("md")]: {
                 fontSize: "3rem"
             }
         }
@@ -31,9 +31,9 @@ const theme = createMuiTheme({
             //light: '#0066ff',
             main: color.secondary,
             // dark: will be calculated from palette.secondary.main,
-            // contrastText: '#ffcc00',
         },
-    }
+    },
+    direction: 'rtl'
     // overrides: {
 
     //     MuiTypography: {
@@ -82,5 +82,6 @@ const theme = createMuiTheme({
 //         },
 //     }
 // }
+theme = responsiveFontSizes(theme);
 
 export default theme

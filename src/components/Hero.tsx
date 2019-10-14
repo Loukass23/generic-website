@@ -1,11 +1,12 @@
 import React from 'react'
-import { createStyles, Theme, Paper, Grid, Typography, CssBaseline } from '@material-ui/core';
+import { createStyles, Theme, Paper, Grid, Typography, CssBaseline, CardMedia } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
 
 interface Hero {
     title: String,
     text: String,
     img: string,
+    logo: string
 }
 
 const styles = (theme: Theme) => createStyles({
@@ -41,6 +42,13 @@ const styles = (theme: Theme) => createStyles({
         left: 0,
         backgroundColor: 'rgba(0,0,0,.3)',
     },
+    hero: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    logo: {
+    },
     mainFeaturedPostContent: {
         position: 'relative',
         padding: theme.spacing(3),
@@ -56,7 +64,7 @@ interface Props extends WithStyles<typeof styles> {
     content: Hero
 }
 const Hero: React.FC<Props> = ({ classes, content }) => {
-    const { title, text, img } = content
+    const { title, text, img, logo } = content
     return (
         <Paper className={classes.mainFeaturedPost} style={{ backgroundImage: `url(${img})` }}>
             {/* Increase the priority of the hero background image */}
@@ -70,8 +78,17 @@ const Hero: React.FC<Props> = ({ classes, content }) => {
             <CssBaseline />
 
             <div className={classes.overlay} />
-            <Grid container>
-                <Grid item xs={12}>
+            <Grid container className={classes.hero}>
+                <Grid item xs={2}>
+                    <CardMedia
+                        component="img"
+                        alt="logo"
+                        height="100%"
+                        image={logo}
+                        title="logo"
+                    />
+                </Grid>
+                <Grid item xs={10}>
                     <div className={classes.mainFeaturedPostContent}>
                         <Typography component="h1" variant="h3" color="inherit" gutterBottom>
                             {title}

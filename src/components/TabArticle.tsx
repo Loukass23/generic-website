@@ -1,5 +1,5 @@
 import React from 'react'
-import { Theme, createStyles, Typography, Container } from '@material-ui/core';
+import { Theme, createStyles, Typography, Container, CardMedia, Grid } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
 import { type } from 'os';
 
@@ -9,51 +9,22 @@ interface Bock {
     title: string,
     text: string,
     img: string,
+    sideImg: Boolean
 
 }
 type TabArticle = Array<Bock>
 
 const styles = (theme: Theme) => createStyles({
-    toolbar: {
-        borderBottom: `1px solid ${theme.palette.divider}`,
-    },
-    toolbarTitle: {
-        flex: 1,
-    },
-    toolbarSecondary: {
-        justifyContent: 'space-between',
-        overflowX: 'auto',
-    },
-    toolbarLink: {
-        padding: theme.spacing(1),
-        flexShrink: 0,
-    },
-    mainFeaturedPost: {
+    article: {
         position: 'relative',
-        backgroundColor: theme.palette.grey[800],
-        color: theme.palette.common.white,
-        // marginBottom: theme.spacing(1),
-        // backgroundImage: 'url(https://source.unsplash.com/user/erondu)',
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
+        paddingBottom: theme.spacing(2),
+        [theme.breakpoints.down('xs')]: {
+
+        },
     },
-    overlay: {
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        right: 0,
-        left: 0,
-        backgroundColor: 'rgba(0,0,0,.3)',
-    },
-    mainFeaturedPostContent: {
-        position: 'relative',
-        padding: theme.spacing(3),
-        // [theme.breakpoints.up('xs')]: {
-        //     padding: theme.spacing(6),
-        //     paddingRight: 0,
-        // },
-    },
+    text: {
+        padding: theme.spacing(2),
+    }
 });
 
 interface Props extends WithStyles<typeof styles> {
@@ -68,14 +39,64 @@ const TabArticle: React.FC<Props> = ({ classes, content }) => {
         <div>
             {
                 content.map(block => (
-                    <Container key={block.title}>
-                        <Typography component="h2" variant="h5">
-                            {block.title}
-                        </Typography>
-                        <Typography variant="subtitle1" color="textSecondary">
-                            {block.text}
-                        </Typography>
-                    </Container>
+                    block.sideImg ?
+                        <Grid container spacing={2} className={classes.article} key={block.title}>
+                            <Grid item xs={12} md={6}>
+                                {block.img && <CardMedia
+                                    component="img"
+                                    alt="Contemplative Reptile"
+                                    // height="140"
+                                    image={block.img}
+                                    title="Contemplative Reptile"
+                                />}
+                            </Grid>
+                            <Grid item xs={12} md={6}>
+                                <Typography component="h3" variant="h5">
+                                    {block.title}
+                                </Typography>
+                                <Typography className={classes.text} variant="body1" color="textSecondary">
+                                    {block.text}
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                        :
+                        <Grid container spacing={2} className={classes.article} key={block.title}>
+                            <Grid item xs={12}>
+                                <Typography component="h3" variant="h5">
+                                    {block.title}
+                                </Typography>
+                                {block.img && <CardMedia
+                                    component="img"
+                                    alt="Contemplative Reptile"
+                                    height="140"
+                                    image={block.img}
+                                    title="Contemplative Reptile"
+                                />}
+                                <Typography className={classes.text} variant="body1" color="textSecondary">
+                                    {block.text}
+                                </Typography>
+                            </Grid>
+                        </Grid>
+
+
+
+
+                    // <Container className={classes.article} key={block.title}>
+                    //     <Typography component="h3" variant="h5">
+                    //         {block.title}
+                    //     </Typography>
+                    //     {block.img && <CardMedia
+                    //         component="img"
+                    //         alt="Contemplative Reptile"
+                    //         height="140"
+                    //         image={block.img}
+                    //         title="Contemplative Reptile"
+                    //     />}
+                    //     <Typography variant="body1" color="textSecondary">
+                    //         {block.text}
+                    //     </Typography>
+                    // </Container>
+
                 ))
 
             }

@@ -7,16 +7,14 @@ import Box from '@material-ui/core/Box';
 import { createStyles, Theme, Container } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
 import TabArticle from '../components/TabArticle';
-import Article from '../components/TabArticle';
+import SwipeableViews from 'react-swipeable-views';
 
 interface TabArticles {
     tabs: Array<any>
 }
 
-
 const TabPanel = (props: { [x: string]: any; children: any; value: any; index: any; }) => {
     const { children, value, index, ...other } = props;
-
     return (
         <Typography
             component="div"
@@ -26,7 +24,7 @@ const TabPanel = (props: { [x: string]: any; children: any; value: any; index: a
             aria-labelledby={`scrollable-prevent-tab-${index}`}
             {...other}
         >
-            <Box p={3}>{children}</Box>
+            <Box style={{ padding: 0 }} p={3}>{children}</Box>
         </Typography>
     );
 }
@@ -43,11 +41,25 @@ const styles = (theme: Theme) => createStyles({
     root: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
+
+
     },
     tabs: {
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'center',
+
+
+    },
+    articleContainer: {
+        padding: theme.spacing(2),
+        // margin: theme.spacing(2),
+        [theme.breakpoints.down('xs')]: {
+            padding: 0,
+
+            margin: 0,
+        },
     }
+
 });
 
 interface Props extends WithStyles<typeof styles> {
@@ -59,10 +71,13 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, content }) => {
     const [value, setValue] = React.useState(0);
     const { tabs } = content
 
+
     const handleChange = (event: any, newValue: React.SetStateAction<number>) => {
         setValue(newValue);
     };
-
+    const handleChangeIndex = (index: number) => {
+        setValue(index);
+    };
     return (
         <div className={classes.root}>
             <AppBar className={classes.tabs} position="static">
@@ -72,6 +87,7 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, content }) => {
                     variant="scrollable"
                     scrollButtons="on"
                     aria-label="tabs"
+
                 >
                     {tabs.map((tab, i) => (
                         <Tab key={tab.tabName} label={tab.tabName} {...a11yProps(i)} />
@@ -79,17 +95,20 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, content }) => {
                     }
                 </Tabs>
             </AppBar>
-
-            {tabs.map((tab, i) => (
-                <Container key={tab.tabName} maxWidth="lg">
-                    <TabPanel value={value} index={i}>
-                        <TabArticle content={tab.article} />
-                    </TabPanel>
-                </Container>
-
-            ))
-            }
-
+            <SwipeableViews
+                axis='x'
+                index={value}
+                onChangeIndex={handleChangeIndex}
+            >
+                {tabs.map((tab, i) => (
+                    <Container className={classes.articleContainer} key={tab.tabName} maxWidth="lg">
+                        <TabPanel value={value} index={i}>
+                            <TabArticle content={tab.article} />
+                        </TabPanel>
+                    </Container>
+                ))
+                }
+            </SwipeableViews>
         </div>
     );
 

@@ -18,10 +18,13 @@ interface Footer {
 const styles = (theme: Theme) => createStyles({
     footer: {
         backgroundColor: theme.palette.background.paper,
-        marginTop: theme.spacing(4),
-        padding: theme.spacing(4, 0),
-        marginBottom: 0
+        marginTop: theme.spacing(2),
+        padding: theme.spacing(0),
+        marginBottom: 0,
     },
+    text: {
+        padding: theme.spacing(0),
+    }
 });
 
 interface Props extends WithStyles<typeof styles> {
@@ -39,13 +42,13 @@ const Footer: React.FC<Props> = ({ classes, content }) => {
         >
             <CssBaseline />
             <Container maxWidth="lg">
-                <Typography color="primary" variant="h6" align="center" gutterBottom>
+                <Typography className={classes.text} color="primary" variant="h6" align="center" gutterBottom>
                     {title}
                 </Typography>
-                <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+                <Typography className={classes.text} variant="body1" align="center" color="textSecondary" component="p">
                     {text}
                 </Typography>
-                <Typography variant="body2" color="textSecondary" align="center">
+                <Typography className={classes.text} variant="body2" color="textSecondary" align="center">
                     {'Copyright © '}
                     <Link color="inherit" href="/">
                         {copyright}
