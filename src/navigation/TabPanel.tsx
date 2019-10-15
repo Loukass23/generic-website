@@ -8,11 +8,12 @@ import { createStyles, Theme, Container } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
 import TabArticle from '../components/TabArticle';
 import SwipeableViews from 'react-swipeable-views';
+import { iconsRender } from '../components/Icons';
 
 
 
 
-const TabPanel = (props: { [x: string]: any; children: any; value: any; index: any; }) => {
+const TabPanel: React.FC<TabPanelProps> = (props) => {
     const { children, value, index, ...other } = props;
     return (
         <Typography
@@ -77,6 +78,7 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 
+type MaterialIcon = JSX.Element
 const ScrollableTabsBar: React.FC<Props> = ({ classes, content }) => {
     const [value, setValue] = React.useState(0);
     const { tabs } = content
@@ -101,9 +103,12 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, content }) => {
                     aria-label="tabs"
 
                 >
-                    {tabs.map((tab, i) => (
-                        <Tab key={tab.tabName} label={tab.tabName} {...a11yProps(i)} />
-                    ))
+                    {tabs.map((tab, i) => {
+
+                        return (
+                            <Tab key={tab.tabName} icon={iconsRender(tab.icon)} label={tab.tabName} {...a11yProps(i)} />
+                        )
+                    })
                     }
                 </Tabs>
             </AppBar>

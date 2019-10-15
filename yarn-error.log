@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @types/react-parallax
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @material-ui/icon
 
 PATH: 
   C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Program Files (x86)\Razer\ChromaBroadcast\bin;C:\Program Files\Razer\ChromaBroadcast\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Windows\system32\config\systemprofile\AppData\Local\Microsoft\WindowsApps;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs\;C:\Program Files\Java\jdk1.8.0_211\bin;C:\Gradle\gradle-5.5.1\bin;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\ldupi\AppData\Local\Microsoft\WindowsApps;C:\Users\ldupi\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\ldupi\AppData\Local\atom\bin;C:\Users\ldupi\AppData\Roaming\npm;C:\Users\ldupi\AppData\Local\Yarn\bin;C:\Program Files\Docker Toolbox;C:\Users\ldupi\AppData\Local\Microsoft\WindowsApps;
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2freact-parallax: Not found
+  Error: https://registry.yarnpkg.com/@material-ui%2ficon: Not found
       at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:65939:18)
       at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:140464:22)
       at Request.emit (events.js:203:13)
@@ -32,7 +32,7 @@ npm manifest:
     "version": "0.1.0",
     "private": true,
     "dependencies": {
-      "@material-ui/core": "^4.5.0",
+      "@material-ui/core": "^4.5.1",
       "@material-ui/icons": "^4.4.3",
       "@types/jest": "^24.0.18",
       "@types/node": "^12.7.12",
@@ -42,7 +42,7 @@ npm manifest:
       "markdown-to-jsx": "^6.10.3",
       "react": "^16.10.2",
       "react-dom": "^16.10.2",
-      "react-parallax": "^2.2.4",
+      "react-parallax": "^3.0.0-rc2",
       "react-scripts": "3.2.0",
       "react-swipeable-views": "^0.13.3",
       "typescript": "^3.6.4"
@@ -1179,10 +1179,10 @@ Lockfile:
       "@types/istanbul-reports" "^1.1.1"
       "@types/yargs" "^13.0.0"
   
-  "@material-ui/core@^4.5.0":
-    version "4.5.0"
-    resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.5.0.tgz#7e57cc40988c71b6340e3b2569b47dbac1820351"
-    integrity sha512-UHVAjU+1uDtA+OMBNBHb4RlCZOu514XeYPafNJv+GTdXBDr1SCPK7yqRE6TV1/bulxlDusTgu5Q6BAUgpmO4MA==
+  "@material-ui/core@^4.5.1":
+    version "4.5.1"
+    resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.5.1.tgz#6f1bbb298cc2893b29169ab9398a00ca5a6ac971"
+    integrity sha512-6pyk7diT7bflf4qUpqgPCpKYqjhRHPFwsgEV2Gv71lMqwxuRygFGHE2TdZ+l5T249H66Doj2P/j6fW7yzgxTWw==
     dependencies:
       "@babel/runtime" "^7.4.4"
       "@material-ui/styles" "^4.5.0"
@@ -8465,10 +8465,10 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.10.1.tgz#0612786bf19df406502d935494f0450b40b8294f"
     integrity sha512-BXUMf9sIOPXXZWqr7+c5SeOKJykyVr2u0UDzEf4LNGc6taGkQe1A9DFD07umCIXz45RLr9oAAwZbAJ0Pkknfaw==
   
-  react-parallax@^2.2.4:
-    version "2.2.4"
-    resolved "https://registry.yarnpkg.com/react-parallax/-/react-parallax-2.2.4.tgz#c02e2e550c701c82d6febbf426f288b75c9cfd95"
-    integrity sha512-HdKyD845NmaxN+zOFcGPereG59DEgCB0wXJvvOomgwISMr4tVyTlspJGviVl5JVVCER5bmG6crMkDhBkJPRZvQ==
+  react-parallax@^3.0.0-rc2:
+    version "3.0.0-rc2"
+    resolved "https://registry.yarnpkg.com/react-parallax/-/react-parallax-3.0.0-rc2.tgz#4671bf6892f5a44d6573bdbac51b212a1bf5731d"
+    integrity sha512-907vfUuQ63JlKrpk2TBjg/9aDggO0JaQwpwZArNycVNHiYojq9bsZGhv6VUUiojlXa1JX57yw10A/WRFao4V7A==
   
   react-scripts@3.2.0:
     version "3.2.0"

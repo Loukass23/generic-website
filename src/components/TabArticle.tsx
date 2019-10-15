@@ -99,26 +99,6 @@ const TabArticle: React.FC<Props> = ({ classes, content }) => {
                                 </Typography>
                             </Grid>
                         </Grid>
-
-
-
-
-                    // <Container className={classes.article} key={block.title}>
-                    //     <Typography component="h3" variant="h5">
-                    //         {block.title}
-                    //     </Typography>
-                    //     {block.img && <CardMedia
-                    //         component="img"
-                    //         alt="Contemplative Reptile"
-                    //         height="140"
-                    //         image={block.img}
-                    //         title="Contemplative Reptile"
-                    //     />}
-                    //     <Typography variant="body1" color="textSecondary">
-                    //         {block.text}
-                    //     </Typography>
-                    // </Container>
-
                 ))
 
             }

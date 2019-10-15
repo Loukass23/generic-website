@@ -1,9 +1,22 @@
 import Logo from './assets/logo.png'
 export const content = {
+    color: {
+        primary: '#CC6633',
+        secondary: '#FFFF00'
+    },
+    hero: {
+        title: 'Cabinet Appex',
+        text: 'Diagnostics Immobilier',
+        img: 'https://source.unsplash.com/user/erondu',
+        logo: Logo,
+        parallax: true
+
+    },
     articles: {
         tabs: [
             {
                 tabName: 'Acceuil',
+                icon: 'home',
                 tabTitle: 'Notre métier : L’expertise immobilière',
                 article: [
                     {
@@ -28,6 +41,7 @@ export const content = {
             },
             {
                 tabName: 'Louer',
+                icon: 'help',
                 article: [
                     {
                         title: 'Louer son bien',
@@ -78,6 +92,8 @@ export const content = {
             },
             {
                 tabName: 'Nous Contacter',
+                tabTitle: '',
+                icon: 'contact',
                 article: [{
                     title: 'title',
                     body: 'body',
@@ -105,22 +121,12 @@ export const content = {
             },
         ]
     },
-    hero: {
-        title: 'Cabinet Appex',
-        text: 'Diagnostics Immobilier',
-        img: 'https://source.unsplash.com/user/erondu',
-        logo: Logo,
-        parallax: false
 
-    },
     footer: {
         title: 'Cabinet Appex',
         text: 'Diagnostics Immobilier',
         copyright: 'cabinet-appex'
 
     },
-    color: {
-        primary: '#CC6633',
-        secondary: '#FFFF00'
-    }
+
 }

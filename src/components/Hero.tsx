@@ -7,6 +7,9 @@ import { Parallax } from 'react-parallax';
 
 
 const styles = (theme: Theme) => createStyles({
+    root: {
+
+    },
     toolbar: {
         borderBottom: `1px solid ${theme.palette.divider}`,
     },
@@ -25,8 +28,6 @@ const styles = (theme: Theme) => createStyles({
         position: 'relative',
         backgroundColor: theme.palette.grey[800],
         color: theme.palette.common.white,
-        // marginBottom: theme.spacing(1),
-        // backgroundImage: 'url(https://source.unsplash.com/user/erondu)',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
@@ -64,7 +65,9 @@ const styles = (theme: Theme) => createStyles({
         position: 'relative',
         padding: theme.spacing(3),
 
+
     },
+
 });
 
 interface Props extends WithStyles<typeof styles> {
@@ -78,52 +81,15 @@ interface Props extends WithStyles<typeof styles> {
         hero: string,
         logo: string,
         mainFeaturedPostContent: string,
-        parallax: string
+        parallax: string,
+        root: string,
     }
     content: Hero
 }
 
 const RenderHero: React.FC<Props> = ({ classes, content }) => (
     <Paper className={classes.mainFeaturedPost} style={{ backgroundImage: `url(${content.img})` }}>
-        {/* Increase the priority of the hero background image */}
-        {
-            <img
-                style={{ display: 'none' }}
-                src={content.img}
-                alt="background"
-            />
-        }
-        <CssBaseline />
-
-        <div className={classes.overlay} />
-        <Grid container className={classes.hero}>
-            <Grid item xs={2}>
-                <img src={content.logo} className={classes.logo} alt="" />
-                {/* 
-                <CardMedia
-                    component="img"
-                    alt="logo"
-                    // height="100vh"
-                    // width="auto"
-                    image={content.logo}
-                    title="logo"
-                /> */}
-            </Grid>
-            <Grid item xs={8}>
-                <div className={classes.mainFeaturedPostContent}>
-                    <Typography component="h1" variant="h3" color="inherit" gutterBottom>
-                        {content.title}
-                    </Typography>
-                    <Typography variant="h5" color="inherit" paragraph>
-                        {content.text}
-                    </Typography>
-                </div>
-            </Grid>
-            <Grid item xs={2}>
-            </Grid>
-
-        </Grid>
-
+        <RenderHeroContent content={content} classes={classes} />
     </Paper>
 )
 
@@ -136,55 +102,64 @@ const RenderParallax: React.FC<Props> = ({ classes, content }) => (
     >
         <div className={classes.parallax} />
 
-        {/* <Paper className={classes.mainFeaturedPost} style={{ backgroundImage: `url(${img})` }}> */}
-        {/* Increase the priority of the hero background image */}
-        {
-            <img
-                style={{ display: 'none' }}
-                src={content.img}
-                alt="background"
-            />
-        }
-        <CssBaseline />
+        <RenderHeroContent content={content} classes={classes} />
 
-        <div className={classes.overlay} />
-        <Grid container className={classes.hero}>
-            <Grid item xs={2}>
-                <img src={content.logo} alt="" />
-                {/* <CardMedia
-                    component="img"
-                    alt="logo"
-                    image={content.logo}
-                    title="logo"
-                /> */}
-            </Grid>
-            <Grid item xs={8}>
-                <div className={classes.mainFeaturedPostContent}>
-                    <Typography component="h1" variant="h3" color="inherit" gutterBottom>
-                        {content.title}
-                    </Typography>
-                    <Typography variant="h5" color="inherit" paragraph>
-                        {content.text}
-                    </Typography>
-                </div>
-            </Grid>
-            <Grid item xs={2}>
-            </Grid>
-        </Grid>
-
-        {/* </Paper> */}
     </Parallax >
 
 )
+
+
+const RenderHeroContent: React.FC<Props> = ({ classes, content }) => {
+    return (
+        <div>
+            {/* Increase the priority of the hero background image */}
+            {
+                <img
+                    style={{ display: 'none' }}
+                    src={content.img}
+                    alt="background"
+                />
+            }
+            <CssBaseline />
+
+            <div className={classes.overlay} />
+            <Grid container className={classes.hero}>
+                <Grid item xs={2}>
+                    <CardMedia
+                        component="img"
+                        alt="logo"
+                        image={content.logo}
+                        title="logo"
+                    />
+                </Grid>
+                <Grid item xs={8}>
+                    <div className={classes.mainFeaturedPostContent}>
+                        <Typography component="h1" variant="h3" color="inherit" gutterBottom>
+                            {content.title}
+                        </Typography>
+                        <Typography variant="h5" color="inherit" paragraph>
+                            {content.text}
+                        </Typography>
+                    </div>
+                </Grid>
+                <Grid item xs={2}>
+                </Grid>
+            </Grid>
+        </div>
+    )
+}
 
 
 
 
 const Hero: React.FC<Props> = ({ classes, content }) => {
     const { parallax } = content
-    if (parallax)
-        return (<RenderParallax content={content} classes={classes} />)
-    else return (<RenderHero content={content} classes={classes} />)
+    return (<div className={classes.root}>
+        {parallax ?
+            <RenderParallax content={content} classes={classes} /> :
+            <RenderHero content={content} classes={classes} />
+        }
+    </div>)
 }
 
 export default withStyles(styles)(Hero) 
