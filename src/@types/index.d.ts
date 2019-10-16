@@ -13,25 +13,37 @@ interface TabPanelProps {
     value: any;
 }
 
-interface TabArticles {
-    tabs: Array<any>
+interface Panel {
+    tabs: PanelTabs
 }
-interface Tab {
+
+type PanelTabs = Array<any>
+
+interface PanelTab {
     tabName: string,
     tabTitle: string,
-    article: Array<TabArticle>
+    articles: Articles,
+    tabType: string,
+    icon: keyof MaterialIcons,
+    contact: Contact
 }
 
+type Articles = Array<Article>
 
-type TabArticle = Array<Block>
-interface Block {
+interface Article {
     title: string,
     text: string,
     img: string,
     sideImg: Boolean
 
 }
-
+interface Contact {
+    name: string,
+    surname: string,
+    phone: string,
+    email: string,
+    address: string
+}
 interface MaterialIcons {
     favorite: JSX.Element,
     home: JSX.Element,

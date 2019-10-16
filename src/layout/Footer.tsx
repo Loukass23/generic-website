@@ -23,12 +23,12 @@ interface Props extends WithStyles<typeof styles> {
         footer: string,
         text: string,
     },
-    content: Footer
+    footer: Footer
 }
 
 
-const Footer: React.FC<Props> = ({ classes, content }) => {
-    const { title, text, copyright } = content
+const Footer: React.FC<Props> = ({ classes, footer }) => {
+    const { title, text, copyright } = footer
     return (
 
         <footer

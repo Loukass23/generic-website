@@ -28,8 +28,4 @@ const iconsJSX: MaterialIcons = {
 
 }
 
-export const iconsRender = (icon: keyof MaterialIcons) => {
-    console.log('icon', icon)
-    return (iconsJSX[icon])
-
-}
+export const iconsRender = (icon: keyof MaterialIcons) => (iconsJSX[icon])

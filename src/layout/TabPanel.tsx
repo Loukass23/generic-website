@@ -4,14 +4,13 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import { createStyles, Theme, Container } from '@material-ui/core';
+import { createStyles, Theme, Container, Grid } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
-import TabArticle from '../components/TabArticle';
+import TabArticle from '../components/article/TabArticle';
 import SwipeableViews from 'react-swipeable-views';
 import { iconsRender } from '../components/Icons';
-
-
-
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import TabContact from '../components/contact/TabContact';
 
 const TabPanel: React.FC<TabPanelProps> = (props) => {
     const { children, value, index, ...other } = props;
@@ -44,12 +43,10 @@ const styles = (theme: Theme) => createStyles({
         flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
 
-
     },
     tabs: {
         flexDirection: 'row',
         justifyContent: 'center',
-
 
     },
     tabTitle: {
@@ -60,7 +57,6 @@ const styles = (theme: Theme) => createStyles({
         padding: theme.spacing(2),
         [theme.breakpoints.down('xs')]: {
             padding: 0,
-
             margin: 0,
         },
     }
@@ -74,14 +70,12 @@ interface Props extends WithStyles<typeof styles> {
         articleContainer: string,
         tabTitle: string,
     },
-    content: TabArticles,
+    panel: Panel,
 }
 
-
-type MaterialIcon = JSX.Element
-const ScrollableTabsBar: React.FC<Props> = ({ classes, content }) => {
+const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
     const [value, setValue] = React.useState(0);
-    const { tabs } = content
+    const { tabs } = panel
 
 
     const handleChange = (event: any, newValue: React.SetStateAction<number>) => {
@@ -91,6 +85,15 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, content }) => {
     const handleChangeIndex = (index: number) => {
         setValue(index);
     };
+
+    const renderTab = (tab: PanelTab) => {
+        switch (tab.tabType) {
+            case 'articles': return (<TabArticle articles={tab.articles} />)
+            case 'contact': return (<TabContact contact={tab.contact} />)
+
+        }
+
+    }
     return (
         <div className={classes.root}>
 
@@ -124,7 +127,15 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, content }) => {
                                 <Typography className={classes.tabTitle} variant="h2" color="textSecondary">
                                     {tab.tabTitle}
                                 </Typography>}
-                            <TabArticle content={tab.article} />
+                            {renderTab(tab)}
+                            <Grid container spacing={2} >
+                                <Grid item xs={12}>
+                                    <AddCircleOutlineIcon
+                                        fontSize="large"
+                                        color="primary" />
+                                </Grid>
+                            </Grid>
+
                         </TabPanel>
                     </Container>
                 ))

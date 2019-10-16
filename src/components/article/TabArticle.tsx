@@ -1,5 +1,5 @@
 import React from 'react'
-import { Theme, createStyles, Typography, CardMedia, Grid } from '@material-ui/core';
+import { Theme, createStyles, Typography, CardMedia, Grid, Icon } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
 
 
@@ -48,60 +48,62 @@ interface Props extends WithStyles<typeof styles> {
         text: string,
         title: string,
         sideImg: string,
-        gridImg: string
+        gridImg: string,
+
     },
-    content: TabArticle
+    articles: Articles
 }
 
 
-const TabArticle: React.FC<Props> = ({ classes, content }) => {
+const TabArticle: React.FC<Props> = ({ classes, articles }) => {
 
     return (
         <div>
             {
-                content.map(block => (
-                    block.sideImg ?
-                        <Grid container spacing={2} className={classes.article} key={block.title}>
+                articles.map(article => (
+                    article.sideImg ?
+                        <Grid container spacing={2} className={classes.article} key={article.title}>
                             <Grid className={classes.gridImg} item xs={12} md={6}>
-                                {block.img &&
+                                {article.img &&
                                     <CardMedia
                                         component="img"
                                         alt="img"
                                         className={classes.sideImg}
-                                        image={block.img}
+                                        image={article.img}
                                         title="img"
                                     />}
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <Typography className={classes.text} component="h3" variant="h5">
-                                    {block.title}
+                                    {article.title}
                                 </Typography>
                                 <Typography className={classes.text} variant="body1" color="textSecondary">
-                                    {block.text}
+                                    {article.text}
                                 </Typography>
                             </Grid>
                         </Grid>
                         :
-                        <Grid container spacing={2} className={classes.article} key={block.title}>
+                        <Grid container spacing={2} className={classes.article} key={article.title}>
                             <Grid item xs={12}>
                                 <Typography className={classes.title} component="h3" variant="h5">
-                                    {block.title}
+                                    {article.title}
                                 </Typography>
-                                {block.img && <CardMedia
+                                {article.img && <CardMedia
                                     component="img"
                                     alt="img"
                                     height="140"
-                                    image={block.img}
+                                    image={article.img}
                                     title="img"
                                 />}
                                 <Typography className={classes.text} variant="body1" color="textSecondary">
-                                    {block.text}
+                                    {article.text}
                                 </Typography>
                             </Grid>
                         </Grid>
                 ))
 
             }
+
 
         </div>
     )

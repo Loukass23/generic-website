@@ -3,9 +3,6 @@ import { createStyles, Theme, Paper, Grid, Typography, CssBaseline, CardMedia } 
 import { WithStyles, withStyles } from '@material-ui/styles';
 import { Parallax } from 'react-parallax';
 
-
-
-
 const styles = (theme: Theme) => createStyles({
     root: {
 
@@ -37,6 +34,7 @@ const styles = (theme: Theme) => createStyles({
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
+        height: '3vh'
     },
     overlay: {
         position: 'absolute',
@@ -48,6 +46,7 @@ const styles = (theme: Theme) => createStyles({
     },
     hero: {
         flex: 1,
+        padding: theme.spacing(2),
         justifyContent: 'center',
         alignContent: 'center',
         [theme.breakpoints.down('xs')]: {
@@ -56,16 +55,15 @@ const styles = (theme: Theme) => createStyles({
         alignItems: 'center',
     },
     logo: {
-        width: '25vw',
-        heigth: 'auto'
+        width: '50px',
+        heigth: 'auto',
+        zIndex: 1,
     },
     mainFeaturedPostContent: {
         color: theme.palette.common.white,
 
         position: 'relative',
         padding: theme.spacing(3),
-
-
     },
 
 });
@@ -84,39 +82,39 @@ interface Props extends WithStyles<typeof styles> {
         parallax: string,
         root: string,
     }
-    content: Hero
+    hero: Hero
 }
 
-const RenderHero: React.FC<Props> = ({ classes, content }) => (
-    <Paper className={classes.mainFeaturedPost} style={{ backgroundImage: `url(${content.img})` }}>
-        <RenderHeroContent content={content} classes={classes} />
+const RenderHero: React.FC<Props> = ({ classes, hero }) => (
+    <Paper className={classes.mainFeaturedPost} style={{ backgroundImage: `url(${hero.img})` }}>
+        <RenderHeroContent hero={hero} classes={classes} />
     </Paper>
 )
 
-const RenderParallax: React.FC<Props> = ({ classes, content }) => (
+const RenderParallax: React.FC<Props> = ({ classes, hero }) => (
     <Parallax
         blur={1}
-        bgImage={content.img}
+        bgImage={hero.img}
         bgImageAlt="img"
         strength={500}
     >
         <div className={classes.parallax} />
 
-        <RenderHeroContent content={content} classes={classes} />
+        <RenderHeroContent hero={hero} classes={classes} />
 
     </Parallax >
 
 )
 
 
-const RenderHeroContent: React.FC<Props> = ({ classes, content }) => {
+const RenderHeroContent: React.FC<Props> = ({ classes, hero }) => {
     return (
         <div>
             {/* Increase the priority of the hero background image */}
             {
                 <img
                     style={{ display: 'none' }}
-                    src={content.img}
+                    src={hero.img}
                     alt="background"
                 />
             }
@@ -124,25 +122,26 @@ const RenderHeroContent: React.FC<Props> = ({ classes, content }) => {
 
             <div className={classes.overlay} />
             <Grid container className={classes.hero}>
-                <Grid item xs={2}>
+                <Grid item xs={1}
+                >
                     <CardMedia
                         component="img"
                         alt="logo"
-                        image={content.logo}
+                        image={hero.logo}
                         title="logo"
                     />
                 </Grid>
-                <Grid item xs={8}>
+                <Grid item xs={10}>
                     <div className={classes.mainFeaturedPostContent}>
                         <Typography component="h1" variant="h3" color="inherit" gutterBottom>
-                            {content.title}
+                            {hero.title}
                         </Typography>
                         <Typography variant="h5" color="inherit" paragraph>
-                            {content.text}
+                            {hero.text}
                         </Typography>
                     </div>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={1}>
                 </Grid>
             </Grid>
         </div>
@@ -152,12 +151,12 @@ const RenderHeroContent: React.FC<Props> = ({ classes, content }) => {
 
 
 
-const Hero: React.FC<Props> = ({ classes, content }) => {
-    const { parallax } = content
+const Hero: React.FC<Props> = ({ classes, hero }) => {
+    const { parallax } = hero
     return (<div className={classes.root}>
         {parallax ?
-            <RenderParallax content={content} classes={classes} /> :
-            <RenderHero content={content} classes={classes} />
+            <RenderParallax hero={hero} classes={classes} /> :
+            <RenderHero hero={hero} classes={classes} />
         }
     </div>)
 }
