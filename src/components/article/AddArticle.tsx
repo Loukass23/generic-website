@@ -1,9 +1,10 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Theme, createStyles, withStyles } from '@material-ui/core/styles';
+import { Theme, createStyles, withStyles, ThemeProvider } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
-import { Input } from '@material-ui/core';
+import { Input, FormControl, InputLabel } from '@material-ui/core';
+import theme from '../../theme';
 
 
 
@@ -24,6 +25,14 @@ const styles = (theme: Theme) => createStyles({
             width: '100%',
         }
     },
+    formLabelRoot: {
+        '&$focused': { color: 'green' }, // not working
+        // color: 'cyan', // this is working
+    },
+    formLabelFocused: {
+        '&$focused': { color: 'pink' }, // not working
+        color: 'blue', // not working
+    },
 })
 
 interface State {
@@ -36,7 +45,22 @@ interface Props {
     classes: any
 
 }
-
+const ValidationTextField = withStyles({
+    root: {
+        '& input:valid + fieldset': {
+            borderColor: 'green',
+            borderWidth: 2,
+        },
+        '& input:invalid + fieldset': {
+            borderColor: 'red',
+            borderWidth: 2,
+        },
+        '& input:valid:focus + fieldset': {
+            borderLeftWidth: 6,
+            padding: '4px !important', // override inline-style
+        },
+    },
+})(TextField);
 
 const AddArticle: React.FC<Props> = ({ classes }) => {
 
@@ -52,7 +76,19 @@ const AddArticle: React.FC<Props> = ({ classes }) => {
 
     return (
         <form className={classes.container} color="secondary" autoComplete="off">
+            <ThemeProvider theme={theme}>
+                <TextField
+                    className={classes.margin}
+                    label="ThemeProvider"
+                    id="mui-theme-provider-standard-input"
+                />
+            </ThemeProvider>
             <TextField
+                InputLabelProps={
+                    classes.formLabelFocused
+                }
+
+                color=""
                 required
                 id="filled-required"
                 label="Title"
@@ -75,6 +111,8 @@ const AddArticle: React.FC<Props> = ({ classes }) => {
             // }} 
             />
             <TextField
+                color="secondary"
+
                 id="filled-multiline-static"
                 label="Article"
                 multiline

@@ -31,6 +31,7 @@ const styles = (theme: Theme) => createStyles({
     textField: {
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
+        color: "ff0000"
     },
     dense: {
         marginTop: theme.spacing(2),
@@ -38,7 +39,11 @@ const styles = (theme: Theme) => createStyles({
     menu: {
         width: 200,
     },
+    input: {
+        color: 'white'
+    }
 })
+
 
 interface State {
     name: string;
@@ -69,6 +74,9 @@ const ContactForm: React.FC<Props> = ({ classes }) => {
     return (
         <form className={classes.container} noValidate autoComplete="off">
             <TextField
+                InputProps={{
+                    color: 'red',
+                }}
                 id="filled-name"
                 label="Name"
                 className={classes.textField}

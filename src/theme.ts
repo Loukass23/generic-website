@@ -33,21 +33,22 @@ let theme = createMuiTheme({
             // dark: will be calculated from palette.secondary.main,
         },
     },
-    overrides: {
-        MuiInputLabel: { // Name of the component ⚛️ / style sheet
-            root: { // Name of the rule
-                color: color.secondary,
-                "&$focused": { // increase the specificity for the pseudo class
-                    color: color.secondary
-                }
-            },
-            focused: {
-                "&$focused": {
-                    color: color.primary
-                }
-            }
-        }
-    },
+
+    // overrides: {
+    //     MuiInputLabel: { // Name of the component ⚛️ / style sheet
+    //         root: { // Name of the rule
+    //             color: color.secondary,
+    //             "&$focused": { // increase the specificity for the pseudo class
+    //                 color: color.secondary
+    //             }
+    //         },
+    //         focused: {
+    //             "&$focused": {
+    //                 color: color.primary
+    //             }
+    //         }
+    //     }
+    // },
     direction: 'rtl'
     // overrides: {
 
