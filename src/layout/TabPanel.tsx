@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -9,8 +9,9 @@ import { WithStyles, withStyles } from '@material-ui/styles';
 import TabArticle from '../components/article/TabArticle';
 import SwipeableViews from 'react-swipeable-views';
 import { iconsRender } from '../components/Icons';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import TabContact from '../components/contact/TabContact';
+import { AuthContext } from '../context/AuthContext';
+import AuthToolbar from './AuthToolbar';
 
 const TabPanel: React.FC<TabPanelProps> = (props) => {
     const { children, value, index, ...other } = props;
@@ -76,7 +77,8 @@ interface Props extends WithStyles<typeof styles> {
 const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
     const [value, setValue] = React.useState(0);
     const { tabs } = panel
-
+    const { user } = useContext(AuthContext)
+    console.log('auth :', user);
 
     const handleChange = (event: any, newValue: React.SetStateAction<number>) => {
 
@@ -98,6 +100,7 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
         <div className={classes.root}>
 
             <AppBar className={classes.tabs} position="sticky">
+                <AuthToolbar />
                 <Tabs
                     value={value}
                     onChange={handleChange}
@@ -128,13 +131,7 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
                                     {tab.tabTitle}
                                 </Typography>}
                             {renderTab(tab)}
-                            <Grid container spacing={2} >
-                                <Grid item xs={12}>
-                                    <AddCircleOutlineIcon
-                                        fontSize="large"
-                                        color="primary" />
-                                </Grid>
-                            </Grid>
+
 
                         </TabPanel>
                     </Container>

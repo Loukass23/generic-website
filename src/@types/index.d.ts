@@ -44,6 +44,13 @@ interface Contact {
     email: string,
     address: string
 }
+
+interface User {
+    name: string,
+    surname: string,
+    avatar: string,
+    isAdmin: Boolean
+}
 interface MaterialIcons {
     favorite: JSX.Element,
     home: JSX.Element,

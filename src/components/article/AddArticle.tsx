@@ -25,14 +25,7 @@ const styles = (theme: Theme) => createStyles({
             width: '100%',
         }
     },
-    formLabelRoot: {
-        '&$focused': { color: 'green' }, // not working
-        // color: 'cyan', // this is working
-    },
-    formLabelFocused: {
-        '&$focused': { color: 'pink' }, // not working
-        color: 'blue', // not working
-    },
+
 })
 
 interface State {
@@ -76,13 +69,7 @@ const AddArticle: React.FC<Props> = ({ classes }) => {
 
     return (
         <form className={classes.container} color="secondary" autoComplete="off">
-            <ThemeProvider theme={theme}>
-                <TextField
-                    className={classes.margin}
-                    label="ThemeProvider"
-                    id="mui-theme-provider-standard-input"
-                />
-            </ThemeProvider>
+
             <TextField
                 InputLabelProps={
                     classes.formLabelFocused
