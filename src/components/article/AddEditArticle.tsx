@@ -128,7 +128,7 @@ const AddEditArticle: React.FC<Props> = ({ classes }) => {
                             <Input
 
                                 id="image-input"
-                                className={classes.responsiveField}
+                                // className={classes.responsiveField}
                                 // accept="image/*"
                                 type="file"
                             // multiple
@@ -198,7 +198,7 @@ const AddEditArticle: React.FC<Props> = ({ classes }) => {
                                 <Input
 
                                     id="image-input"
-                                    className={classes}
+                                    // className={classes}
                                     // accept="image/*"
                                     type="file"
                                 // multiple

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Theme, createStyles, Typography, CardMedia, Grid, Tooltip, Fab, Button } from '@material-ui/core';
+import { Theme, createStyles, Typography, CardMedia, Grid, Tooltip, Fab, Button, Menu, MenuItem } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleSharp';
@@ -9,8 +9,10 @@ import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore';
 import AddEditArticle from './AddEditArticle';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
-
-
+import DeleteIcon from '@material-ui/icons/Delete';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import red from '@material-ui/core/colors/red';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -40,8 +42,6 @@ const styles = (theme: Theme) => createStyles({
     },
     sideImg: {
         maxBlockSize: '50vh',
-
-
     },
     gridImg: {
         [theme.breakpoints.down('xs')]: {
@@ -70,6 +70,12 @@ const styles = (theme: Theme) => createStyles({
     },
     button: {
         margin: theme.spacing(1),
+        color: "white"
+    },
+    buttonDel: {
+        color: "white",
+        backgroundColor: red[500],
+        margin: theme.spacing(1),
     },
 });
 
@@ -84,7 +90,8 @@ interface Props extends WithStyles<typeof styles> {
         absoluteR: string,
         addIcon: string,
         tabTitle: string,
-        button: string
+        button: string,
+        buttonDel: string
 
     },
     tab: PanelTab
@@ -103,9 +110,8 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
         sideImg: false
 
     }
-    const { addEditArticle, article, setArticle } = useContext(ContentContext)
+    const { addEditDeleteArticle, article, setArticle, changeArticleOrder } = useContext(ContentContext)
 
-    // const [article, setAricle] = React.useState<Article>(emptyArticle)
 
     const { isAuthenticated } = useContext(AuthContext)
 
@@ -122,17 +128,67 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
         setArticle(emptyArticle)
         toggleAddMode(false)
     }
+    const onClickDelete = () => {
+        addEditDeleteArticle(tab, article, 'delete')
+        setArticle(emptyArticle)
+
+        toggleAddMode(false)
+    }
     const onClickSave = (tab: PanelTab, article: Article) => {
-        addEditArticle(tab, article)
+        addEditDeleteArticle(tab, article, 'edit')
         onEditCancel()
     }
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
+    const isMenuOpen = Boolean(anchorEl);
+
+    const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+
+
+
+    const handleMoveUp = (tb: PanelTab, art: Article) => {
+        setAnchorEl(null);
+        console.log('article', art.index)
+        changeArticleOrder(tb, art, 'moveUp')
+    };
+    const handleMoveDown = (tb: PanelTab, art: Article) => {
+        console.log('article', art.index)
+
+        setAnchorEl(null);
+        changeArticleOrder(tb, art, 'moveDown')
+    };
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+
+
+    const renderMenu = (tab: PanelTab, art: Article) => {
+        let menuId = 'moveMenu' + art.index;
+        return (
+            <Menu
+                anchorEl={anchorEl}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                id={menuId}
+                // keepMounted
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                open={isMenuOpen}
+                onClose={handleMenuClose}
+            >
+                <MenuItem onClick={() => handleMoveUp(tab, art)}>Move up</MenuItem>
+                <MenuItem onClick={() => handleMoveDown(tab, art)}>Move down</MenuItem>
+            </Menu>
+        );
+    }
 
     if (addMode) return (
         <React.Fragment>
             <AddEditArticle />
             <Grid container>
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                     <Button
                         onClick={() => onEditCancel()}
                         variant="contained"
@@ -144,7 +200,18 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
                         Cancel
       </Button>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={4}>
+                    <Button
+                        onClick={() => onClickDelete()}
+                        variant="contained"
+                        size="small"
+                        className={classes.buttonDel}
+                        startIcon={<DeleteIcon />}
+                    >
+                        Delete
+      </Button>
+                </Grid>
+                <Grid item xs={4}>
                     <Button
                         onClick={() => onClickSave(tab, article)}
                         variant="contained"
@@ -187,12 +254,22 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
                                         {editMode &&
                                             <React.Fragment>
                                                 <Tooltip
-                                                    // onClick={() => onEditClick(article)}
-                                                    title="edit" aria-label="edit">
-                                                    <Fab size="small" color="primary" className={classes.absoluteL} >
-                                                        <UnfoldMoreIcon />
+                                                    onClick={() => handleMoveUp(tab, article)} title="edit" aria-label="edit">
+                                                    <Fab size="small" color="primary"
+                                                    // className={classes.absoluteL} 
+                                                    >
+                                                        <KeyboardArrowUpIcon />
                                                     </Fab>
                                                 </Tooltip>
+                                                <Tooltip
+                                                    onClick={() => handleMoveDown(tab, article)} title="edit" aria-label="edit">
+                                                    <Fab size="small" color="primary"
+                                                    // className={classes.absoluteL}
+                                                    >
+                                                        <KeyboardArrowDownIcon />
+                                                    </Fab>
+                                                </Tooltip>
+
                                                 <Tooltip
                                                     onClick={() => onEditClick(article)}
                                                     title="edit" aria-label="edit">
@@ -216,10 +293,19 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
                                     {editMode &&
                                         <React.Fragment>
                                             <Tooltip
-                                                // onClick={() => onEditClick(article)}
-                                                title="edit" aria-label="edit">
-                                                <Fab size="small" color="primary" className={classes.absoluteL} >
-                                                    <UnfoldMoreIcon />
+                                                onClick={() => handleMoveUp(tab, article)} title="edit" aria-label="edit">
+                                                <Fab size="small" color="primary"
+                                                // className={classes.absoluteL} 
+                                                >
+                                                    <KeyboardArrowUpIcon />
+                                                </Fab>
+                                            </Tooltip>
+                                            <Tooltip
+                                                onClick={() => handleMoveDown(tab, article)} title="edit" aria-label="edit">
+                                                <Fab size="small" color="primary"
+                                                // className={classes.absoluteL}
+                                                >
+                                                    <KeyboardArrowDownIcon />
                                                 </Fab>
                                             </Tooltip>
                                             <Tooltip
@@ -248,6 +334,8 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
                                     </Grid>
 
                                 </Grid>}
+                            {renderMenu(tab, article)}
+
                         </React.Fragment>
                     ))
 
@@ -256,7 +344,7 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
 
 
             <Grid container spacing={2} >
-                <Grid item xs={12}>
+                <Grid style={{ justifyItems: 'flex-start' }} item xs={2}>
                     <AddCircleOutlineIcon
                         onClick={() => onAddClick()}
                         className={classes.addIcon}
@@ -267,6 +355,7 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
                 </Grid>
 
             </Grid>
+
         </div>
     )
 

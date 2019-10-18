@@ -94,6 +94,7 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
             case 'contact': return (<TabContact contact={tab.contact} />)
         }
     }
+
     return (
         <div className={classes.root}>
 

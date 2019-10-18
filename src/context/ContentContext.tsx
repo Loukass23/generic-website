@@ -13,11 +13,14 @@ const emptyArticle = {
 export const ContentContext = createContext<ContentContextInterface>({
     content: initContent,
     article: emptyArticle,
-    addEditArticle: () => {
-        throw new Error('addEditArticle() not implemented');
+    addEditDeleteArticle: () => {
+        throw new Error('addEditDeleteArticle() not implemented');
     },
     setArticle: () => {
-        throw new Error('addEditArticle() not implemented');
+        throw new Error('setArticle() not implemented');
+    },
+    changeArticleOrder: () => {
+        throw new Error('changeArticleOrder() not implemented');
     }
 });
 
@@ -28,37 +31,81 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
     const [content, setContent] = useState(initContent)
     const [article, setArticle] = React.useState<Article>(emptyArticle)
 
-    const addEditArticle = (panelTab: PanelTab, article: Article) => {
+    const addEditDeleteArticle = (panelTab: PanelTab, article: Article, action: string) => {
         const { articles } = panelTab
         var index = articles.findIndex(art => art.index === article.index);
-        console.log('index', index)
-        if (index !== -1) {
-            articles.slice(0, index)
-            articles[index] = article
-            articles.slice(index + 1)
+        switch (action) {
+            case 'edit': if (index !== -1) {
+                articles.slice(0, index)
+                articles[index] = article
+                articles.slice(index + 1)
+            }
+            else {
+                const lastIndex = articles.length + 1
+                const updateArticle = { ...article, index: lastIndex }
+                articles.push(updateArticle)
+            }
+                break
+            case 'delete':
+                articles.splice(index, 1)
+                break
         }
-        else {
-            const lastIndex = articles.length + 1
-            const updateArticle = { ...article, index: lastIndex }
-            console.log('updatedArticle', updateArticle)
-            articles.push(updateArticle)
-        }
-
-
-        // if (index !== -1) {
-        //     items[index] = 1010;
-        // }
-        // panelTab.articles.push(article)
-        //  panelTab.articles.map(article) { return article == 3452 ? 1010 : item; });
+        articles.forEach((art, i) => {
+            articles.slice(0, i)
+            articles[i] = {
+                ...art,
+                index: i
+            }
+            articles.slice(i + 1)
+        })
 
         setContent({
             ...content,
         })
         console.log('art :', articles);
     }
+    const changeArticleOrder = (panelTab: PanelTab, article: Article, action: string) => {
+        const { articles } = panelTab
+        var index = articles.findIndex(art => art.index === article.index);
+        console.log('index', index)
+        switch (action) {
+            case 'moveUp': if (index !== 0) {
+                articles.splice(index - 1, 2, articles[index], articles[index - 1]);
+                // articles.slice(0, index -1)
+                // articles[index-1] = article
+                // articles.slice(index + 1)
+            }
+                break
+            case 'moveDown':
+                if (index !== articles.length - 1) {
+                    articles.splice(index, 2, articles[index + 1], articles[index]);
+                }
+
+                break
+        }
+        articles.forEach((art, i) => {
+            articles.slice(0, i)
+            articles[i] = {
+                ...art,
+                index: i
+            }
+            articles.slice(i + 1)
+        })
+
+        console.log('articles', articles)
+        setContent({
+            ...content,
+        })
+    }
 
     return (
-        <ContentContext.Provider value={{ content, addEditArticle, article, setArticle }}>
+        <ContentContext.Provider value={{
+            content,
+            addEditDeleteArticle,
+            article,
+            setArticle,
+            changeArticleOrder
+        }}>
             {props.children}
         </ContentContext.Provider>
     )

@@ -87,9 +87,10 @@ interface AuthContextInterface {
 }
 interface ContentContextInterface {
     content: Content,
-    addEditArticle: any,
+    addEditDeleteArticle: any,
     article: Article,
-    setArticle: any
+    setArticle: any,
+    changeArticleOrder: any
 }
 
 
