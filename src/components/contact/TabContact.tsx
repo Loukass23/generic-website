@@ -2,7 +2,7 @@ import React from 'react'
 import { Theme, createStyles, Typography, CardMedia, Grid, Icon } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
 import ContactForm from './ContactForm';
-import AddArticle from '../article/AddArticle';
+import AddArticle from '../article/AddEditArticle';
 
 
 
@@ -63,7 +63,6 @@ const TabContact: React.FC<Props> = ({ classes, contact }) => {
         <div>
 
             <Grid container spacing={2} className={classes.article} >
-                <AddArticle />
                 <Grid className={classes.gridImg} item xs={12}>
                     {/* {article.img &&
                                     <CardMedia

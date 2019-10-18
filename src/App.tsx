@@ -22,6 +22,10 @@ const RenderWebsite: React.FC<Props> = () => {
   )
 }
 
+interface Props {
+
+}
+
 const App: React.FC = () => {
   return (
     <div className="App">
@@ -39,10 +43,6 @@ const App: React.FC = () => {
 
 export default App;
 
-
-interface Props {
-
-}
 
 
 
