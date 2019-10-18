@@ -1,7 +1,7 @@
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
-import { content } from './content'
+import { contentMaster } from './content'
 
-const { color } = content
+const { color } = contentMaster
 const defaultTheme = createMuiTheme({})
 const { breakpoints } = defaultTheme
 let theme = createMuiTheme({

@@ -1,9 +1,6 @@
 import React, { useState, createContext } from 'react'
 
-interface AuthContextInterface {
-    isAuthenticated: Boolean,
-    user: User
-}
+
 const initUser: User = {
     name: 'Lucas',
     surname: 'DPS',
@@ -18,7 +15,7 @@ export const AuthContext = createContext<AuthContextInterface>(initAuth);
 
 const AuthContextProvider = (props: { children: React.ReactNode; }) => {
     const [auth, setAuth] = useState({
-        isAuthenticated: false,
+        isAuthenticated: true,
         user: initUser
     })
 

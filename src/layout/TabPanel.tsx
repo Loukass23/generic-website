@@ -12,6 +12,10 @@ import { iconsRender } from '../components/Icons';
 import TabContact from '../components/contact/TabContact';
 import { AuthContext } from '../context/AuthContext';
 import AuthToolbar from './AuthToolbar';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleSharp';
+import color from '@material-ui/core/colors/amber';
+import { ContentContext } from '../context/ContentContext';
+
 
 const TabPanel: React.FC<TabPanelProps> = (props) => {
     const { children, value, index, ...other } = props;
@@ -60,6 +64,12 @@ const styles = (theme: Theme) => createStyles({
             padding: 0,
             margin: 0,
         },
+    },
+    addIcon: {
+        fontSize: 80,
+        '&:hover': {
+            color: theme.palette.secondary.main
+        }
     }
 
 });
@@ -70,6 +80,7 @@ interface Props extends WithStyles<typeof styles> {
         tabs: string,
         articleContainer: string,
         tabTitle: string,
+        addIcon: string
     },
     panel: Panel,
 }
@@ -77,8 +88,8 @@ interface Props extends WithStyles<typeof styles> {
 const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
     const [value, setValue] = React.useState(0);
     const { tabs } = panel
-    const { user } = useContext(AuthContext)
-    console.log('auth :', user);
+    const { isAuthenticated } = useContext(AuthContext)
+    const { addArticle } = useContext(ContentContext)
 
     const handleChange = (event: any, newValue: React.SetStateAction<number>) => {
 
@@ -87,14 +98,11 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
     const handleChangeIndex = (index: number) => {
         setValue(index);
     };
-
     const renderTab = (tab: PanelTab) => {
         switch (tab.tabType) {
             case 'articles': return (<TabArticle articles={tab.articles} />)
             case 'contact': return (<TabContact contact={tab.contact} />)
-
         }
-
     }
     return (
         <div className={classes.root}>
@@ -107,10 +115,8 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
                     variant="scrollable"
                     scrollButtons="on"
                     aria-label="tabs"
-
                 >
                     {tabs.map((tab, i) => {
-
                         return (
                             <Tab key={tab.tabName} icon={iconsRender(tab.icon)} label={tab.tabName} {...a11yProps(i)} />
                         )
@@ -134,9 +140,24 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
 
 
                         </TabPanel>
+                        {isAuthenticated && <Grid container spacing={2} >
+                            <Grid item xs={12}>
+                                <AddCircleOutlineIcon
+                                    onClick={() => addArticle(tab)}
+                                    className={classes.addIcon}
+                                    fontSize="large"
+                                    color="primary" />
+                                <Typography className={classes.tabTitle} variant="h5" color="primary">
+                                    {tab.tabType}
+                                </Typography>
+
+                            </Grid>
+
+                        </Grid>}
                     </Container>
                 ))
                 }
+
             </SwipeableViews>
         </div>
     );

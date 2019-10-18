@@ -1,8 +1,8 @@
 import Logo from './assets/logo.png'
-export const content = {
+export const contentMaster = {
     color: {
-        primary: '#CC6633',
-        secondary: '#ff0000'
+        primary: '#5D5FE8',
+        secondary: '#D9C7FF'
     },
     hero: {
         title: 'Cabinet Appex',

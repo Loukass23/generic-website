@@ -70,3 +70,12 @@ interface Footer {
     text: String,
     copyright: String,
 }
+
+/**
+ * CONTEXT
+ */
+
+interface AuthContextInterface {
+    isAuthenticated: Boolean,
+    user: User
+}

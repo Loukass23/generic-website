@@ -1,7 +1,6 @@
 import React from 'react'
 import { Theme, createStyles, Typography, CardMedia, Grid } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 
 
@@ -101,13 +100,7 @@ const TabArticle: React.FC<Props> = ({ classes, articles }) => {
                                     {article.text}
                                 </Typography>
                             </Grid>
-                            <Grid container spacing={2} >
-                                <Grid item xs={12}>
-                                    <AddCircleOutlineIcon
-                                        fontSize="large"
-                                        color="primary" />
-                                </Grid>
-                            </Grid>
+
                         </Grid>
                 ))
 
