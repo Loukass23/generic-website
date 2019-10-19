@@ -50,6 +50,7 @@ interface Panel {
 type PanelTabs = Array<any>
 
 interface PanelTab {
+    index: number,
     tabName: string,
     tabTitle: string,
     articles: Articles,
@@ -85,12 +86,13 @@ interface AuthContextInterface {
     isAuthenticated: Boolean,
     user: User
 }
-interface ContentContextInterface {
+interface ArticleContextInterface {
     content: Content,
     addEditDeleteArticle: any,
     article: Article,
     setArticle: any,
-    changeArticleOrder: any
+    changeArticleOrder: any,
+    editTabTitle: any
 }
 
 

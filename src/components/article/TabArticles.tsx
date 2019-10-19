@@ -1,18 +1,19 @@
 import React, { useContext } from 'react'
-import { Theme, createStyles, Typography, CardMedia, Grid, Tooltip, Fab, Button, Menu, MenuItem } from '@material-ui/core';
+import { Theme, createStyles, Typography, CardMedia, Grid, Tooltip, Fab, Button, Menu, MenuItem, TextField } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleSharp';
 import { AuthContext } from '../../context/AuthContext';
-import { ContentContext } from '../../context/ContentContext';
-import UnfoldMoreIcon from '@material-ui/icons/UnfoldMore';
+import { ArticleContext } from '../../context/ArticleContext';
 import AddEditArticle from './AddEditArticle';
 import SaveIcon from '@material-ui/icons/Save';
+import DoneIcon from '@material-ui/icons/Done';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DeleteIcon from '@material-ui/icons/Delete';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import red from '@material-ui/core/colors/red';
+import { whileStatement } from '@babel/types';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -51,13 +52,24 @@ const styles = (theme: Theme) => createStyles({
     },
     absoluteR: {
         position: 'absolute',
-        top: theme.spacing(1),
+        top: theme.spacing(2),
         right: theme.spacing(2),
+
+    },
+    absoluteRTitle: {
+        color: 'white',
+        position: 'absolute',
+        top: theme.spacing(0),
+        right: theme.spacing(0),
+
     },
     absoluteL: {
         position: 'absolute',
-        top: theme.spacing(1),
+        top: theme.spacing(2),
         left: theme.spacing(2),
+        '&:hover': {
+            color: theme.palette.secondary.main
+        }
     },
     addIcon: {
         fontSize: 80,
@@ -66,7 +78,17 @@ const styles = (theme: Theme) => createStyles({
         }
     },
     tabTitle: {
-        margin: theme.spacing(2),
+        padding: 0,
+        margin: theme.spacing(3),
+        [theme.breakpoints.down('xs')]: {
+            padding: 0,
+            marginLeft: 0,
+            marginRight: 0,
+            marginTop: theme.spacing(5),
+            marginBottom: theme.spacing(2),
+        },
+        width: '100%',
+        textAlign: 'center'
     },
     button: {
         margin: theme.spacing(1),
@@ -75,8 +97,10 @@ const styles = (theme: Theme) => createStyles({
     buttonDel: {
         color: "white",
         backgroundColor: red[500],
-        margin: theme.spacing(1),
+        // margin: theme.spacing(1),
     },
+    editTabTitle: {}
+
 });
 
 interface Props extends WithStyles<typeof styles> {
@@ -91,7 +115,9 @@ interface Props extends WithStyles<typeof styles> {
         addIcon: string,
         tabTitle: string,
         button: string,
-        buttonDel: string
+        buttonDel: string,
+        absoluteRTitle: string,
+        editTabTitle: string
 
     },
     tab: PanelTab
@@ -110,7 +136,13 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
         sideImg: false
 
     }
-    const { addEditDeleteArticle, article, setArticle, changeArticleOrder } = useContext(ContentContext)
+    const { addEditDeleteArticle,
+        article,
+        setArticle,
+        changeArticleOrder,
+        editTabTitle,
+        content
+    } = useContext(ArticleContext)
 
 
     const { isAuthenticated } = useContext(AuthContext)
@@ -128,7 +160,7 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
         setArticle(emptyArticle)
         toggleAddMode(false)
     }
-    const onClickDelete = () => {
+    const onClickDelete = (tab: PanelTab, article: Article) => {
         addEditDeleteArticle(tab, article, 'delete')
         setArticle(emptyArticle)
 
@@ -139,16 +171,16 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
         onEditCancel()
     }
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [tabTitle, setTabTitle] = React.useState<string>(tab.tabTitle)
+    const [isEditTabTitle, setIsEditTabTitle] = React.useState<boolean>(false)
+
 
     const isMenuOpen = Boolean(anchorEl);
 
-    const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-
-
-
+    const handleEtitTitle = (tab: PanelTab, tabTitle: string) => {
+        editTabTitle(tab, tabTitle)
+        setIsEditTabTitle(false)
+    }
     const handleMoveUp = (tb: PanelTab, art: Article) => {
         setAnchorEl(null);
         console.log('article', art.index)
@@ -163,8 +195,49 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
+    const handleCancelEditTitle = () => {
+        setTabTitle(tab.tabTitle)
+        setIsEditTabTitle(false)
+    };
 
-
+    const renderEditMenu = (tab: PanelTab, article: Article) => (<React.Fragment>
+        <div className={classes.absoluteL} >
+            <Tooltip
+                onClick={() => handleMoveUp(tab, article)} title="moveUp" aria-label="moveDown">
+                <Fab size="small" color="primary"
+                // className={classes.absoluteL} 
+                >
+                    <KeyboardArrowUpIcon />
+                </Fab>
+            </Tooltip>
+            <Tooltip
+                onClick={() => handleMoveDown(tab, article)} title="moveDown" aria-label="move down">
+                <Fab size="small" color="primary"
+                // className={classes.absoluteL}
+                >
+                    <KeyboardArrowDownIcon />
+                </Fab>
+            </Tooltip>
+        </div>
+        <div className={classes.absoluteR} >
+            <Tooltip
+                onClick={() => onEditClick(article)}
+                title="edit" aria-label="edit">
+                <Fab size="small" color="primary" >
+                    <EditIcon />
+                </Fab>
+            </Tooltip>
+            <Tooltip
+                onClick={() => onClickDelete(tab, article)}
+                title="delete" aria-label="delete">
+                <Fab size="small" color="primary"
+                    className={classes.buttonDel}
+                >
+                    <DeleteIcon />
+                </Fab>
+            </Tooltip>
+        </div>
+    </React.Fragment>)
 
     const renderMenu = (tab: PanelTab, art: Article) => {
         let menuId = 'moveMenu' + art.index;
@@ -183,12 +256,66 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
             </Menu>
         );
     }
+    const renberTabTitle = () => {
+        if (!isEditTabTitle) return (
+            <Grid
+                className={classes.gridImg}
+                item xs={12}>
+                {editMode &&
+                    <Tooltip
+                        className={classes.absoluteR}
+                        onClick={() => setIsEditTabTitle(true)}
+                        title="edit" aria-label="edit">
+                        <Fab size="small" color="primary" >
+                            <EditIcon />
+                        </Fab>
+                    </Tooltip>
+                }
+                {tab.tabTitle &&
+                    <Typography className={classes.tabTitle} variant="h3" color="textSecondary">
+                        {tabTitle}
+                    </Typography>}
+            </Grid>)
+        else return (<Grid
+            className={classes.editTabTitle}
+            style={{ width: '100' }}
 
+            item xs={12}>
+            <div className={classes.absoluteRTitle} >
+                <Tooltip
+                    onClick={() => handleEtitTitle(tab, tabTitle)}
+                    title="edit" aria-label="done">
+                    <Fab size="small" color="primary" >
+                        <DoneIcon />
+                    </Fab>
+                </Tooltip>
+                <Tooltip
+                    onClick={() => handleCancelEditTitle()}
+                    title="delete" aria-label="cancel">
+                    <Fab size="small" color="secondary"
+                    // className={classes.button}
+                    >
+                        <CancelIcon />
+                    </Fab>
+                </Tooltip>
+            </div>
+            <TextField
+                className={classes.editTabTitle}
+                onChange={(e) => setTabTitle(e.target.value)}
+                id="filled-required"
+                label="Title"
+                defaultValue={tabTitle}
+                margin="normal"
+                variant="filled"
+                fullWidth={true}
+            />
+        </Grid>)
+    }
     if (addMode) return (
         <React.Fragment>
             <AddEditArticle />
             <Grid container>
-                <Grid item xs={4}>
+                <Grid item xs={6}>
                     <Button
                         onClick={() => onEditCancel()}
                         variant="contained"
@@ -196,22 +323,10 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
                         size="small"
                         className={classes.button}
                         startIcon={<CancelIcon />}
-                    >
-                        Cancel
-      </Button>
+                    >Cancel</Button>
                 </Grid>
-                <Grid item xs={4}>
-                    <Button
-                        onClick={() => onClickDelete()}
-                        variant="contained"
-                        size="small"
-                        className={classes.buttonDel}
-                        startIcon={<DeleteIcon />}
-                    >
-                        Delete
-      </Button>
-                </Grid>
-                <Grid item xs={4}>
+
+                <Grid item xs={6}>
                     <Button
                         onClick={() => onClickSave(tab, article)}
                         variant="contained"
@@ -219,18 +334,20 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
                         size="small"
                         className={classes.button}
                         startIcon={<SaveIcon />}
-                    >
-                        Save
-      </Button>
+                    >Save</Button>
                 </Grid>
             </Grid>
         </React.Fragment>)
+
     else return (
-        <div>
-            {tab.tabTitle &&
-                <Typography className={classes.tabTitle} variant="h2" color="textSecondary">
-                    {tab.tabTitle}
-                </Typography>}
+        <Grid container spacing={2}
+            className={classes.article}
+        >
+            <Grid container spacing={2} style={{ margin: 0 }}
+
+            > {renberTabTitle()}
+            </Grid>
+
             {
                 tab.articles.map(article =>
                     (
@@ -239,9 +356,10 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
                             {article.sideImg ?
                                 <Grid container spacing={2} className={classes.article} >
                                     <Grid className={classes.gridImg} item xs={12} md={6}>
-
+                                        {editMode &&
+                                            renderEditMenu(tab, article)
+                                        }
                                         {article.img &&
-
                                             <CardMedia
                                                 component="img"
                                                 alt="img"
@@ -251,38 +369,9 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
                                             />}
                                     </Grid>
                                     <Grid item xs={12} md={6}>
-                                        {editMode &&
-                                            <React.Fragment>
-                                                <Tooltip
-                                                    onClick={() => handleMoveUp(tab, article)} title="edit" aria-label="edit">
-                                                    <Fab size="small" color="primary"
-                                                    // className={classes.absoluteL} 
-                                                    >
-                                                        <KeyboardArrowUpIcon />
-                                                    </Fab>
-                                                </Tooltip>
-                                                <Tooltip
-                                                    onClick={() => handleMoveDown(tab, article)} title="edit" aria-label="edit">
-                                                    <Fab size="small" color="primary"
-                                                    // className={classes.absoluteL}
-                                                    >
-                                                        <KeyboardArrowDownIcon />
-                                                    </Fab>
-                                                </Tooltip>
-
-                                                <Tooltip
-                                                    onClick={() => onEditClick(article)}
-                                                    title="edit" aria-label="edit">
-                                                    <Fab size="small" color="primary" className={classes.absoluteR} >
-                                                        <EditIcon />
-                                                    </Fab>
-                                                </Tooltip>
-                                            </React.Fragment>
-                                        }
                                         <Typography className={classes.text} component="h3" variant="h5">
                                             {article.title}
                                         </Typography>
-
                                         <Typography className={classes.text} variant="body1" color="textSecondary">
                                             {article.text}
                                         </Typography>
@@ -291,31 +380,7 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
                                 :
                                 <Grid container spacing={2} className={classes.article}>
                                     {editMode &&
-                                        <React.Fragment>
-                                            <Tooltip
-                                                onClick={() => handleMoveUp(tab, article)} title="edit" aria-label="edit">
-                                                <Fab size="small" color="primary"
-                                                // className={classes.absoluteL} 
-                                                >
-                                                    <KeyboardArrowUpIcon />
-                                                </Fab>
-                                            </Tooltip>
-                                            <Tooltip
-                                                onClick={() => handleMoveDown(tab, article)} title="edit" aria-label="edit">
-                                                <Fab size="small" color="primary"
-                                                // className={classes.absoluteL}
-                                                >
-                                                    <KeyboardArrowDownIcon />
-                                                </Fab>
-                                            </Tooltip>
-                                            <Tooltip
-                                                onClick={() => onEditClick(article)}
-                                                title="edit" aria-label="edit">
-                                                <Fab size="small" color="primary" className={classes.absoluteR} >
-                                                    <EditIcon />
-                                                </Fab>
-                                            </Tooltip>
-                                        </React.Fragment>
+                                        renderEditMenu(tab, article)
                                     }
                                     <Grid item xs={12}>
                                         <Typography className={classes.title} component="h3" variant="h5">
@@ -332,17 +397,11 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
                                             {article.text}
                                         </Typography>
                                     </Grid>
-
                                 </Grid>}
                             {renderMenu(tab, article)}
-
                         </React.Fragment>
                     ))
-
-
             }
-
-
             <Grid container spacing={2} >
                 <Grid style={{ justifyItems: 'flex-start' }} item xs={2}>
                     <AddCircleOutlineIcon
@@ -350,13 +409,9 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
                         className={classes.addIcon}
                         fontSize="large"
                         color="primary" />
-
-
                 </Grid>
-
             </Grid>
-
-        </div>
+        </Grid>
     )
 
 }

@@ -10,7 +10,7 @@ const emptyArticle = {
     sideImg: true
 
 }
-export const ContentContext = createContext<ContentContextInterface>({
+export const ArticleContext = createContext<ArticleContextInterface>({
     content: initContent,
     article: emptyArticle,
     addEditDeleteArticle: () => {
@@ -21,15 +21,30 @@ export const ContentContext = createContext<ContentContextInterface>({
     },
     changeArticleOrder: () => {
         throw new Error('changeArticleOrder() not implemented');
+    },
+    editTabTitle: () => {
+        throw new Error('editTabTitle() not implemented');
     }
 });
 
-
-
-
-const ContentContextProvider = (props: { children: React.ReactNode; }) => {
+const ArticleContextProvider = (props: { children: React.ReactNode; }) => {
     const [content, setContent] = useState(initContent)
     const [article, setArticle] = React.useState<Article>(emptyArticle)
+
+    const editTabTitle = (panelTab: PanelTab, tabTitle: string) => {
+        const tabs = content.panel.tabs
+        var index = tabs.findIndex(tab => tab.index === panelTab.index);
+        tabs[index] = {
+            ...panelTab,
+            tabTitle
+        }
+        console.log('panelTab :', index);
+        setContent({
+            ...content
+        })
+
+        console.log('content :', content);
+    }
 
     const addEditDeleteArticle = (panelTab: PanelTab, article: Article, action: string) => {
         const { articles } = panelTab
@@ -62,18 +77,14 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
         setContent({
             ...content,
         })
-        console.log('art :', articles);
     }
+
     const changeArticleOrder = (panelTab: PanelTab, article: Article, action: string) => {
         const { articles } = panelTab
         var index = articles.findIndex(art => art.index === article.index);
-        console.log('index', index)
         switch (action) {
             case 'moveUp': if (index !== 0) {
                 articles.splice(index - 1, 2, articles[index], articles[index - 1]);
-                // articles.slice(0, index -1)
-                // articles[index-1] = article
-                // articles.slice(index + 1)
             }
                 break
             case 'moveDown':
@@ -91,27 +102,26 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
             }
             articles.slice(i + 1)
         })
-
-        console.log('articles', articles)
         setContent({
             ...content,
         })
     }
 
     return (
-        <ContentContext.Provider value={{
+        <ArticleContext.Provider value={{
             content,
             addEditDeleteArticle,
             article,
             setArticle,
-            changeArticleOrder
+            changeArticleOrder,
+            editTabTitle
         }}>
             {props.children}
-        </ContentContext.Provider>
+        </ArticleContext.Provider>
     )
 
 }
 
-export default ContentContextProvider
+export default ArticleContextProvider
 
 

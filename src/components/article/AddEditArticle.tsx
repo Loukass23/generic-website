@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { Theme, createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { Input, FormControlLabel, Switch, CardMedia, Grid } from '@material-ui/core';
-import { ContentContext } from '../../context/ContentContext';
+import { ArticleContext } from '../../context/ArticleContext';
 
 
 
@@ -88,15 +88,13 @@ interface Props extends WithStyles<typeof styles> {
 const AddEditArticle: React.FC<Props> = ({ classes }) => {
 
 
-    const { article, setArticle } = useContext(ContentContext)
+    const { article, setArticle } = useContext(ArticleContext)
 
     const handleChange = (name: keyof Article) => (event: React.ChangeEvent<HTMLInputElement>) => {
         setArticle({ ...article, [name]: event.target.value });
-        console.log('article', article)
     };
     const toggleLayout = () => (event: React.ChangeEvent<HTMLInputElement>) => {
         setArticle({ ...article, sideImg: event.target.checked });
-        console.log('article', article)
     };
 
     const { sideImg, title, text, img } = article
@@ -114,10 +112,7 @@ const AddEditArticle: React.FC<Props> = ({ classes }) => {
                 <Grid container spacing={1} className={classes.article} key={article.title}>
 
                     <Grid className={classes.gridImg} item xs={12} md={6}>
-
-
                         {img ?
-
                             <CardMedia
                                 component="img"
                                 alt="img"

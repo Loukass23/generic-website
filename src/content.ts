@@ -14,7 +14,7 @@ export const contentMaster = {
     panel: {
         tabs: [
             {
-
+                index: 0,
                 tabName: 'Acceuil',
                 tabType: 'articles',
                 icon: 'home',
@@ -44,7 +44,9 @@ export const contentMaster = {
                 ]
             },
             {
+                index: 1,
                 tabName: 'Louer',
+                tabTitle: '',
                 tabType: 'articles',
                 icon: 'help',
                 articles: [
@@ -72,6 +74,7 @@ export const contentMaster = {
                 ]
             },
             {
+                index: 2,
                 tabName: 'Contact',
                 tabType: 'contact',
                 icon: 'contact',
@@ -83,6 +86,7 @@ export const contentMaster = {
                 }
             },
             {
+                index: 3,
                 tabName: 'Vendre',
                 tabType: 'articles',
                 tabTitle: 'Notre métier : L’expertise immobilière',

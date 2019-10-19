@@ -6,11 +6,11 @@ import theme from './theme';
 import TabPanel from './layout/TabPanel'
 import Hero from './layout/Hero';
 import AuthContextProvider from './context/AuthContext';
-import ContentContextProvider, { ContentContext } from './context/ContentContext';
+import { ArticleContext } from './context/ArticleContext';
 
 
 const RenderWebsite: React.FC<Props> = () => {
-  const { content } = useContext(ContentContext)
+  const { content } = useContext(ArticleContext)
   const { panel, hero, footer } = content
 
   return (
@@ -31,9 +31,7 @@ const App: React.FC = () => {
     <div className="App">
       <AuthContextProvider>
         <MuiThemeProvider theme={theme}>
-          <ContentContextProvider>
-            <RenderWebsite />
-          </ContentContextProvider>
+          <RenderWebsite />
         </MuiThemeProvider>
       </AuthContextProvider>
 
