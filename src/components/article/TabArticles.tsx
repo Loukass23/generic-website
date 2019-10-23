@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { Theme, createStyles, Typography, CardMedia, Grid, Tooltip, Fab, Button, Menu, MenuItem, TextField } from '@material-ui/core';
+import React, { useContext, useEffect } from 'react'
+import { Theme, createStyles, Typography, CardMedia, Grid, Tooltip, Fab, Button, Menu, MenuItem, TextField, FormControlLabel, Switch } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleSharp';
@@ -7,13 +7,12 @@ import { AuthContext } from '../../context/AuthContext';
 import { ArticleContext } from '../../context/ArticleContext';
 import AddEditArticle from './AddEditArticle';
 import SaveIcon from '@material-ui/icons/Save';
-import DoneIcon from '@material-ui/icons/Done';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DeleteIcon from '@material-ui/icons/Delete';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import red from '@material-ui/core/colors/red';
-import { whileStatement } from '@babel/types';
+import TabTitle from '../../tabs/TabTitle';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -45,6 +44,7 @@ const styles = (theme: Theme) => createStyles({
         maxBlockSize: '50vh',
     },
     gridImg: {
+        marginBottom: theme.spacing(2),
         [theme.breakpoints.down('xs')]: {
             paddingBottom: 0,
             marginBottom: 0
@@ -98,8 +98,7 @@ const styles = (theme: Theme) => createStyles({
         color: "white",
         backgroundColor: red[500],
         // margin: theme.spacing(1),
-    },
-    editTabTitle: {}
+    }
 
 });
 
@@ -117,15 +116,15 @@ interface Props extends WithStyles<typeof styles> {
         button: string,
         buttonDel: string,
         absoluteRTitle: string,
-        editTabTitle: string
 
     },
-    tab: PanelTab
+    tab: PanelTab,
+    index: number
 }
 
 
 
-const TabArticles: React.FC<Props> = ({ classes, tab }) => {
+const TabArticles: React.FC<Props> = ({ classes, tab, index }) => {
     const [editMode, toggleEditMode] = React.useState(true);
     const [addMode, toggleAddMode] = React.useState(false);
     const emptyArticle = {
@@ -148,7 +147,6 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
     const { isAuthenticated } = useContext(AuthContext)
 
     const onEditClick = (article: Article) => {
-        console.log('article', article)
         setArticle(article)
         toggleAddMode(true)
     }
@@ -171,7 +169,8 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
         onEditCancel()
     }
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [tabTitle, setTabTitle] = React.useState<string>(tab.tabTitle)
+    const [tabState, setTab] = React.useState<PanelTab>(content.panel.tabs[index])
+
     const [isEditTabTitle, setIsEditTabTitle] = React.useState<boolean>(false)
 
 
@@ -195,10 +194,10 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
-    const handleCancelEditTitle = () => {
-        setTabTitle(tab.tabTitle)
-        setIsEditTabTitle(false)
-    };
+    // const handleCancelEditTitle = () => {
+    //     setTabTitle(tab.tabTitle)
+    //     setIsEditTabTitle(false)
+    // };
 
     const renderEditMenu = (tab: PanelTab, article: Article) => (<React.Fragment>
         <div className={classes.absoluteL} >
@@ -256,61 +255,6 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
             </Menu>
         );
     }
-    const renberTabTitle = () => {
-        if (!isEditTabTitle) return (
-            <Grid
-                className={classes.gridImg}
-                item xs={12}>
-                {editMode &&
-                    <Tooltip
-                        className={classes.absoluteR}
-                        onClick={() => setIsEditTabTitle(true)}
-                        title="edit" aria-label="edit">
-                        <Fab size="small" color="primary" >
-                            <EditIcon />
-                        </Fab>
-                    </Tooltip>
-                }
-                {tab.tabTitle &&
-                    <Typography className={classes.tabTitle} variant="h3" color="textSecondary">
-                        {tabTitle}
-                    </Typography>}
-            </Grid>)
-        else return (<Grid
-            className={classes.editTabTitle}
-            style={{ width: '100' }}
-
-            item xs={12}>
-            <div className={classes.absoluteRTitle} >
-                <Tooltip
-                    onClick={() => handleEtitTitle(tab, tabTitle)}
-                    title="edit" aria-label="done">
-                    <Fab size="small" color="primary" >
-                        <DoneIcon />
-                    </Fab>
-                </Tooltip>
-                <Tooltip
-                    onClick={() => handleCancelEditTitle()}
-                    title="delete" aria-label="cancel">
-                    <Fab size="small" color="secondary"
-                    // className={classes.button}
-                    >
-                        <CancelIcon />
-                    </Fab>
-                </Tooltip>
-            </div>
-            <TextField
-                className={classes.editTabTitle}
-                onChange={(e) => setTabTitle(e.target.value)}
-                id="filled-required"
-                label="Title"
-                defaultValue={tabTitle}
-                margin="normal"
-                variant="filled"
-                fullWidth={true}
-            />
-        </Grid>)
-    }
     if (addMode) return (
         <React.Fragment>
             <AddEditArticle />
@@ -343,9 +287,14 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
         <Grid container spacing={2}
             className={classes.article}
         >
-            <Grid container spacing={2} style={{ margin: 0 }}
-
-            > {renberTabTitle()}
+            <Grid container className={classes.tabTitle} spacing={2} >
+                {isAuthenticated && <FormControlLabel
+                    control={
+                        <Switch checked={editMode} value={editMode} onChange={() => toggleEditMode(!editMode)} />
+                    }
+                    label="Edit Mode"
+                />}
+                <TabTitle tab={tabState} editMode={editMode} />
             </Grid>
 
             {

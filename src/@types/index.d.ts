@@ -92,7 +92,20 @@ interface ArticleContextInterface {
     article: Article,
     setArticle: any,
     changeArticleOrder: any,
-    editTabTitle: any
+    editTabTitle: any,
+    tabTitle: string,
+    setTabTitle: any
+}
+
+interface TabContextInterface {
+    tabs: PanelTabs,
+    addEditDeleteArticle: any,
+    article: Article,
+    setArticle: any,
+    changeArticleOrder: any,
+    editTabTitle: any,
+    tabTitle: string,
+    setTabTitle: any
 }
 
 

@@ -13,6 +13,7 @@ const emptyArticle = {
 export const ArticleContext = createContext<ArticleContextInterface>({
     content: initContent,
     article: emptyArticle,
+    tabTitle: '',
     addEditDeleteArticle: () => {
         throw new Error('addEditDeleteArticle() not implemented');
     },
@@ -24,12 +25,17 @@ export const ArticleContext = createContext<ArticleContextInterface>({
     },
     editTabTitle: () => {
         throw new Error('editTabTitle() not implemented');
+    },
+    setTabTitle: () => {
+        throw new Error('setTabTitle() not implemented');
     }
 });
 
 const ArticleContextProvider = (props: { children: React.ReactNode; }) => {
     const [content, setContent] = useState(initContent)
     const [article, setArticle] = React.useState<Article>(emptyArticle)
+    const [tabTitle, setTabTitle] = React.useState<string>('')
+
 
     const editTabTitle = (panelTab: PanelTab, tabTitle: string) => {
         const tabs = content.panel.tabs
@@ -38,12 +44,11 @@ const ArticleContextProvider = (props: { children: React.ReactNode; }) => {
             ...panelTab,
             tabTitle
         }
-        console.log('panelTab :', index);
         setContent({
             ...content
         })
+        console.log('panelTab :', tabs);
 
-        console.log('content :', content);
     }
 
     const addEditDeleteArticle = (panelTab: PanelTab, article: Article, action: string) => {
@@ -91,7 +96,6 @@ const ArticleContextProvider = (props: { children: React.ReactNode; }) => {
                 if (index !== articles.length - 1) {
                     articles.splice(index, 2, articles[index + 1], articles[index]);
                 }
-
                 break
         }
         articles.forEach((art, i) => {
@@ -114,7 +118,9 @@ const ArticleContextProvider = (props: { children: React.ReactNode; }) => {
             article,
             setArticle,
             changeArticleOrder,
-            editTabTitle
+            editTabTitle,
+            tabTitle,
+            setTabTitle
         }}>
             {props.children}
         </ArticleContext.Provider>

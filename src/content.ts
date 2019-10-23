@@ -46,7 +46,7 @@ export const contentMaster = {
             {
                 index: 1,
                 tabName: 'Louer',
-                tabTitle: '',
+                tabTitle: 'Testing',
                 tabType: 'articles',
                 icon: 'help',
                 articles: [

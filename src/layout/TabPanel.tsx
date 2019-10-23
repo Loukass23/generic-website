@@ -45,14 +45,11 @@ const styles = (theme: Theme) => createStyles({
     root: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
-
     },
     tabs: {
         flexDirection: 'row',
         justifyContent: 'center',
-
     },
-
     articleContainer: {
         overflow: 'hidden',
         padding: theme.spacing(2),
@@ -61,8 +58,6 @@ const styles = (theme: Theme) => createStyles({
             margin: 0,
         },
     },
-
-
 });
 
 interface Props extends WithStyles<typeof styles> {
@@ -70,19 +65,16 @@ interface Props extends WithStyles<typeof styles> {
         root: string,
         tabs: string,
         articleContainer: string,
-
-
     },
     panel: Panel,
 }
 
 const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
     const [value, setValue] = React.useState(0);
+    console.log('value :', value);
     const { tabs } = panel
 
-
     const handleChange = (event: any, newValue: React.SetStateAction<number>) => {
-
         setValue(newValue);
     };
     const handleChangeIndex = (index: number) => {
@@ -93,7 +85,7 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
         switch (tab.tabType) {
             case 'articles': return (
                 <ArticleContextProvider>
-                    <TabArticle tab={tab} />
+                    <TabArticle index={value} tab={tab} />
                 </ArticleContextProvider>
             )
             case 'contact': return (<TabContact contact={tab.contact} />)
@@ -128,16 +120,11 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
                 {tabs.map((tab, i) => (
                     <Container className={classes.articleContainer} key={tab.tabName} maxWidth="lg">
                         <TabPanel value={value} index={i}>
-
                             {renderTab(tab)}
-
-
                         </TabPanel>
-
                     </Container>
                 ))
                 }
-
             </SwipeableViews>
         </div>
     );
