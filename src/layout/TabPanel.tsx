@@ -12,7 +12,7 @@ import { iconsRender } from '../components/Icons';
 import TabContact from '../components/contact/TabContact';
 import { AuthContext } from '../context/AuthContext';
 import AuthToolbar from './AuthToolbar';
-import ArticleContextProvider from '../context/ArticleContext';
+import ContentContextProvider from '../context/ArticleContext';
 
 
 const TabPanel: React.FC<TabPanelProps> = (props) => {
@@ -84,9 +84,9 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
     const renderTab = (tab: PanelTab) => {
         switch (tab.tabType) {
             case 'articles': return (
-                <ArticleContextProvider>
-                    <TabArticle index={value} tab={tab} />
-                </ArticleContextProvider>
+                <ContentContextProvider>
+                    <TabArticle tab={tab} />
+                </ContentContextProvider>
             )
             case 'contact': return (<TabContact contact={tab.contact} />)
         }

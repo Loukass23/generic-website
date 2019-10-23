@@ -5,6 +5,7 @@ import DoneIcon from '@material-ui/icons/Done';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 import { ArticleContext } from '../context/ArticleContext';
+import { ContentContext } from '../context/ContentContext';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -50,26 +51,28 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 const TabTitle: React.FC<Props> = ({ classes, tab, editMode }) => {
-
     const {
         editTabTitle,
-        tabTitle,
-        setTabTitle
+        content
     } = useContext(ArticleContext)
 
     const [isEditTabTitle, setIsEditTabTitle] = React.useState<boolean>(false)
 
     const [title, setTitle] = React.useState<string>(tab.tabTitle)
 
+    useEffect(() => {
+        setTitle(tab.tabTitle)
+    }, [tab.tabTitle])
+
     const handleEditTitle = (tab: PanelTab) => {
         editTabTitle(tab, title)
         setIsEditTabTitle(false)
     }
 
-    const handleCancelEditTitle = () => {
-        setTabTitle(tab.tabTitle)
-        setIsEditTabTitle(false)
-    };
+    // const handleCancelEditTitle = () => {
+    //     setTabTitle(tab.tabTitle)
+    //     setIsEditTabTitle(false)
+    // };
 
     if (!isEditTabTitle) return (
         <Grid
@@ -87,7 +90,7 @@ const TabTitle: React.FC<Props> = ({ classes, tab, editMode }) => {
             }
             {tab.tabTitle &&
                 <Typography className={classes.tabTitle} variant="h3" color="textSecondary">
-                    {title}
+                    {tab.tabTitle}
                 </Typography>}
         </Grid>)
     else return (<Grid
@@ -117,7 +120,7 @@ const TabTitle: React.FC<Props> = ({ classes, tab, editMode }) => {
             onChange={(e) => setTitle(e.target.value)}
             id="filled-required"
             label="Title"
-            defaultValue={title}
+            defaultValue={tab.tabTitle}
             margin="normal"
             variant="filled"
             fullWidth={true}

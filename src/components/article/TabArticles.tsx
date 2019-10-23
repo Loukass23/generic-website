@@ -13,6 +13,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import red from '@material-ui/core/colors/red';
 import TabTitle from '../../tabs/TabTitle';
+import { ContentContext } from '../../context/ContentContext';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -119,14 +120,23 @@ interface Props extends WithStyles<typeof styles> {
 
     },
     tab: PanelTab,
-    index: number
+    // index: number
 }
 
 
 
-const TabArticles: React.FC<Props> = ({ classes, tab, index }) => {
+const TabArticles: React.FC<Props> = ({ classes, tab }) => {
     const [editMode, toggleEditMode] = React.useState(true);
     const [addMode, toggleAddMode] = React.useState(false);
+    const { addEditDeleteArticle,
+        article,
+        setArticle,
+        changeArticleOrder,
+        editTabTitle,
+        content
+    } = useContext(ArticleContext)
+    // const [tab, setTab] = React.useState<PanelTab>(content.panel.tabs[index])
+
     const emptyArticle = {
         index: tab.articles.length + 1,
         title: '',
@@ -135,13 +145,7 @@ const TabArticles: React.FC<Props> = ({ classes, tab, index }) => {
         sideImg: false
 
     }
-    const { addEditDeleteArticle,
-        article,
-        setArticle,
-        changeArticleOrder,
-        editTabTitle,
-        content
-    } = useContext(ArticleContext)
+
 
 
     const { isAuthenticated } = useContext(AuthContext)
@@ -169,7 +173,6 @@ const TabArticles: React.FC<Props> = ({ classes, tab, index }) => {
         onEditCancel()
     }
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [tabState, setTab] = React.useState<PanelTab>(content.panel.tabs[index])
 
     const [isEditTabTitle, setIsEditTabTitle] = React.useState<boolean>(false)
 
@@ -238,6 +241,7 @@ const TabArticles: React.FC<Props> = ({ classes, tab, index }) => {
         </div>
     </React.Fragment>)
 
+
     const renderMenu = (tab: PanelTab, art: Article) => {
         let menuId = 'moveMenu' + art.index;
         return (
@@ -294,7 +298,8 @@ const TabArticles: React.FC<Props> = ({ classes, tab, index }) => {
                     }
                     label="Edit Mode"
                 />}
-                <TabTitle tab={tabState} editMode={editMode} />
+
+                <TabTitle tab={tab} editMode={editMode} />
             </Grid>
 
             {
