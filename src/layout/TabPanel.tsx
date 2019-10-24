@@ -110,6 +110,8 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
                         )
                     })
                     }
+                    < Tab icon={iconsRender('help')} label="" />
+
                 </Tabs>
             </AppBar>
             <SwipeableViews

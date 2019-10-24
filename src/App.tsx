@@ -34,7 +34,6 @@ const App: React.FC = () => {
           <RenderWebsite />
         </MuiThemeProvider>
       </AuthContextProvider>
-
     </div>
   );
 }
