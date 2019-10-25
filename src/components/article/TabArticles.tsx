@@ -126,15 +126,17 @@ interface Props extends WithStyles<typeof styles> {
 
 
 const TabArticles: React.FC<Props> = ({ classes, tab }) => {
-    const [editMode, toggleEditMode] = React.useState(true);
     const [addMode, toggleAddMode] = React.useState(false);
     const { addEditDeleteArticle,
         article,
         setArticle,
         changeArticleOrder,
         editTabTitle,
-        content
-    } = useContext(ArticleContext)
+        content,
+        editMode,
+        toggleEditMode,
+
+    } = useContext(ContentContext)
     // const [tab, setTab] = React.useState<PanelTab>(content.panel.tabs[index])
 
     const emptyArticle = {
@@ -242,6 +244,9 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
     </React.Fragment>)
 
 
+    const renderTitle = (tab: PanelTab) => {
+    }
+
     const renderMenu = (tab: PanelTab, art: Article) => {
         let menuId = 'moveMenu' + art.index;
         return (
@@ -301,12 +306,10 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
 
                 <TabTitle tab={tab} editMode={editMode} />
             </Grid>
-
             {
                 tab.articles.map(article =>
                     (
                         <React.Fragment key={article.index}>
-
                             {article.sideImg ?
                                 <Grid container spacing={2} className={classes.article} >
                                     <Grid className={classes.gridImg} item xs={12} md={6}>

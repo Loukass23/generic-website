@@ -1,6 +1,6 @@
 import React, { useState, createContext } from 'react'
 import { contentMaster } from '../content'
-import { addEditDeleteArticle } from './ArticlesFonctions'
+import { addEditDeleteArticle, changeArticleOrder } from './ArticlesFonctions'
 
 const initContent: Content = contentMaster
 const emptyArticle = {
@@ -14,6 +14,7 @@ const emptyArticle = {
 export const ContentContext = createContext<ContentContextInterface>({
     content: initContent,
     article: emptyArticle,
+    editMode: true,
     addEditDeleteArticle: () => {
         throw new Error('addEditDeleteArticle() not implemented');
     },
@@ -25,11 +26,15 @@ export const ContentContext = createContext<ContentContextInterface>({
     },
     editTabTitle: () => {
         throw new Error('editTabTitle() not implemented');
+    },
+    toggleEditMode: () => {
+        throw new Error('toggleEditMode() not implemented');
     }
 });
 
 const ContentContextProvider = (props: { children: React.ReactNode; }) => {
     const [content, setContent] = useState(initContent)
+    const [editMode, toggleEditMode] = React.useState(true);
     const [article, setArticle] = React.useState<Article>(emptyArticle)
     const [tabTitle, setTabTitle] = React.useState<string>('')
 
@@ -81,35 +86,37 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
     //     })
     // }
 
-    const changeArticleOrder = (panelTab: PanelTab, article: Article, action: string) => {
-        const { articles } = panelTab
-        var index = articles.findIndex(art => art.index === article.index);
-        switch (action) {
-            case 'moveUp': if (index !== 0) {
-                articles.splice(index - 1, 2, articles[index], articles[index - 1]);
-            }
-                break
-            case 'moveDown':
-                if (index !== articles.length - 1) {
-                    articles.splice(index, 2, articles[index + 1], articles[index]);
-                }
-                break
-        }
-        articles.forEach((art, i) => {
-            articles.slice(0, i)
-            articles[i] = {
-                ...art,
-                index: i
-            }
-            articles.slice(i + 1)
-        })
-        setContent({
-            ...content,
-        })
-    }
+    // const changeArticleOrder = (panelTab: PanelTab, article: Article, action: string) => {
+    //     const { articles } = panelTab
+    //     var index = articles.findIndex(art => art.index === article.index);
+    //     switch (action) {
+    //         case 'moveUp': if (index !== 0) {
+    //             articles.splice(index - 1, 2, articles[index], articles[index - 1]);
+    //         }
+    //             break
+    //         case 'moveDown':
+    //             if (index !== articles.length - 1) {
+    //                 articles.splice(index, 2, articles[index + 1], articles[index]);
+    //             }
+    //             break
+    //     }
+    //     articles.forEach((art, i) => {
+    //         articles.slice(0, i)
+    //         articles[i] = {
+    //             ...art,
+    //             index: i
+    //         }
+    //         articles.slice(i + 1)
+    //     })
+    //     setContent({
+    //         ...content,
+    //     })
+    // }
 
     return (
         <ContentContext.Provider value={{
+            editMode,
+            toggleEditMode,
             content,
             addEditDeleteArticle,
             article,

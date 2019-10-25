@@ -20,6 +20,7 @@ interface MaterialIcons {
     dislike: JSX.Element,
     shop: JSX.Element,
     help: JSX.Element,
+    add: JSX.Element,
 }
 /**
  * LAYOUT
@@ -103,6 +104,8 @@ interface ContentContextInterface {
     setArticle: any,
     changeArticleOrder: any,
     editTabTitle: any,
+    editMode: boolean,
+    toggleEditMode: any,
 
 }
 

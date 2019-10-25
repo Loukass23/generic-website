@@ -13,6 +13,7 @@ import TabContact from '../components/contact/TabContact';
 import { AuthContext } from '../context/AuthContext';
 import AuthToolbar from './AuthToolbar';
 import ContentContextProvider from '../context/ArticleContext';
+import AddTab from '../components/tab/AddTab';
 
 
 const TabPanel: React.FC<TabPanelProps> = (props) => {
@@ -81,6 +82,8 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
         setValue(index);
     };
 
+    const addTab = () => (<AddTab />)
+
     const renderTab = (tab: PanelTab) => {
         switch (tab.tabType) {
             case 'articles': return (
@@ -110,7 +113,7 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
                         )
                     })
                     }
-                    < Tab icon={iconsRender('help')} label="" />
+                    < Tab icon={iconsRender('add')} label="" onClick={() => addTab()} />
 
                 </Tabs>
             </AppBar>
