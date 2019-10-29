@@ -4,7 +4,6 @@ import { withStyles, WithStyles, createStyles } from '@material-ui/styles'
 import DoneIcon from '@material-ui/icons/Done';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
-import { ArticleContext } from '../context/ArticleContext';
 import { ContentContext } from '../context/ContentContext';
 
 
@@ -54,7 +53,7 @@ const TabTitle: React.FC<Props> = ({ classes, tab, editMode }) => {
     const {
         editTabTitle,
         content
-    } = useContext(ArticleContext)
+    } = useContext(ContentContext)
 
     const [isEditTabTitle, setIsEditTabTitle] = React.useState<boolean>(false)
 

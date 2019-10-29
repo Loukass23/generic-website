@@ -18,21 +18,11 @@ export const addEditDeleteArticle = (panelTab: PanelTab, article: Article, actio
             articles.splice(index, 1)
             break
     }
-    articles.forEach((art, i) => {
-        articles.slice(0, i)
-        articles[i] = {
-            ...art,
-            index: i
-        }
-        articles.slice(i + 1)
-    })
 
-    // setContent({
-    //     ...content,
-    // })
+    reIndexArticles(articles)
 }
 
-export const changeArticleOrder = (panelTab: PanelTab, article: Article, action: string) => {
+export const articlesReOrder = (panelTab: PanelTab, article: Article, action: string) => {
     const { articles } = panelTab
     var index = articles.findIndex(art => art.index === article.index);
     switch (action) {
@@ -46,6 +36,11 @@ export const changeArticleOrder = (panelTab: PanelTab, article: Article, action:
             }
             break
     }
+
+    reIndexArticles(articles)
+}
+
+const reIndexArticles = (articles: Articles) => {
     articles.forEach((art, i) => {
         articles.slice(0, i)
         articles[i] = {
@@ -54,7 +49,4 @@ export const changeArticleOrder = (panelTab: PanelTab, article: Article, action:
         }
         articles.slice(i + 1)
     })
-    // setContent({
-    //     ...content,
-    // })
 }

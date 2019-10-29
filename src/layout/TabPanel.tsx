@@ -12,8 +12,8 @@ import { iconsRender } from '../components/Icons';
 import TabContact from '../components/contact/TabContact';
 import { AuthContext } from '../context/AuthContext';
 import AuthToolbar from './AuthToolbar';
-import ContentContextProvider from '../context/ArticleContext';
 import AddTab from '../components/tab/AddTab';
+import { ContentContext } from '../context/ContentContext';
 
 
 const TabPanel: React.FC<TabPanelProps> = (props) => {
@@ -75,6 +75,12 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
     console.log('value :', value);
     const { tabs } = panel
 
+    const {
+        editMode,
+        toggleEditMode,
+
+    } = useContext(ContentContext)
+
     const handleChange = (event: any, newValue: React.SetStateAction<number>) => {
         setValue(newValue);
     };
@@ -87,9 +93,7 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
     const renderTab = (tab: PanelTab) => {
         switch (tab.tabType) {
             case 'articles': return (
-                <ContentContextProvider>
-                    <TabArticle tab={tab} />
-                </ContentContextProvider>
+                <TabArticle tab={tab} />
             )
             case 'contact': return (<TabContact contact={tab.contact} />)
         }
@@ -113,7 +117,7 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
                         )
                     })
                     }
-                    < Tab icon={iconsRender('add')} label="" onClick={() => addTab()} />
+                    {editMode && < Tab icon={iconsRender('add')} label="" onClick={() => addTab()} />}
 
                 </Tabs>
             </AppBar>

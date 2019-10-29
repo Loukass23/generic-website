@@ -1,10 +1,9 @@
 import React, { useContext, useEffect } from 'react'
-import { Theme, createStyles, Typography, CardMedia, Grid, Tooltip, Fab, Button, Menu, MenuItem, TextField, FormControlLabel, Switch } from '@material-ui/core';
+import { Theme, createStyles, Typography, CardMedia, Grid, Tooltip, Fab, Button, Menu, MenuItem, FormControlLabel, Switch } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleSharp';
 import { AuthContext } from '../../context/AuthContext';
-import { ArticleContext } from '../../context/ArticleContext';
 import AddEditArticle from './AddEditArticle';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -132,7 +131,6 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
         setArticle,
         changeArticleOrder,
         editTabTitle,
-        content,
         editMode,
         toggleEditMode,
 
@@ -183,7 +181,7 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
 
     const handleEtitTitle = (tab: PanelTab, tabTitle: string) => {
         editTabTitle(tab, tabTitle)
-        setIsEditTabTitle(false)
+        // setIsEditTabTitle(false)
     }
     const handleMoveUp = (tb: PanelTab, art: Article) => {
         setAnchorEl(null);

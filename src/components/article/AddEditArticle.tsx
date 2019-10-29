@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { Theme, createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { Input, FormControlLabel, Switch, CardMedia, Grid } from '@material-ui/core';
-import { ArticleContext } from '../../context/ArticleContext';
+import { ContentContext } from '../../context/ContentContext';
 
 
 
@@ -88,7 +88,7 @@ interface Props extends WithStyles<typeof styles> {
 const AddEditArticle: React.FC<Props> = ({ classes }) => {
 
 
-    const { article, setArticle } = useContext(ArticleContext)
+    const { article, setArticle } = useContext(ContentContext)
 
     const handleChange = (name: keyof Article) => (event: React.ChangeEvent<HTMLInputElement>) => {
         setArticle({ ...article, [name]: event.target.value });
