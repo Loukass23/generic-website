@@ -4,7 +4,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import { createStyles, Theme, Container, Grid } from '@material-ui/core';
+import { createStyles, Theme, Container, TextField, Tooltip, Fab, Grid } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
 import TabArticle from '../components/article/TabArticles';
 import SwipeableViews from 'react-swipeable-views';
@@ -14,6 +14,10 @@ import { AuthContext } from '../context/AuthContext';
 import AuthToolbar from './AuthToolbar';
 import AddTab from '../components/tab/AddTab';
 import { ContentContext } from '../context/ContentContext';
+import AddIcon from '@material-ui/icons/Add';
+import DoneIcon from '@material-ui/icons/Done';
+
+
 
 
 const TabPanel: React.FC<TabPanelProps> = (props) => {
@@ -72,12 +76,15 @@ interface Props extends WithStyles<typeof styles> {
 
 const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
     const [value, setValue] = React.useState(0);
-    console.log('value :', value);
+    const [addTabName, setAddTabName] = React.useState(false);
+    const [tabName, setTabName] = React.useState('');
+
     const { tabs } = panel
 
     const {
         editMode,
         toggleEditMode,
+        addTab
 
     } = useContext(ContentContext)
 
@@ -88,7 +95,6 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
         setValue(index);
     };
 
-    const addTab = () => (<AddTab />)
 
     const renderTab = (tab: PanelTab) => {
         switch (tab.tabType) {
@@ -117,9 +123,45 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
                         )
                     })
                     }
-                    {editMode && < Tab icon={iconsRender('add')} label="" onClick={() => addTab()} />}
+
 
                 </Tabs>
+
+                {editMode &&
+                    <AddTab />
+                    // <React.Fragment>
+                    //     {addTabName ?
+                    //         <Grid>
+                    //             <TextField
+                    //                 // label="Tab Title"
+                    //                 onChange={(e) => setTabName(e.target.value)}
+                    //             />
+                    //             <Tooltip
+                    //                 onClick={() => {
+                    //                     addTab(tabName)
+                    //                     setAddTabName(false)
+                    //                 }}
+                    //                 title="edit" aria-label="edit">
+                    //                 <Fab size="small" color="secondary" >
+                    //                     <DoneIcon />
+                    //                 </Fab>
+                    //             </Tooltip>
+                    //         </Grid>
+
+                    //         :
+                    //         <Grid >
+                    //             <Tooltip
+                    //                 onClick={() => setAddTabName(true)}
+                    //                 title="add tab" aria-label="edit">
+                    //                 <Fab size="small" color="secondary" >
+                    //                     <AddIcon />
+                    //                 </Fab>
+                    //             </Tooltip>
+                    //         </Grid>
+                    //         // <Tab icon={iconsRender('add')} label="Add Tab" onClick={() => setAddTabName(true)} />
+                    //     }
+                    // </React.Fragment>
+                }
             </AppBar>
             <SwipeableViews
                 axis='x'

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Theme, createStyles, Typography, CardMedia, Grid, Tooltip, Fab, Button, Menu, MenuItem, FormControlLabel, Switch } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
 import EditIcon from '@material-ui/icons/Edit';
@@ -38,7 +38,6 @@ const styles = (theme: Theme) => createStyles({
         [theme.breakpoints.down('xs')]: {
             paddingTop: theme.spacing(2),
         },
-
     },
     sideImg: {
         maxBlockSize: '50vh',
@@ -54,7 +53,6 @@ const styles = (theme: Theme) => createStyles({
         position: 'absolute',
         top: theme.spacing(2),
         right: theme.spacing(2),
-
     },
     absoluteRTitle: {
         color: 'white',
@@ -97,7 +95,6 @@ const styles = (theme: Theme) => createStyles({
     buttonDel: {
         color: "white",
         backgroundColor: red[500],
-        // margin: theme.spacing(1),
     }
 
 });
@@ -119,10 +116,7 @@ interface Props extends WithStyles<typeof styles> {
 
     },
     tab: PanelTab,
-    // index: number
 }
-
-
 
 const TabArticles: React.FC<Props> = ({ classes, tab }) => {
     const [addMode, toggleAddMode] = React.useState(false);
@@ -130,12 +124,10 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
         article,
         setArticle,
         changeArticleOrder,
-        editTabTitle,
         editMode,
         toggleEditMode,
 
     } = useContext(ContentContext)
-    // const [tab, setTab] = React.useState<PanelTab>(content.panel.tabs[index])
 
     const emptyArticle = {
         index: tab.articles.length + 1,
@@ -145,9 +137,8 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
         sideImg: false
 
     }
-
-
-
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const isMenuOpen = Boolean(anchorEl);
     const { isAuthenticated } = useContext(AuthContext)
 
     const onEditClick = (article: Article) => {
@@ -172,17 +163,7 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
         addEditDeleteArticle(tab, article, 'edit')
         onEditCancel()
     }
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-    const [isEditTabTitle, setIsEditTabTitle] = React.useState<boolean>(false)
-
-
-    const isMenuOpen = Boolean(anchorEl);
-
-    const handleEtitTitle = (tab: PanelTab, tabTitle: string) => {
-        editTabTitle(tab, tabTitle)
-        // setIsEditTabTitle(false)
-    }
     const handleMoveUp = (tb: PanelTab, art: Article) => {
         setAnchorEl(null);
         console.log('article', art.index)
@@ -197,11 +178,6 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
-    // const handleCancelEditTitle = () => {
-    //     setTabTitle(tab.tabTitle)
-    //     setIsEditTabTitle(false)
-    // };
-
     const renderEditMenu = (tab: PanelTab, article: Article) => (<React.Fragment>
         <div className={classes.absoluteL} >
             <Tooltip
@@ -240,11 +216,6 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
             </Tooltip>
         </div>
     </React.Fragment>)
-
-
-    const renderTitle = (tab: PanelTab) => {
-    }
-
     const renderMenu = (tab: PanelTab, art: Article) => {
         let menuId = 'moveMenu' + art.index;
         return (
@@ -252,7 +223,6 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
                 anchorEl={anchorEl}
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                 id={menuId}
-                // keepMounted
                 transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                 open={isMenuOpen}
                 onClose={handleMenuClose}
@@ -304,7 +274,7 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
 
                 <TabTitle tab={tab} editMode={editMode} />
             </Grid>
-            {
+            {tab.articles &&
                 tab.articles.map(article =>
                     (
                         <React.Fragment key={article.index}>
@@ -358,13 +328,14 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
                     ))
             }
             <Grid container spacing={2} >
-                <Grid style={{ justifyItems: 'flex-start' }} item xs={2}>
-                    <AddCircleOutlineIcon
-                        onClick={() => onAddClick()}
-                        className={classes.addIcon}
-                        fontSize="large"
-                        color="primary" />
-                </Grid>
+                {editMode &&
+                    <Grid style={{ justifyItems: 'flex-start' }} item xs={2}>
+                        <AddCircleOutlineIcon
+                            onClick={() => onAddClick()}
+                            className={classes.addIcon}
+                            fontSize="large"
+                            color="primary" />
+                    </Grid>}
             </Grid>
         </Grid>
     )

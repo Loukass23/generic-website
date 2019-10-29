@@ -29,6 +29,9 @@ export const ContentContext = createContext<ContentContextInterface>({
     },
     toggleEditMode: () => {
         throw new Error('toggleEditMode() not implemented');
+    },
+    addTab: () => {
+        throw new Error('addTab() not implemented');
     }
 });
 
@@ -40,6 +43,20 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
 
     const editTabTitle = (panelTab: PanelTab, tabTitle: string) => {
         panelTab.tabTitle = tabTitle
+    }
+    const addTab = (tabName: string) => {
+
+        const { tabs } = content.panel
+        const newTab = {
+            index: tabs.length,
+            tabName,
+            tabTitle: 'Tab Tible',
+            articles: [],
+            tabType: 'articles',
+            icon: '',
+            contact: ''
+        }
+        tabs.push(newTab)
     }
 
     const changeArticleOrder = (panelTab: PanelTab, article: Article, action: string) => {
@@ -59,6 +76,7 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
             setArticle,
             changeArticleOrder,
             editTabTitle,
+            addTab,
 
         }}>
             {props.children}

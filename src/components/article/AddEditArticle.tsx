@@ -5,9 +5,6 @@ import TextField from '@material-ui/core/TextField';
 import { Input, FormControlLabel, Switch, CardMedia, Grid } from '@material-ui/core';
 import { ContentContext } from '../../context/ContentContext';
 
-
-
-
 const styles = (theme: Theme) => createStyles({
     container: {
         display: 'flex',
@@ -77,12 +74,8 @@ const styles = (theme: Theme) => createStyles({
 
 })
 
-
-
 interface Props extends WithStyles<typeof styles> {
     classes: any,
-
-
 }
 
 const AddEditArticle: React.FC<Props> = ({ classes }) => {

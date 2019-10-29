@@ -1,7 +1,12 @@
 
 export const addEditDeleteArticle = (panelTab: PanelTab, article: Article, action: string) => {
     const { articles } = panelTab
-    var index = articles.findIndex(art => art.index === article.index);
+    let index: number
+    if (articles) index = articles.findIndex(art => art.index === article.index)
+    else {
+        index = -1
+        console.log('index :', index);
+    }
     switch (action) {
         case 'edit': if (index !== -1) {
             articles.slice(0, index)
