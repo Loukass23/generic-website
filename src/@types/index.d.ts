@@ -117,8 +117,8 @@ interface ContentContextInterface {
 }
 
 interface ThemeContextInterface {
-    themeState: any,
-    setTheme: any
+    theme: any,
+    setColors: any
 }
 
 interface TabContextInterface {

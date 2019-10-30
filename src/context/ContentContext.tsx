@@ -54,23 +54,18 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
     const [editMode, toggleEditMode] = React.useState(true);
     const [article, setArticle] = React.useState<Article>(emptyArticle)
     const {
-        themeState,
-        setTheme,
+        theme,
 
     } = useContext(ThemeContext)
 
     const setColorPrimary = (hex: string) => {
-        setTestColorPrimary(hex)
-        let { main } = themeState.palette.primary
-        main = hex
+        console.log('theme :', theme);
 
 
-        console.log('colorPrimary', colorPrimary)
-        setTheme({
-            ...themeState
 
-        })
-        console.log('content :', content);
+        // console.log('colorPrimary', colorPrimary)
+
+        // console.log('content :', content);
     }
 
     const editTabTitle = (panelTab: PanelTab, tabTitle: string) => {

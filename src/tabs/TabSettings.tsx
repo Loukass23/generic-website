@@ -6,6 +6,7 @@ import { ContentContext } from '../context/ContentContext'
 import { iconsRender, iconList } from '../components/Icons'
 import HouseIcon from '@material-ui/icons/House';
 import { SwatchesPicker } from 'react-color'
+import { ThemeContext } from '../context/ThemeContext'
 
 const styles = (theme: Theme) => createStyles({
     container: {
@@ -26,6 +27,11 @@ interface Props {
 }
 
 const TabSettings: React.FC<Props> = ({ classes }) => {
+
+    const {
+        setColors,
+        theme
+    } = useContext(ThemeContext)
 
     const {
         colorPrimary,
@@ -74,7 +80,7 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
 
         </Menu>
     );
-
+    console.log('themeComp', theme)
 
 
     return (
@@ -103,7 +109,7 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
                     >
                         <SwatchesPicker
                             color={colorPrimary}
-                            onChangeComplete={(color) => handleColorChangePrimary(color.hex)}
+                            onChangeComplete={(color) => setColors(color.hex)}
                         />
                     </div>
 
@@ -123,7 +129,7 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
                     >
                         <SwatchesPicker
                             color={colorSecondary}
-                            onChangeComplete={(color) => handleColorChangeSecondary(color.hex)}
+                            onChangeComplete={(color) => setColors(color.hex)}
                         />
                     </div>
                 </Grid>
