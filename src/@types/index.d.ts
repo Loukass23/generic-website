@@ -39,6 +39,7 @@ interface Hero {
     parallax: Boolean
 }
 
+
 interface TabPanelProps {
     children?: React.ReactNode;
     index: any;
@@ -108,7 +109,16 @@ interface ContentContextInterface {
     editMode: boolean,
     toggleEditMode: any,
     addTab: any
+    colorPrimary: string,
+    setColorPrimary: any,
+    colorSecondary: string,
+    setColorSecondary: any,
 
+}
+
+interface ThemeContextInterface {
+    themeState: any,
+    setTheme: any
 }
 
 interface TabContextInterface {

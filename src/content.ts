@@ -15,34 +15,12 @@ export const contentMaster = {
         tabs: [
             {
                 index: 0,
-                tabName: '',
+                tabName: 'Settings',
                 published: false,
                 tabType: 'settings',
                 icon: 'settings',
                 tabTitle: 'Notre métier : L’expertise immobilière',
-                articles: [
-                    {
-                        index: 0,
-                        title: 'Notre offre de service',
-                        text: 'Le Cabinet Appex réalise les diagnostics immobiliers nécessaires dans le cadre de transactions, de locations, de mise en copropriété, mais également avant et après travaux . Nous sommes au service des particuliers, Notaires, agents immobiliers, syndics de copropriété, collectivités et organismes publics pour la réalisation de diagnostics.',
-                        img: '',
-                        sideImg: false
-                    },
-                    {
-                        index: 1,
-                        title: 'Nos Atouts',
-                        text: 'Le Cabinet Appex dispose d’appareils portatifs performants en matière d’informatique ou de diagnostic immobilier, de logiciels. Nous pouvons vous offrir les meilleurs prix tout en proposant des prestations de qualité. Nous nous déplaçons sur l’ensemble des départements du Tarn, de l’Aude, et du Sud de la Haute- Garonne dans un délai maximum de 24 heures et nos rapports vous sont expédiés sous 24 heures. Nous exerçons en toute impartialité et en toute indépendance notre métier et nous restons à la disposition des parties pour interpréter les résultats de  nos diagnostics. Nous envoyons systématiquement une copie des rapports à votre agence immobilier, notaire, avocat ou tous autres donneurs d’ordre.',
-                        img: '',
-                        sideImg: false
-                    },
-                    {
-                        index: 2,
-                        title: 'Nos Compétences',
-                        text: 'L’expert est un spécialiste reconnu dans ses connaissances et sa pratique professionnelle. Il a acquis les connaissances nécessaires par un enseignement supérieur sanctionné par diplôme et a reçu un complément de formation spécifique. L’expert assure, en outre, de manière permanente l’acualisation des connaissances utiles à l’expertise dans les domaines technique, économique, juridique, de façon à maintenir sa compétence et à garantir aux utilisateurs la qualité des travaux pour lesquels il est mandaté.',
-                        img: '',
-                        sideImg: false
-                    },
-                ]
+
             },
             {
                 index: 1,
@@ -50,7 +28,7 @@ export const contentMaster = {
                 published: true,
                 tabTitle: 'Testing',
                 tabType: 'articles',
-                icon: 'help',
+                icon: 'home',
                 articles: [
                     {
                         index: 0,

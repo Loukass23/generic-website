@@ -8,6 +8,7 @@ import Hero from './layout/Hero';
 import AuthContextProvider from './context/AuthContext';
 import { ContentContext } from './context/ContentContext';
 import ContentContextProvider from './context/ContentContext';
+import { ThemeContext } from './context/ThemeContext';
 
 
 const RenderWebsite: React.FC<Props> = () => {
@@ -28,14 +29,20 @@ interface Props {
 }
 
 const App: React.FC = () => {
+  const {
+    themeState,
+
+  } = useContext(ThemeContext)
   return (
     <div className="App">
       <AuthContextProvider>
-        <MuiThemeProvider theme={theme}>
-          <ContentContextProvider>
+        <ContentContextProvider>
+
+          <MuiThemeProvider theme={themeState}>
+
             <RenderWebsite />
-          </ContentContextProvider>
-        </MuiThemeProvider>
+          </MuiThemeProvider>
+        </ContentContextProvider>
       </AuthContextProvider>
     </div>
   );

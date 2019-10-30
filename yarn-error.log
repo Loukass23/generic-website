@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @material-ui/icon
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @types/react-material-color-picker
 
 PATH: 
-  C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Program Files (x86)\Razer\ChromaBroadcast\bin;C:\Program Files\Razer\ChromaBroadcast\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Windows\system32\config\systemprofile\AppData\Local\Microsoft\WindowsApps;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs\;C:\Program Files\Java\jdk1.8.0_211\bin;C:\Gradle\gradle-5.5.1\bin;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Users\ldupi\AppData\Local\Microsoft\WindowsApps;C:\Users\ldupi\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\ldupi\AppData\Local\atom\bin;C:\Users\ldupi\AppData\Roaming\npm;C:\Users\ldupi\AppData\Local\Yarn\bin;C:\Program Files\Docker Toolbox;C:\Users\ldupi\AppData\Local\Microsoft\WindowsApps;
+  C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Program Files (x86)\Razer\ChromaBroadcast\bin;C:\Program Files\Razer\ChromaBroadcast\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Windows\system32\config\systemprofile\AppData\Local\Microsoft\WindowsApps;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files\Java\jdk1.8.0_211\bin;C:\Gradle\gradle-5.5.1\bin;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Users\ldupi\AppData\Local\Microsoft\WindowsApps;C:\Users\ldupi\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\ldupi\AppData\Local\atom\bin;C:\Users\ldupi\AppData\Roaming\npm;C:\Users\ldupi\AppData\Local\Yarn\bin
 
 Yarn version: 
   1.17.3
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@material-ui%2ficon: Not found
+  Error: https://registry.yarnpkg.com/@types%2freact-material-color-picker: Not found
       at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:65939:18)
       at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:140464:22)
       at Request.emit (events.js:203:13)
@@ -42,6 +42,7 @@ npm manifest:
       "markdown-to-jsx": "^6.10.3",
       "react": "^16.10.2",
       "react-dom": "^16.10.2",
+      "react-material-color-picker": "^1.1.2",
       "react-parallax": "^3.0.0-rc2",
       "react-scripts": "3.2.0",
       "react-swipeable-views": "^0.13.3",
@@ -2193,7 +2194,7 @@ Lockfile:
       babel-plugin-macros "2.6.1"
       babel-plugin-transform-react-remove-prop-types "0.4.24"
   
-  babel-runtime@^6.26.0:
+  babel-runtime@^6.26.0, babel-runtime@^6.5.0:
     version "6.26.0"
     resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
     integrity sha1-llxwWGaOgrVde/4E/yM3vItWR/4=
@@ -8464,6 +8465,14 @@ Lockfile:
     version "16.10.1"
     resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.10.1.tgz#0612786bf19df406502d935494f0450b40b8294f"
     integrity sha512-BXUMf9sIOPXXZWqr7+c5SeOKJykyVr2u0UDzEf4LNGc6taGkQe1A9DFD07umCIXz45RLr9oAAwZbAJ0Pkknfaw==
+  
+  react-material-color-picker@^1.1.2:
+    version "1.1.2"
+    resolved "https://registry.yarnpkg.com/react-material-color-picker/-/react-material-color-picker-1.1.2.tgz#178978ae2bf48f0ce5a4404efc0527354ab7a84c"
+    integrity sha512-PCgf/xpXGXQVHppJa/+jIDBj1d/KSgI94NGXWGQWemxdp0DhyUe4fPeGFy94BP2Xg8zaKhDB9pWA/lOmve3XNA==
+    dependencies:
+      babel-runtime "^6.5.0"
+      prop-types "^15.6.0"
   
   react-parallax@^3.0.0-rc2:
     version "3.0.0-rc2"
