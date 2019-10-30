@@ -16,6 +16,7 @@ import AddTab from '../components/tab/AddTab';
 import { ContentContext } from '../context/ContentContext';
 import AddIcon from '@material-ui/icons/Add';
 import DoneIcon from '@material-ui/icons/Done';
+import TabSettings from '../tabs/TabSettings';
 
 
 
@@ -76,17 +77,23 @@ interface Props extends WithStyles<typeof styles> {
 
 const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
     const [value, setValue] = React.useState(0);
-    const [addTabName, setAddTabName] = React.useState(false);
-    const [tabName, setTabName] = React.useState('');
 
-    const { tabs } = panel
+
+
 
     const {
         editMode,
         toggleEditMode,
-        addTab
+        addTab,
+        content
 
     } = useContext(ContentContext)
+    const { tabs } = content.panel
+
+    const {
+        isAuthenticated
+
+    } = useContext(AuthContext)
 
     const handleChange = (event: any, newValue: React.SetStateAction<number>) => {
         setValue(newValue);
@@ -94,20 +101,18 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
     const handleChangeIndex = (index: number) => {
         setValue(index);
     };
-
-
     const renderTab = (tab: PanelTab) => {
         switch (tab.tabType) {
             case 'articles': return (
                 <TabArticle tab={tab} />
             )
             case 'contact': return (<TabContact contact={tab.contact} />)
+            case 'settings': return (<TabSettings />)
         }
     }
 
     return (
         <div className={classes.root}>
-
             <AppBar className={classes.tabs} position="sticky">
                 <AuthToolbar />
                 <Tabs
@@ -118,15 +123,16 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
                     aria-label="tabs"
                 >
                     {tabs.map((tab, i) => {
-                        return (
-                            <Tab key={tab.tabName} icon={iconsRender(tab.icon)} label={tab.tabName} {...a11yProps(i)} />
-                        )
+                        console.log('tabType', tab.tabType)
+                        if (isAuthenticated)
+                            return (
+                                <Tab key={tab.tabName} icon={iconsRender(tab.icon)} label={tab.tabName} {...a11yProps(i)} />
+                            )
+                        else if (tab.published) return (<Tab key={tab.tabName} icon={iconsRender(tab.icon)} label={tab.tabName} {...a11yProps(i)} />)
+
                     })
                     }
-
-
                 </Tabs>
-
                 {editMode &&
                     <AddTab />
                     // <React.Fragment>
@@ -158,7 +164,7 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
                     //                 </Fab>
                     //             </Tooltip>
                     //         </Grid>
-                    //         // <Tab icon={iconsRender('add')} label="Add Tab" onClick={() => setAddTabName(true)} />
+                    //<Tab icon={iconsRender('add')} label="Add Tab" />
                     //     }
                     // </React.Fragment>
                 }
@@ -177,7 +183,7 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
                 ))
                 }
             </SwipeableViews>
-        </div>
+        </div >
     );
 
 }

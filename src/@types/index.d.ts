@@ -21,6 +21,7 @@ interface MaterialIcons {
     shop: JSX.Element,
     help: JSX.Element,
     add: JSX.Element,
+    settings: JSX.Element,
 }
 /**
  * LAYOUT

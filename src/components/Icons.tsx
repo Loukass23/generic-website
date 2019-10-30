@@ -11,10 +11,11 @@ import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
 import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar';
 import HouseIcon from '@material-ui/icons/House';
 import AddIcon from '@material-ui/icons/Add';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 
 
-const iconsJSX: MaterialIcons = {
+export const iconsJSX: MaterialIcons = {
     favorite: <FavoriteIcon />,
     home: <HomeIcon />,
     contact: <PermContactCalendarIcon />,
@@ -27,8 +28,11 @@ const iconsJSX: MaterialIcons = {
     dislike: <ThumbDown />,
     shop: <ShoppingBasket />,
     add: <AddIcon />,
+    settings: <SettingsIcon />
 
 }
 
+
 export const iconsRender = (icon: keyof MaterialIcons) => (iconsJSX[icon])
-export const iconList = Object.keys(iconsJSX)
+
+export const iconList = (Object.keys(iconsJSX) as (keyof MaterialIcons)[])

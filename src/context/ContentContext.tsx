@@ -45,7 +45,7 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
         panelTab.tabTitle = tabTitle
     }
     const addTab = (tabName: string) => {
-
+        console.log('tabname :', tabName);
         const { tabs } = content.panel
         const newTab = {
             index: tabs.length,
@@ -57,6 +57,9 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
             contact: ''
         }
         tabs.push(newTab)
+        setContent({
+            ...content,
+        })
     }
 
     const changeArticleOrder = (panelTab: PanelTab, article: Article, action: string) => {

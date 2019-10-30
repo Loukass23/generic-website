@@ -1,6 +1,8 @@
 import React, { useContext } from 'react'
-import { Toolbar, IconButton, Typography, Menu, MenuItem, Badge, AppBar, InputBase } from '@material-ui/core'
-
+import { Toolbar, IconButton, Typography, Menu, MenuItem, Badge, AppBar, InputBase, Grid, TextField, Tooltip, Fab, Tab } from '@material-ui/core'
+import AddIcon from '@material-ui/icons/Add';
+import DoneIcon from '@material-ui/icons/Done';
+import HouseIcon from '@material-ui/icons/House';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import SearchIcon from '@material-ui/icons/Search';
 import MoreIcon from '@material-ui/icons/MoreVert';
@@ -10,6 +12,7 @@ import { WithStyles, withStyles } from '@material-ui/styles';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { iconList, iconsRender } from '../Icons';
+import { ContentContext } from '../../context/ContentContext';
 
 interface Props extends WithStyles<typeof styles> {
     classes: any
@@ -88,24 +91,27 @@ const styles = (theme: Theme) => createStyles({
 
 const AddTab: React.FC<Props> = ({ classes }) => {
     // const { isAuthenticated, user } = useContext(AuthContext)
+    const [addTabName, setAddTabName] = React.useState(false);
+    const [tabName, setTabName] = React.useState('');
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
+    const {
+        addTab
+    } = useContext(ContentContext)
     const isMenuOpen = Boolean(anchorEl);
-
-    const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-
 
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
+    const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
 
-    console.log('iconList :', iconList);
+    };
+    const handleAddTab = () => {
+        setAddTabName(true)
+    }
 
     const menuId = 'primary-search-account-menu';
-    const renderMenu = (
+    const renderIconMenu = (
         <Menu
             anchorEl={anchorEl}
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -115,33 +121,60 @@ const AddTab: React.FC<Props> = ({ classes }) => {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            {iconList.map(icon => {
-                // console.log('icon :', icon);
-                <MenuItem onClick={handleMenuClose}>{icon}</MenuItem>
-
-            })
+            {iconList.map(icon =>
+                <MenuItem key={icon} onClick={handleMenuClose}>{iconsRender(icon)}</MenuItem>
+            )
             }
-            {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
+
         </Menu>
     );
 
-
     return (
-
         <div className={classes.root}>
-            <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
-                color="inherit"
-            >
-                <AccountCircle />
-            </IconButton>
+            {
+                addTabName ?
+                    <Grid container>
+                        <Grid item xs={4}>
+                            <IconButton
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls={menuId}
+                                aria-haspopup="true"
+                                onClick={handleProfileMenuOpen}
+                                color="inherit"
+                            >
+                                <HouseIcon />
+                            </IconButton>
+                            {renderIconMenu}
+                        </Grid>
+                        <Grid item xs={4}>
+                            < TextField
+                                // label="Tab Title"
+                                onChange={(e) => setTabName(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            < Tooltip
+                                onClick={() => {
+                                    addTab(tabName)
+                                    setAddTabName(false)
+                                }}
+                                title="edit" aria-label="edit" >
+                                <Fab size="small" color="secondary" >
+                                    <DoneIcon />
+                                </Fab>
+                            </Tooltip >
+                        </Grid>
+                    </Grid >
+                    :
+                    <IconButton
 
-            {renderMenu}
+                        onClick={handleAddTab}
+                        color="inherit"
+                    >
+                        <AddIcon />
+                    </IconButton>
+            }
         </div >
     )
 }
