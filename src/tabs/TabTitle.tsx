@@ -64,7 +64,7 @@ const TabTitle: React.FC<Props> = ({ classes, tab, editMode }) => {
     }, [tab.tabTitle])
 
     const handleEditTitle = (tab: PanelTab) => {
-        editTabTitle(tab, title)
+        editTabTitle(tab, title, 'title')
         setIsEditTabTitle(false)
     }
 

@@ -1,12 +1,19 @@
 import React, { useContext } from 'react'
 import AddTab from '../components/tab/AddTab'
 import { withStyles, createStyles } from '@material-ui/styles'
-import { Theme, Grid, IconButton, TextField, Tooltip, Fab, Menu, MenuItem, Select, Tab, Typography } from '@material-ui/core'
+import { Theme, Grid, IconButton, TextField, Tooltip, Fab, Menu, MenuItem, Select, Tab, Typography, Divider } from '@material-ui/core'
 import { ContentContext } from '../context/ContentContext'
 import { iconsRender, iconList } from '../components/Icons'
-import HouseIcon from '@material-ui/icons/House';
 import { SwatchesPicker } from 'react-color'
 import { ThemeContext } from '../context/ThemeContext'
+import DoneIcon from '@material-ui/icons/Done';
+import CancelIcon from '@material-ui/icons/Cancel';
+import DeleteIcon from '@material-ui/icons/Delete';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import EditIcon from '@material-ui/icons/Edit';
+import red from '@material-ui/core/colors/red';
+
 
 const styles = (theme: Theme) => createStyles({
     container: {
@@ -14,10 +21,64 @@ const styles = (theme: Theme) => createStyles({
         flexWrap: 'wrap',
         justifyContent: 'center'
     },
+    article: {
+        position: 'relative',
+        paddingBottom: theme.spacing(2),
+        [theme.breakpoints.down('xs')]: {
+            paddingBottom: 0
+        },
+    },
     item: {
         justifyItems: 'center',
         justifyContent: 'center'
 
+    },
+    absoluteR: {
+        position: 'absolute',
+        top: theme.spacing(2),
+        right: theme.spacing(2),
+    },
+    absoluteRTitle: {
+        color: 'white',
+        position: 'absolute',
+        top: theme.spacing(0),
+        right: theme.spacing(0),
+
+    },
+    absoluteL: {
+        position: 'absolute',
+        top: theme.spacing(2),
+        left: theme.spacing(2),
+        '&:hover': {
+            color: theme.palette.secondary.main
+        }
+    },
+    addIcon: {
+        fontSize: 80,
+        '&:hover': {
+            color: theme.palette.secondary.main
+        }
+    },
+    tabTitle: {
+        padding: 0,
+        margin: theme.spacing(3),
+        [theme.breakpoints.down('xs')]: {
+            padding: 0,
+            marginLeft: 0,
+            marginRight: 0,
+            marginTop: theme.spacing(5),
+            marginBottom: theme.spacing(2),
+        },
+        width: '100%',
+        textAlign: 'center'
+    },
+    button: {
+        margin: theme.spacing(1),
+        color: "white"
+    },
+    buttonDel: {
+        color: "white",
+        backgroundColor: red[500],
     }
 
 })
@@ -33,23 +94,21 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
         theme
     } = useContext(ThemeContext)
 
-    const {
-        colorPrimary,
-        setColorPrimary,
-        colorSecondary,
-        setColorSecondary,
-        content
-
-    } = useContext(ContentContext)
+    const { content, editTabTitle } = useContext(ContentContext)
     const { tabs } = content.panel
     const [addTabName, setAddTabName] = React.useState(false);
     const [tabName, setTabName] = React.useState('');
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
+    const [values, setValues] = React.useState()
     const isMenuOpen = Boolean(anchorEl);
 
-    const handleColorChangePrimary = (hex: string) => setColorPrimary(hex)
-    const handleColorChangeSecondary = (hex: string) => setColorSecondary(hex)
+    const handleTabChange = (key: string, value: string) => {
+        setValues({
+            ...values,
+            [key]: value
+        })
+
+    };
 
     const handleMenuClose = () => {
         setAnchorEl(null);
@@ -60,6 +119,66 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
     };
     const menuId = 'primary-search-account-menu';
 
+    const renderEditMenu = (tab: PanelTab) => (<React.Fragment>
+        <div className={classes.absoluteL} >
+            <Tooltip
+                // onClick={() => handleMoveUp(tab, article)}
+                title="moveUp" aria-label="moveDown">
+                <Fab size="small" color="primary"
+                // className={classes.absoluteL} 
+                >
+                    <KeyboardArrowUpIcon />
+                </Fab>
+            </Tooltip>
+            <Tooltip
+                // onClick={() => handleMoveDown(tab, article)}
+                title="moveDown" aria-label="move down">
+                <Fab size="small" color="primary"
+                // className={classes.absoluteL}
+                >
+                    <KeyboardArrowDownIcon />
+                </Fab>
+            </Tooltip>
+        </div>
+        <div className={classes.absoluteR} >
+            <Tooltip
+                // onClick={() => onEditClick(article)}
+                title="edit" aria-label="edit">
+                <Fab size="small" color="primary" >
+                    <EditIcon />
+                </Fab>
+            </Tooltip>
+            <Tooltip
+                // onClick={() => onClickDelete(tab, article)}
+                title="delete" aria-label="delete">
+                <Fab size="small" color="primary"
+                    className={classes.buttonDel}
+                >
+                    <DeleteIcon />
+                </Fab>
+            </Tooltip>
+        </div>
+    </React.Fragment>)
+    const renderMenu = (tab: PanelTab) => {
+        let menuId = 'moveMenu' + tab.index;
+        return (
+            <Menu
+                anchorEl={anchorEl}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                id={menuId}
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                open={isMenuOpen}
+                onClose={handleMenuClose}
+            >
+                <MenuItem
+                // onClick={() => handleMoveUp(tab, art)}
+                >Move up</MenuItem>
+                <MenuItem
+                // onClick={() => handleMoveDown(tab, art)}
+                >Move down</MenuItem>
+            </Menu>
+        );
+    }
     const renderIconMenu = (tab: PanelTab) => (
         <Menu
             anchorEl={anchorEl}
@@ -77,11 +196,28 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
                 >{iconsRender(icon)}</MenuItem>
             )
             }
-
         </Menu>
     );
-    console.log('themeComp', theme)
 
+    const validTabName = (tab: PanelTab) => {
+        console.log('values :', values);
+        // if (Object.keys(values)) {
+        //     if (Object.keys(values).includes(tab.tabName)) {
+        return (<Tooltip
+            onClick={() => handleEditTab(tab)}
+            title="edit" aria-label="done">
+            <Fab size="small" color="primary" >
+                <DoneIcon />
+            </Fab>
+        </Tooltip>)
+        //     }
+        // }
+    }
+    const handleEditTab = (tab: PanelTab) => {
+        let value = values[tab.tabName]
+        editTabTitle(tab, value, 'name')
+
+    }
 
     return (
         <div>
@@ -108,8 +244,8 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
                         }}
                     >
                         <SwatchesPicker
-                            color={colorPrimary}
-                            onChangeComplete={(color) => setColors(color.hex)}
+                            color={content.color.primary}
+                            onChangeComplete={(color) => setColors(color.hex, 'primary')}
                         />
                     </div>
 
@@ -128,8 +264,8 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
                         }}
                     >
                         <SwatchesPicker
-                            color={colorSecondary}
-                            onChangeComplete={(color) => setColors(color.hex)}
+                            color={content.color.secondary}
+                            onChangeComplete={(color) => setColors(color.hex, 'secondary')}
                         />
                     </div>
                 </Grid>
@@ -141,15 +277,17 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
             {
                 tabs.map(tab => {
                     return (
-                        <Grid container>
+                        <Grid container spacing={4} className={classes.article}>
+
                             <Grid item xs={2}>
+                                {renderEditMenu(tab)}
                                 <IconButton
                                     edge="end"
                                     aria-label="account of current user"
                                     aria-controls={menuId}
                                     aria-haspopup="true"
                                     onClick={handleProfileMenuOpen}
-                                    color="inherit"
+                                    color="secondary"
                                 >
                                     {iconsRender(tab.icon)}
                                 </IconButton>
@@ -159,19 +297,23 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
 
                                 < TextField
                                     fullWidth
-
                                     label="name (optional)"
                                     defaultValue={tab.tabName}
-                                // onChange={(e) => setTabName(e.target.value)}
+                                    onChange={(e) => handleTabChange(tab.tabName, e.target.value)}
                                 />
                             </Grid>
-                            <Grid item xs={2}>
 
-                            </Grid>
+                            {/* {validTabName(tab)} */}
+
+
+                            <Divider variant="middle" />
                         </Grid >)
                 })
             }
+
             <AddTab />
+
+
         </div >
     )
 }

@@ -133,8 +133,8 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
                     })
                     }
                 </Tabs>
-                {editMode &&
-                    <AddTab />
+                {/* {editMode && 
+                    // <AddTab />
                     // <React.Fragment>
                     //     {addTabName ?
                     //         <Grid>
@@ -167,7 +167,7 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
                     //<Tab icon={iconsRender('add')} label="Add Tab" />
                     //     }
                     // </React.Fragment>
-                }
+                }*/}
             </AppBar>
             <SwipeableViews
                 axis='x'

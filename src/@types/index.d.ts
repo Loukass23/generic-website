@@ -109,10 +109,7 @@ interface ContentContextInterface {
     editMode: boolean,
     toggleEditMode: any,
     addTab: any
-    colorPrimary: string,
-    setColorPrimary: any,
-    colorSecondary: string,
-    setColorSecondary: any,
+
 
 }
 

@@ -130,11 +130,11 @@ const AddTab: React.FC<Props> = ({ classes }) => {
     );
 
     return (
-        <div className={classes.root}>
+        <Grid container spacing={10} >
             {
                 addTabName ?
-                    <Grid container>
-                        <Grid item xs={4}>
+                    <React.Fragment>
+                        <Grid item xs={2}>
                             <IconButton
                                 edge="end"
                                 aria-label="account of current user"
@@ -147,13 +147,14 @@ const AddTab: React.FC<Props> = ({ classes }) => {
                             </IconButton>
                             {renderIconMenu}
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={8}>
                             < TextField
+                                fullWidth
                                 // label="Tab Title"
                                 onChange={(e) => setTabName(e.target.value)}
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={2}>
                             < Tooltip
                                 onClick={() => {
                                     addTab(tabName)
@@ -165,17 +166,20 @@ const AddTab: React.FC<Props> = ({ classes }) => {
                                 </Fab>
                             </Tooltip >
                         </Grid>
-                    </Grid >
+                    </React.Fragment>
                     :
-                    <IconButton
+                    <Grid item xs={12}>
+                        <IconButton
 
-                        onClick={handleAddTab}
-                        color="inherit"
-                    >
-                        <AddIcon />
-                    </IconButton>
+                            onClick={handleAddTab}
+                            color="inherit"
+                        >
+                            <AddIcon />
+                        </IconButton>
+                    </Grid>
+
             }
-        </div >
+        </Grid >
     )
 }
 

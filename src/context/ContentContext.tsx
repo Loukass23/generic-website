@@ -16,18 +16,9 @@ export const ContentContext = createContext<ContentContextInterface>({
     content: initContent,
     article: emptyArticle,
     editMode: true,
-    colorPrimary: '',
-
-    colorSecondary: '',
 
     addEditDeleteArticle: () => {
         throw new Error('addEditDeleteArticle() not implemented');
-    },
-    setColorSecondary: () => {
-        throw new Error('setColorSecondary() not implemented');
-    },
-    setColorPrimary: () => {
-        throw new Error('setColorPrimary() not implemented');
     },
     setArticle: () => {
         throw new Error('setArticle() not implemented');
@@ -49,27 +40,16 @@ export const ContentContext = createContext<ContentContextInterface>({
 const ContentContextProvider = (props: { children: React.ReactNode; }) => {
     const [content, setContent] = useState(initContent)
 
-    const [colorPrimary, setTestColorPrimary] = useState(initContent.color.primary)
-    const [colorSecondary, setColorSecondary] = useState(initContent.color.secondary)
+
     const [editMode, toggleEditMode] = React.useState(true);
     const [article, setArticle] = React.useState<Article>(emptyArticle)
-    const {
-        theme,
 
-    } = useContext(ThemeContext)
-
-    const setColorPrimary = (hex: string) => {
-        console.log('theme :', theme);
-
-
-
-        // console.log('colorPrimary', colorPrimary)
-
-        // console.log('content :', content);
-    }
-
-    const editTabTitle = (panelTab: PanelTab, tabTitle: string) => {
-        panelTab.tabTitle = tabTitle
+    const editTabTitle = (panelTab: PanelTab, value: string, type: string) => {
+        if (type === 'title') panelTab.tabTitle = value
+        if (type === 'name') panelTab.tabName = value
+        setContent({
+            ...content,
+        })
     }
     const addTab = (tabName: string) => {
         console.log('tabname :', tabName);
@@ -107,10 +87,7 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
             changeArticleOrder,
             editTabTitle,
             addTab,
-            colorPrimary,
-            setColorPrimary,
-            colorSecondary,
-            setColorSecondary,
+
 
         }}>
             {props.children}

@@ -19,7 +19,7 @@ let initTheme = createMuiTheme({
             [breakpoints.down("md")]: {
                 fontSize: "3rem"
             }
-        }
+        },
     },
     palette: {
         primary: {
@@ -34,6 +34,10 @@ let initTheme = createMuiTheme({
             main: color.secondary,
             // dark: will be calculated from palette.secondary.main,
         },
+        text: {
+            primary: '#0066ff',
+            secondary: '#0066ff'
+        }
     },
 
     // overrides: {
@@ -93,10 +97,11 @@ export const ThemeContext = createContext<ThemeContextInterface>({
 const ThemeContextProvider = (props: { children: React.ReactNode; }) => {
     const [theme, setTheme] = useState(initTheme)
 
-    const setColors = (hex: string) => {
+    const setColors = (hex: string, type: string) => {
         console.log('theme', theme)
         console.log('hex', hex)
-        theme.palette.primary.main = hex
+        if (type == 'primary') theme.palette.primary.main = hex
+        if (type == 'secondary') theme.palette.secondary.main = hex
 
         setTheme({
             ...theme
