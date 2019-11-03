@@ -171,7 +171,6 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
     };
     const handleMoveDown = (tb: PanelTab, art: Article) => {
         console.log('article', art.index)
-
         setAnchorEl(null);
         changeArticleOrder(tb, art, 'moveDown')
     };
@@ -323,7 +322,7 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
                                         </Typography>
                                     </Grid>
                                 </Grid>}
-                            {renderMenu(tab, article)}
+                            {/* {renderMenu(tab, article)} */}
                         </React.Fragment>
                     ))
             }

@@ -1,6 +1,7 @@
 import React, { useState, createContext, useContext } from 'react'
 import { contentMaster } from '../content'
 import { addEditDeleteArticle, articlesReOrder } from './ArticlesFunctions'
+import { tabsReOrder } from './TabFunctions'
 import { ThemeContext } from './ThemeContext'
 
 const initContent: Content = contentMaster
@@ -34,6 +35,10 @@ export const ContentContext = createContext<ContentContextInterface>({
     },
     addTab: () => {
         throw new Error('addTab() not implemented');
+    }
+    ,
+    changeTabOrder: () => {
+        throw new Error('changeTabOrder() not implemented');
     }
 });
 
@@ -75,6 +80,12 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
             ...content,
         })
     }
+    const changeTabOrder = (panelTab: PanelTab, tabs: PanelTabs, action: string) => {
+        tabsReOrder(panelTab, tabs, action)
+        setContent({
+            ...content,
+        })
+    }
 
     return (
         <ContentContext.Provider value={{
@@ -87,6 +98,7 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
             changeArticleOrder,
             editTabTitle,
             addTab,
+            changeTabOrder
 
 
         }}>

@@ -94,7 +94,7 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
         theme
     } = useContext(ThemeContext)
 
-    const { content, editTabTitle } = useContext(ContentContext)
+    const { content, editTabTitle, changeTabOrder } = useContext(ContentContext)
     const { tabs } = content.panel
     const [addTabName, setAddTabName] = React.useState(false);
     const [tabName, setTabName] = React.useState('');
@@ -122,16 +122,16 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
     const renderEditMenu = (tab: PanelTab) => (<React.Fragment>
         <div className={classes.absoluteL} >
             <Tooltip
-                // onClick={() => handleMoveUp(tab, article)}
+                onClick={() => changeTabOrder(tab, tabs, 'moveUp')}
                 title="moveUp" aria-label="moveDown">
                 <Fab size="small" color="primary"
-                // className={classes.absoluteL} 
+                // className={classes.absoluteL}
                 >
                     <KeyboardArrowUpIcon />
                 </Fab>
             </Tooltip>
             <Tooltip
-                // onClick={() => handleMoveDown(tab, article)}
+                onClick={() => changeTabOrder(tab, tabs, 'moveDown')}
                 title="moveDown" aria-label="move down">
                 <Fab size="small" color="primary"
                 // className={classes.absoluteL}
@@ -142,10 +142,10 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
         </div>
         <div className={classes.absoluteR} >
             <Tooltip
-                // onClick={() => onEditClick(article)}
+                onClick={() => handleEditTab(tab)}
                 title="edit" aria-label="edit">
                 <Fab size="small" color="primary" >
-                    <EditIcon />
+                    <DoneIcon />
                 </Fab>
             </Tooltip>
             <Tooltip
@@ -159,26 +159,26 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
             </Tooltip>
         </div>
     </React.Fragment>)
-    const renderMenu = (tab: PanelTab) => {
-        let menuId = 'moveMenu' + tab.index;
-        return (
-            <Menu
-                anchorEl={anchorEl}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                id={menuId}
-                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                open={isMenuOpen}
-                onClose={handleMenuClose}
-            >
-                <MenuItem
-                // onClick={() => handleMoveUp(tab, art)}
-                >Move up</MenuItem>
-                <MenuItem
-                // onClick={() => handleMoveDown(tab, art)}
-                >Move down</MenuItem>
-            </Menu>
-        );
-    }
+    // const renderMenu = (tab: PanelTab) => {
+    //     let menuId = 'moveMenu' + tab.index;
+    //     return (
+    //         <Menu
+    //             anchorEl={anchorEl}
+    //             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+    //             id={menuId}
+    //             transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+    //             open={isMenuOpen}
+    //             onClose={handleMenuClose}
+    //         >
+    //             <MenuItem
+    //             // onClick={() => handleMoveUp(tab, art)}
+    //             >Move up</MenuItem>
+    //             <MenuItem
+    //             // onClick={() => handleMoveDown(tab, art)}
+    //             >Move down</MenuItem>
+    //         </Menu>
+    //     );
+    // }
     const renderIconMenu = (tab: PanelTab) => (
         <Menu
             anchorEl={anchorEl}
@@ -279,7 +279,7 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
                     return (
                         <Grid container spacing={4} className={classes.article}>
 
-                            <Grid item xs={2}>
+                            <Grid item xs={5}>
                                 {renderEditMenu(tab)}
                                 <IconButton
                                     edge="end"
@@ -293,14 +293,17 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
                                 </IconButton>
                                 {renderIconMenu(tab)}
                             </Grid>
-                            <Grid item xs={8}>
+                            <Grid item xs={5}>
 
-                                < TextField
+                                <Typography className={classes.text} variant="body1" color="textSecondary">
+                                    {tab.tabName}
+                                </Typography>
+                                {/* < TextField
                                     fullWidth
                                     label="name (optional)"
                                     defaultValue={tab.tabName}
                                     onChange={(e) => handleTabChange(tab.tabName, e.target.value)}
-                                />
+                                /> */}
                             </Grid>
 
                             {/* {validTabName(tab)} */}
