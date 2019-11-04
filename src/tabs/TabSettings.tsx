@@ -13,6 +13,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import EditIcon from '@material-ui/icons/Edit';
 import red from '@material-ui/core/colors/red';
+import TabName from './TabName'
 
 
 const styles = (theme: Theme) => createStyles({
@@ -110,55 +111,57 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
 
     };
 
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
-    const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
+    // const handleMenuClose = () => {
+    //     setAnchorEl(null);
+    // };
+    // const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    //     setAnchorEl(event.currentTarget);
 
-    };
-    const menuId = 'primary-search-account-menu';
+    // };
+    // const menuId = 'primary-search-account-menu';
 
-    const renderEditMenu = (tab: PanelTab) => (<React.Fragment>
-        <div className={classes.absoluteL} >
-            <Tooltip
-                onClick={() => changeTabOrder(tab, tabs, 'moveUp')}
-                title="moveUp" aria-label="moveDown">
-                <Fab size="small" color="primary"
-                // className={classes.absoluteL}
-                >
-                    <KeyboardArrowUpIcon />
-                </Fab>
-            </Tooltip>
-            <Tooltip
-                onClick={() => changeTabOrder(tab, tabs, 'moveDown')}
-                title="moveDown" aria-label="move down">
-                <Fab size="small" color="primary"
-                // className={classes.absoluteL}
-                >
-                    <KeyboardArrowDownIcon />
-                </Fab>
-            </Tooltip>
-        </div>
-        <div className={classes.absoluteR} >
-            <Tooltip
-                onClick={() => handleEditTab(tab)}
-                title="edit" aria-label="edit">
-                <Fab size="small" color="primary" >
-                    <DoneIcon />
-                </Fab>
-            </Tooltip>
-            <Tooltip
-                // onClick={() => onClickDelete(tab, article)}
-                title="delete" aria-label="delete">
-                <Fab size="small" color="primary"
-                    className={classes.buttonDel}
-                >
-                    <DeleteIcon />
-                </Fab>
-            </Tooltip>
-        </div>
-    </React.Fragment>)
+    // const renderEditMenu = (tab: PanelTab) => (
+    //     // <React.Fragment>
+    //     <div className={classes.absoluteL} >
+    //         <Tooltip
+    //             onClick={() => changeTabOrder(tab, tabs, 'moveUp')}
+    //             title="moveUp" aria-label="moveDown">
+    //             <Fab size="small" color="primary"
+    //             // className={classes.absoluteL}
+    //             >
+    //                 <KeyboardArrowUpIcon />
+    //             </Fab>
+    //         </Tooltip>
+    //         <Tooltip
+    //             onClick={() => changeTabOrder(tab, tabs, 'moveDown')}
+    //             title="moveDown" aria-label="move down">
+    //             <Fab size="small" color="primary"
+    //             // className={classes.absoluteL}
+    //             >
+    //                 <KeyboardArrowDownIcon />
+    //             </Fab>
+    //         </Tooltip>
+    //     </div>)
+    /* <div className={classes.absoluteR} >
+        <Tooltip
+            onClick={() => handleEditTab(tab)}
+            title="edit" aria-label="edit">
+            <Fab size="small" color="primary" >
+                <DoneIcon />
+            </Fab>
+        </Tooltip>
+        <Tooltip
+            // onClick={() => onClickDelete(tab, article)}
+            title="delete" aria-label="delete">
+            <Fab size="small" color="primary"
+                className={classes.buttonDel}
+            >
+                <DeleteIcon />
+            </Fab>
+        </Tooltip>
+    </div> */
+    // </React.Fragment>
+    // )
     // const renderMenu = (tab: PanelTab) => {
     //     let menuId = 'moveMenu' + tab.index;
     //     return (
@@ -179,40 +182,52 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
     //         </Menu>
     //     );
     // }
-    const renderIconMenu = (tab: PanelTab) => (
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            id={menuId}
-            keepMounted
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        // defaultValue={tab.icon}
-        >
-            {iconList.map(icon =>
-                <MenuItem key={icon}
-                // onClick={handleMenuClose}
-                >{iconsRender(icon)}</MenuItem>
-            )
-            }
-        </Menu>
-    );
+    // const renderIconMenu = (tab: PanelTab) => (
+    //     <React.Fragment>
+    //         <IconButton
+    //             edge="end"
+    //             aria-label="account of current user"
+    //             aria-controls={menuId}
+    //             aria-haspopup="true"
+    //             onClick={handleProfileMenuOpen}
+    //             color="secondary"
+    //         >
+    //             {iconsRender(tab.icon)}
+    //         </IconButton>
+    //         <Menu
+    //             anchorEl={anchorEl}
+    //             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+    //             id={menuId}
+    //             keepMounted
+    //             transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+    //             open={isMenuOpen}
+    //             onClose={handleMenuClose}
+    //         // defaultValue={tab.icon}
+    //         >
+    //             {iconList.map(icon =>
+    //                 <MenuItem key={icon}
+    //                 // onClick={handleMenuClose}
+    //                 >{iconsRender(icon)}</MenuItem>
+    //             )
+    //             }
+    //         </Menu>
+    //     </React.Fragment>
+    // );
 
-    const validTabName = (tab: PanelTab) => {
-        console.log('values :', values);
-        // if (Object.keys(values)) {
-        //     if (Object.keys(values).includes(tab.tabName)) {
-        return (<Tooltip
-            onClick={() => handleEditTab(tab)}
-            title="edit" aria-label="done">
-            <Fab size="small" color="primary" >
-                <DoneIcon />
-            </Fab>
-        </Tooltip>)
-        //     }
-        // }
-    }
+    // const validTabName = (tab: PanelTab) => {
+    //     console.log('values :', values);
+    //     // if (Object.keys(values)) {
+    //     //     if (Object.keys(values).includes(tab.tabName)) {
+    //     return (<Tooltip
+    //         onClick={() => handleEditTab(tab)}
+    //         title="edit" aria-label="done">
+    //         <Fab size="small" color="primary" >
+    //             <DoneIcon />
+    //         </Fab>
+    //     </Tooltip>)
+    //     }
+    // }
+    // }
     const handleEditTab = (tab: PanelTab) => {
         let value = values[tab.tabName]
         editTabTitle(tab, value, 'name')
@@ -277,40 +292,44 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
             {
                 tabs.map(tab => {
                     return (
-                        <Grid container spacing={4} className={classes.article}>
-
-                            <Grid item xs={5}>
-                                {renderEditMenu(tab)}
-                                <IconButton
-                                    edge="end"
-                                    aria-label="account of current user"
-                                    aria-controls={menuId}
-                                    aria-haspopup="true"
-                                    onClick={handleProfileMenuOpen}
-                                    color="secondary"
-                                >
-                                    {iconsRender(tab.icon)}
-                                </IconButton>
-                                {renderIconMenu(tab)}
-                            </Grid>
-                            <Grid item xs={5}>
-
-                                <Typography className={classes.text} variant="body1" color="textSecondary">
-                                    {tab.tabName}
-                                </Typography>
-                                {/* < TextField
-                                    fullWidth
-                                    label="name (optional)"
-                                    defaultValue={tab.tabName}
-                                    onChange={(e) => handleTabChange(tab.tabName, e.target.value)}
-                                /> */}
-                            </Grid>
-
-                            {/* {validTabName(tab)} */}
+                        <TabName tab={tab} editMode={true} />
+                    )
 
 
-                            <Divider variant="middle" />
-                        </Grid >)
+                    // {/* {renderEditMenu(tab)} */}
+
+                    //     {/* <Grid item xs={4}> */}
+                    //     {/* {renderEditMenu(tab)} */}
+                    //     {/* <IconButton
+                    //             edge="end"
+                    //             aria-label="account of current user"
+                    //             aria-controls={menuId}
+                    //             aria-haspopup="true"
+                    //             onClick={handleProfileMenuOpen}
+                    //             color="secondary"
+                    //         >
+                    //             {iconsRender(tab.icon)}
+                    //         </IconButton> */}
+                    //     {/* {renderIconMenu(tab)} */}
+                    //     {/* </Grid>
+                    //     <Grid item xs={4}> */}
+                    //     {/* <TabName tab={tab} editMode={true} /> */}
+                    //     {/* <Typography className={classes.text} variant="body1" color="textSecondary">
+                    //             {tab.tabName}
+                    //         </Typography> */}
+                    //     {/* < TextField
+                    //             fullWidth
+                    //             label="name (optional)"
+                    //             defaultValue={tab.tabName}
+                    //             onChange={(e) => handleTabChange(tab.tabName, e.target.value)}
+                    //         /> */}
+                    //     {/* </Grid> */}
+
+                    //     {/* {validTabName(tab)} */}
+
+
+                    //     {/* <Divider variant="middle" />
+                    // </Grid >) */}
                 })
             }
 
