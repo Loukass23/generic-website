@@ -59,7 +59,8 @@ interface PanelTab {
     articles: Articles,
     tabType: string,
     icon: keyof MaterialIcons,
-    contact: Contact
+    contact: Contact,
+    published: boolean
 }
 
 type Articles = Array<Article>
@@ -110,7 +111,9 @@ interface ContentContextInterface {
     toggleEditMode: any,
     addTab: any,
     changeTabOrder: any,
-    deleteTab: any
+    deleteTab: any,
+    setTabIcon: any,
+    tooglePublished: any,
 
 
 }

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import AddTab from '../components/tab/AddTab'
 import { withStyles, createStyles } from '@material-ui/styles'
-import { Theme, Grid, IconButton, TextField, Tooltip, Fab, Menu, MenuItem, Select, Tab, Typography, Divider } from '@material-ui/core'
+import { Theme, Grid, IconButton, TextField, Tooltip, Fab, Menu, MenuItem, Select, Tab, Typography, Divider, FormControlLabel, Switch } from '@material-ui/core'
 import { ContentContext } from '../context/ContentContext'
 import { iconsRender, iconList } from '../components/Icons'
 import { SwatchesPicker } from 'react-color'
@@ -95,7 +95,8 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
         theme
     } = useContext(ThemeContext)
 
-    const { content, editTabTitle, changeTabOrder } = useContext(ContentContext)
+    const { content, editTabTitle, editMode,
+        toggleEditMode, } = useContext(ContentContext)
     const { tabs } = content.panel
     const [addTabName, setAddTabName] = React.useState(false);
     const [tabName, setTabName] = React.useState('');
@@ -293,7 +294,10 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
                 tabs.map(tab => {
                     if (tab.tabType !== 'settings') {
                         return (
+
+
                             <TabName key={tab.index} tab={tab} editMode={true} />
+
                         )
                     }
 

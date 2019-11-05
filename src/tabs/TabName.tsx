@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { Grid, Tooltip, Fab, Typography, TextField, Theme, IconButton, Menu, MenuItem } from '@material-ui/core'
+import { Grid, Tooltip, Fab, Typography, TextField, Theme, IconButton, Menu, MenuItem, FormControlLabel, Switch } from '@material-ui/core'
 import { withStyles, WithStyles, createStyles } from '@material-ui/styles'
 import DoneIcon from '@material-ui/icons/Done';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -22,9 +22,11 @@ const styles = (theme: Theme) => createStyles({
     },
     tab: {
         position: 'relative',
+        alignContent: 'center',
+        justifyContent: 'center',
         paddingBottom: theme.spacing(2),
         [theme.breakpoints.down('xs')]: {
-            paddingBottom: 0
+            paddingBottom: theme.spacing(4)
         },
     },
     absoluteR: {
@@ -48,16 +50,17 @@ const styles = (theme: Theme) => createStyles({
     },
     tabTitle: {
         padding: 0,
-        margin: theme.spacing(3),
-        [theme.breakpoints.down('xs')]: {
-            padding: 0,
-            marginLeft: 0,
-            marginRight: 0,
-            marginTop: theme.spacing(5),
-            marginBottom: theme.spacing(2),
-        },
-        width: '100%',
-        textAlign: 'center'
+        justifySelf: 'flex-start',
+        // margin: theme.spacing(3),
+        // [theme.breakpoints.down('xs')]: {
+        //     padding: 0,
+        //     marginLeft: 0,
+        //     marginRight: 0,
+        //     marginTop: theme.spacing(5),
+        //     marginBottom: theme.spacing(2),
+        // },
+        // width: '100%',
+        // textAlign: 'center'
     },
     buttonDel: {
         color: "white",
@@ -77,7 +80,9 @@ const TabName: React.FC<Props> = ({ classes, tab, editMode }) => {
         editTabTitle,
         changeTabOrder,
         content,
-        deleteTab
+        deleteTab,
+        setTabIcon,
+        tooglePublished
     } = useContext(ContentContext)
 
     const { tabs } = content.panel
@@ -167,9 +172,11 @@ const TabName: React.FC<Props> = ({ classes, tab, editMode }) => {
                 aria-controls={menuId}
                 aria-haspopup="true"
                 onClick={handleProfileMenuOpen}
-                color="secondary"
+                color="primary"
+                size="medium"
             >
-                {iconsRender(tab.icon)}
+                {tab.icon ? iconsRender(tab.icon) :
+                    iconsRender("add")}
             </IconButton>
             <Menu
                 anchorEl={anchorEl}
@@ -183,7 +190,10 @@ const TabName: React.FC<Props> = ({ classes, tab, editMode }) => {
             >
                 {iconList.map(icon =>
                     <MenuItem key={icon}
-                    // onClick={handleMenuClose}
+                        onClick={() => {
+                            setTabIcon(tab, icon)
+                            handleMenuClose()
+                        }}
                     >{iconsRender(icon)}</MenuItem>
                 )
                 }
@@ -195,42 +205,39 @@ const TabName: React.FC<Props> = ({ classes, tab, editMode }) => {
 
         <Grid container spacing={2} className={classes.tab} >
             {renderEditMenu(tab)}
+
+            <Grid className={classes.gridImg} item xs={12} md={6}>
+
+                <FormControlLabel
+                    control={
+                        <Switch checked={tab.published}
+                            onChange={() => tooglePublished(tab)}
+                        />
+                    }
+                    label="Published"
+                />
+            </Grid>
+            <Grid item xs={12} md={1}>
+                {renderIconMenu(tab)}
+            </Grid>
             {tab.tabName &&
-                <Grid item xs={12} md={6}>
+
+                <Grid item xs={12} md={5}>
                     <Typography className={classes.tabTitle} variant="h6" color="textSecondary">
                         {tab.tabName}
                     </Typography>
                 </Grid>}
-            <Grid className={classes.gridImg} item xs={12} md={6}>
 
-                {renderIconMenu(tab)}
-                {/* <Grid
-                className={classes.gridImg}
-                item xs={12}> */}
-
-                {/* {editMode &&
-
-                // <div >
-
-                //     <Tooltip
-                //         className={classes.absoluteR}
-                //         onClick={() => setIsEditTabTitle(true)}
-                //         title="edit" aria-label="edit">
-                //         <Fab size="small" color="primary" >
-                //             <EditIcon />
-                //         </Fab>
-                //     </Tooltip>
-                // </div>
-            } */}
-            </Grid>
 
 
         </Grid>)
     else return (
-        <Grid container spacing={2} className={classes.tab} >
+        <Grid container spacing={8} className={classes.tab} >
             {renderEditMenu(tab)}
-            {renderIconMenu(tab)}
-            <Grid item xs={12} md={6}>
+            {/* <Grid item xs={6} md={2}>
+                {renderIconMenu(tab)}
+            </Grid> */}
+            <Grid item xs={12} >
                 <div className={classes.absoluteR} >
                     <Tooltip
                         onClick={() => handleEditTitle(tab)}
@@ -249,8 +256,7 @@ const TabName: React.FC<Props> = ({ classes, tab, editMode }) => {
                 </Fab>
             </Tooltip> */}
                 </div>
-            </Grid>
-            <Grid item xs={12} md={6}>
+
                 <TextField
                     className={classes.editTabTitle}
                     onChange={(e) => setTitle(e.target.value)}

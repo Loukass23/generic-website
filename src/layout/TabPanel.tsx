@@ -114,7 +114,7 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
     return (
         <div className={classes.root}>
             <AppBar className={classes.tabs} position="sticky">
-                <AuthToolbar />
+                {/* <AuthToolbar /> */}
                 <Tabs
                     value={value}
                     onChange={handleChange}

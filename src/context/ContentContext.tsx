@@ -42,6 +42,12 @@ export const ContentContext = createContext<ContentContextInterface>({
     },
     deleteTab: () => {
         throw new Error('deleteTab() not implemented');
+    },
+    setTabIcon: () => {
+        throw new Error('setTabIcon() not implemented');
+    },
+    tooglePublished: () => {
+        throw new Error('tooglePublished() not implemented');
     }
 });
 
@@ -83,7 +89,20 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
             ...content,
         })
     }
-
+    const setTabIcon = (currentTab: PanelTab, icon: MaterialIcons) => {
+        var index = tabs.findIndex(tab => tab.index === currentTab.index);
+        tabs[index].icon = icon
+        setContent({
+            ...content,
+        })
+    }
+    const tooglePublished = (currentTab: PanelTab) => {
+        var index = tabs.findIndex(tab => tab.index === currentTab.index);
+        tabs[index].published = !currentTab.published
+        setContent({
+            ...content,
+        })
+    }
     const changeArticleOrder = (panelTab: PanelTab, article: Article, action: string) => {
         articlesReOrder(panelTab, article, action)
         setContent({
@@ -109,7 +128,9 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
             editTabTitle,
             addTab,
             changeTabOrder,
-            deleteTab
+            deleteTab,
+            setTabIcon,
+            tooglePublished
 
 
         }}>
