@@ -39,11 +39,15 @@ export const ContentContext = createContext<ContentContextInterface>({
     ,
     changeTabOrder: () => {
         throw new Error('changeTabOrder() not implemented');
+    },
+    deleteTab: () => {
+        throw new Error('deleteTab() not implemented');
     }
 });
 
 const ContentContextProvider = (props: { children: React.ReactNode; }) => {
     const [content, setContent] = useState(initContent)
+    const { tabs } = content.panel
 
 
     const [editMode, toggleEditMode] = React.useState(true);
@@ -57,8 +61,7 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
         })
     }
     const addTab = (tabName: string) => {
-        console.log('tabname :', tabName);
-        const { tabs } = content.panel
+
         const newTab = {
             index: tabs.length,
             tabName,
@@ -69,6 +72,13 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
             contact: ''
         }
         tabs.push(newTab)
+        setContent({
+            ...content,
+        })
+    }
+    const deleteTab = (tab: PanelTab) => {
+        console.log('tab', tab)
+        tabs.splice(tab.index, 1)
         setContent({
             ...content,
         })
@@ -98,7 +108,8 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
             changeArticleOrder,
             editTabTitle,
             addTab,
-            changeTabOrder
+            changeTabOrder,
+            deleteTab
 
 
         }}>

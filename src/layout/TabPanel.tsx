@@ -123,7 +123,6 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
                     aria-label="tabs"
                 >
                     {tabs.map((tab, i) => {
-                        console.log('tabType', tab.tabType)
                         if (isAuthenticated)
                             return (
                                 <Tab key={tab.tabName} icon={iconsRender(tab.icon)} label={tab.tabName} {...a11yProps(i)} />

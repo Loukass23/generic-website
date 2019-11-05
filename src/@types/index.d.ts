@@ -109,7 +109,8 @@ interface ContentContextInterface {
     editMode: boolean,
     toggleEditMode: any,
     addTab: any,
-    changeTabOrder: any
+    changeTabOrder: any,
+    deleteTab: any
 
 
 }

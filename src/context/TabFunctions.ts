@@ -2,7 +2,7 @@ export const tabsReOrder = (selectedTab: PanelTab, tabs: PanelTabs, action: stri
     // const { articles } = panelTab
     var index = tabs.findIndex(tab => tab.index === selectedTab.index);
     switch (action) {
-        case 'moveUp': if (index !== 0) {
+        case 'moveUp': if (index > 1) {
             tabs.splice(index - 1, 2, tabs[index], tabs[index - 1]);
         }
             break

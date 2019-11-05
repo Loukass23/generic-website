@@ -2,12 +2,14 @@ import React, { useContext, useEffect } from 'react'
 import { Grid, Tooltip, Fab, Typography, TextField, Theme, IconButton, Menu, MenuItem } from '@material-ui/core'
 import { withStyles, WithStyles, createStyles } from '@material-ui/styles'
 import DoneIcon from '@material-ui/icons/Done';
-import CancelIcon from '@material-ui/icons/Cancel';
+import DeleteIcon from '@material-ui/icons/Delete';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import EditIcon from '@material-ui/icons/Edit';
 import { ContentContext } from '../context/ContentContext';
 import { iconsRender, iconList } from '../components/Icons';
+import red from '@material-ui/core/colors/red';
+
 
 
 const styles = (theme: Theme) => createStyles({
@@ -57,6 +59,11 @@ const styles = (theme: Theme) => createStyles({
         width: '100%',
         textAlign: 'center'
     },
+    buttonDel: {
+        color: "white",
+        backgroundColor: red[500],
+    }
+
 })
 
 interface Props extends WithStyles<typeof styles> {
@@ -69,7 +76,8 @@ const TabName: React.FC<Props> = ({ classes, tab, editMode }) => {
     const {
         editTabTitle,
         changeTabOrder,
-        content
+        content,
+        deleteTab
     } = useContext(ContentContext)
 
     const { tabs } = content.panel
@@ -109,6 +117,7 @@ const TabName: React.FC<Props> = ({ classes, tab, editMode }) => {
                         <KeyboardArrowUpIcon />
                     </Fab>
                 </Tooltip>
+
                 <Tooltip
                     onClick={() => changeTabOrder(tab, tabs, 'moveDown')}
                     title="moveDown" aria-label="move down">
@@ -129,6 +138,15 @@ const TabName: React.FC<Props> = ({ classes, tab, editMode }) => {
                     title="edit" aria-label="edit">
                     <Fab size="small" color="primary" >
                         <EditIcon />
+                    </Fab>
+                </Tooltip>
+                <Tooltip
+                    onClick={() => deleteTab(tab)}
+                    title="delete" aria-label="delete">
+                    <Fab size="small" color="primary"
+                        className={classes.buttonDel}
+                    >
+                        <DeleteIcon />
                     </Fab>
                 </Tooltip>
             </div>
@@ -173,8 +191,8 @@ const TabName: React.FC<Props> = ({ classes, tab, editMode }) => {
         </React.Fragment>
     );
 
-
     if (!isEditTabTitle) return (
+
         <Grid container spacing={2} className={classes.tab} >
             {renderEditMenu(tab)}
             {tab.tabName &&
