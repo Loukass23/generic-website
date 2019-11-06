@@ -13,6 +13,9 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { iconList, iconsRender } from '../Icons';
 import { ContentContext } from '../../context/ContentContext';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleSharp';
+import CancelIcon from '@material-ui/icons/Cancel';
+
 
 interface Props extends WithStyles<typeof styles> {
     classes: any
@@ -83,6 +86,12 @@ const styles = (theme: Theme) => createStyles({
         [theme.breakpoints.up('md')]: {
             display: 'none',
         },
+    },
+    addIcon: {
+        fontSize: 80,
+        '&:hover': {
+            color: theme.palette.secondary.main
+        }
     },
 
 })
@@ -160,22 +169,37 @@ const AddTab: React.FC<Props> = ({ classes }) => {
                                     addTab(tabName)
                                     setAddTabName(false)
                                 }}
-                                title="edit" aria-label="edit" >
+                                title="validate" aria-label="validate" >
                                 <Fab size="small" color="secondary" >
                                     <DoneIcon />
                                 </Fab>
                             </Tooltip >
+                            < Tooltip
+                                onClick={() => {
+                                    setAddTabName(false)
+                                }}
+                                title="cancel" aria-label="cancel" >
+                                <Fab size="small" color="secondary" >
+                                    <CancelIcon />
+                                </Fab>
+                            </Tooltip >
+
                         </Grid>
                     </React.Fragment>
                     :
-                    <Grid item xs={12}>
-                        <IconButton
+                    <Grid item xs={2}>
+                        <AddCircleOutlineIcon
+                            onClick={handleAddTab}
+                            className={classes.addIcon}
+                            fontSize="large"
+                            color="primary" />
+                        {/* <IconButton
 
                             onClick={handleAddTab}
                             color="inherit"
                         >
                             <AddIcon />
-                        </IconButton>
+                        </IconButton> */}
                     </Grid>
 
             }

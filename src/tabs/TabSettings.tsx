@@ -339,7 +339,6 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
                     // </Grid >) */}
                 })
             }
-
             <AddTab />
 
 
