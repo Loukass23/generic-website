@@ -78,9 +78,6 @@ interface Props extends WithStyles<typeof styles> {
 const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
     const [value, setValue] = React.useState(0);
 
-
-
-
     const {
         editMode,
         toggleEditMode,
@@ -102,10 +99,9 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
         setValue(index);
     };
     const renderTab = (tab: PanelTab) => {
+        console.log('tab', tab)
         switch (tab.tabType) {
-            case 'articles': return (
-                <TabArticle tab={tab} />
-            )
+            case 'articles': return (<TabArticle tab={tab} />)
             case 'contact': return (<TabContact contact={tab.contact} />)
             case 'settings': return (<TabSettings />)
         }
@@ -123,10 +119,7 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
                     aria-label="tabs"
                 >
                     {tabs.map((tab, i) => {
-                        if (isAuthenticated)
-                            return (
-                                <Tab key={tab.tabName} icon={iconsRender(tab.icon)} label={tab.tabName} {...a11yProps(i)} />
-                            )
+                        if (isAuthenticated) return (<Tab key={tab.tabName} icon={iconsRender(tab.icon)} label={tab.tabName} {...a11yProps(i)} />)
                         else if (tab.published) return (<Tab key={tab.tabName} icon={iconsRender(tab.icon)} label={tab.tabName} {...a11yProps(i)} />)
 
                     })
@@ -175,9 +168,9 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
             >
                 {tabs.map((tab, i) => (
                     <Container className={classes.articleContainer} key={tab.tabName} maxWidth="lg">
-                        <TabPanel value={value} index={i}>
+                        {tab.published && <TabPanel value={value} index={i}>
                             {renderTab(tab)}
-                        </TabPanel>
+                        </TabPanel>}
                     </Container>
                 ))
                 }

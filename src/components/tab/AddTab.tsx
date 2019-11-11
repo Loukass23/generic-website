@@ -166,7 +166,7 @@ const AddTab: React.FC<Props> = ({ classes }) => {
                         <Grid item xs={2}>
                             < Tooltip
                                 onClick={() => {
-                                    addTab(tabName)
+                                    // addTab(tabName)
                                     setAddTabName(false)
                                 }}
                                 title="validate" aria-label="validate" >

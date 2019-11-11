@@ -14,6 +14,8 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import EditIcon from '@material-ui/icons/Edit';
 import red from '@material-ui/core/colors/red';
 import TabName from './TabName'
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleSharp';
+
 
 
 const styles = (theme: Theme) => createStyles({
@@ -96,7 +98,7 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
     } = useContext(ThemeContext)
 
     const { content, editTabTitle, editMode,
-        toggleEditMode, } = useContext(ContentContext)
+        toggleEditMode, addTab } = useContext(ContentContext)
     const { tabs } = content.panel
     const [addTabName, setAddTabName] = React.useState(false);
     const [tabName, setTabName] = React.useState('');
@@ -339,7 +341,21 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
                     // </Grid >) */}
                 })
             }
-            <AddTab />
+            <Grid item xs={2}>
+                <AddCircleOutlineIcon
+                    onClick={() => addTab()}
+                    className={classes.addIcon}
+                    fontSize="large"
+                    color="primary" />
+                {/* <IconButton
+
+                            onClick={handleAddTab}
+                            color="inherit"
+                        >
+                            <AddIcon />
+                        </IconButton> */}
+            </Grid>
+            {/* <AddTab /> */}
 
 
         </div >

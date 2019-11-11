@@ -66,11 +66,11 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
             ...content,
         })
     }
-    const addTab = (tabName: string) => {
+    const addTab = () => {
 
         const newTab = {
             index: tabs.length,
-            tabName,
+            tabName: '',
             tabTitle: 'Tab Tible',
             articles: [],
             tabType: 'articles',

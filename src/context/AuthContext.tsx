@@ -5,7 +5,7 @@ const initUser: User = {
     name: 'Lucas',
     surname: 'DPS',
     avatar: 'https://res.cloudinary.com/ds3w3iwbk/image/upload/v1560349630/MERN/20170409_193026.jpg',
-    isAdmin: true
+    isAdmin: false
 }
 const initAuth: AuthContextInterface = {
     isAuthenticated: false,
@@ -15,7 +15,7 @@ export const AuthContext = createContext<AuthContextInterface>(initAuth);
 
 const AuthContextProvider = (props: { children: React.ReactNode; }) => {
     const [auth, setAuth] = useState({
-        isAuthenticated: true,
+        isAuthenticated: false,
         user: initUser
     })
 
