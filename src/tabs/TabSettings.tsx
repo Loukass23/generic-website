@@ -53,7 +53,7 @@ const styles = (theme: Theme) => createStyles({
         top: theme.spacing(2),
         left: theme.spacing(2),
         '&:hover': {
-            color: theme.palette.secondary.main
+            color: theme.palette.primary.main
         }
     },
     addIcon: {
@@ -346,7 +346,7 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
                     onClick={() => addTab()}
                     className={classes.addIcon}
                     fontSize="large"
-                    color="primary" />
+                    color="secondary" />
                 {/* <IconButton
 
                             onClick={handleAddTab}

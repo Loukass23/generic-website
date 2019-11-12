@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { createStyles, Theme, Container, TextField, Tooltip, Fab, Grid } from '@material-ui/core';
 import { WithStyles, withStyles } from '@material-ui/styles';
-import TabArticle from '../components/article/TabArticles';
+import TabArticle from '../tabs/TabArticles';
 import SwipeableViews from 'react-swipeable-views';
 import { iconsRender } from '../components/Icons';
 import TabContact from '../components/contact/TabContact';
@@ -78,6 +78,7 @@ interface Props extends WithStyles<typeof styles> {
 const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
     const [value, setValue] = React.useState(0);
 
+
     const {
         editMode,
         toggleEditMode,
@@ -107,74 +108,53 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
         }
     }
 
-    return (
+    const publishedTabs = tabs.filter(tab => tab.published)
+
+    const renderAppBar = (tabs: PanelTabs) => (<AppBar className={classes.tabs} position="sticky">
+        {/* <AuthToolbar /> */}
+        <Tabs
+            value={value}
+            onChange={handleChange}
+            variant="scrollable"
+            scrollButtons="on"
+            aria-label="tabs"
+        >
+            {tabs.map((tab, i) => {
+                // if (isAuthenticated) 
+                return (<Tab key={tab.tabName} icon={iconsRender(tab.icon)} label={tab.tabName} {...a11yProps(i)} />)
+                // else if (tab.published) return (<Tab key={tab.tabName} icon={iconsRender(tab.icon)} label={tab.tabName} {...a11yProps(i)} />)
+            })
+            }
+        </Tabs>
+    </AppBar>)
+
+    const renderSwipeableViews = (tabs: PanelTabs) => (
+        <SwipeableViews
+            axis='x'
+            index={value}
+            onChangeIndex={handleChangeIndex}
+        >
+            {tabs.map((tab, i) => (
+                <Container className={classes.articleContainer} key={tab.tabName} maxWidth="lg">
+                    <TabPanel value={value} index={i}>
+                        {renderTab(tab)}
+                    </TabPanel>
+                </Container>
+            ))
+            }
+        </SwipeableViews>)
+
+    if (isAuthenticated)
+        return (
+            <div className={classes.root}>
+                {renderAppBar(tabs)}
+                {renderSwipeableViews(tabs)}
+            </div >
+        );
+    else return (
         <div className={classes.root}>
-            <AppBar className={classes.tabs} position="sticky">
-                {/* <AuthToolbar /> */}
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    variant="scrollable"
-                    scrollButtons="on"
-                    aria-label="tabs"
-                >
-                    {tabs.map((tab, i) => {
-                        if (isAuthenticated) return (<Tab key={tab.tabName} icon={iconsRender(tab.icon)} label={tab.tabName} {...a11yProps(i)} />)
-                        else if (tab.published) return (<Tab key={tab.tabName} icon={iconsRender(tab.icon)} label={tab.tabName} {...a11yProps(i)} />)
-
-                    })
-                    }
-                </Tabs>
-                {/* {editMode && 
-                    // <AddTab />
-                    // <React.Fragment>
-                    //     {addTabName ?
-                    //         <Grid>
-                    //             <TextField
-                    //                 // label="Tab Title"
-                    //                 onChange={(e) => setTabName(e.target.value)}
-                    //             />
-                    //             <Tooltip
-                    //                 onClick={() => {
-                    //                     addTab(tabName)
-                    //                     setAddTabName(false)
-                    //                 }}
-                    //                 title="edit" aria-label="edit">
-                    //                 <Fab size="small" color="secondary" >
-                    //                     <DoneIcon />
-                    //                 </Fab>
-                    //             </Tooltip>
-                    //         </Grid>
-
-                    //         :
-                    //         <Grid >
-                    //             <Tooltip
-                    //                 onClick={() => setAddTabName(true)}
-                    //                 title="add tab" aria-label="edit">
-                    //                 <Fab size="small" color="secondary" >
-                    //                     <AddIcon />
-                    //                 </Fab>
-                    //             </Tooltip>
-                    //         </Grid>
-                    //<Tab icon={iconsRender('add')} label="Add Tab" />
-                    //     }
-                    // </React.Fragment>
-                }*/}
-            </AppBar>
-            <SwipeableViews
-                axis='x'
-                index={value}
-                onChangeIndex={handleChangeIndex}
-            >
-                {tabs.map((tab, i) => (
-                    <Container className={classes.articleContainer} key={tab.tabName} maxWidth="lg">
-                        {tab.published && <TabPanel value={value} index={i}>
-                            {renderTab(tab)}
-                        </TabPanel>}
-                    </Container>
-                ))
-                }
-            </SwipeableViews>
+            {renderAppBar(publishedTabs)}
+            {renderSwipeableViews(publishedTabs)}
         </div >
     );
 

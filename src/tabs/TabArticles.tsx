@@ -3,16 +3,16 @@ import { Theme, createStyles, Typography, CardMedia, Grid, Tooltip, Fab, Button,
 import { WithStyles, withStyles } from '@material-ui/styles';
 import EditIcon from '@material-ui/icons/Edit';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleSharp';
-import { AuthContext } from '../../context/AuthContext';
-import AddEditArticle from './AddEditArticle';
+import { AuthContext } from '../context/AuthContext';
+import AddEditArticle from '../components/article/AddEditArticle';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DeleteIcon from '@material-ui/icons/Delete';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import red from '@material-ui/core/colors/red';
-import TabTitle from '../../tabs/TabTitle';
-import { ContentContext } from '../../context/ContentContext';
+import TabTitle from './TabTitle';
+import { ContentContext } from '../context/ContentContext';
 
 
 const styles = (theme: Theme) => createStyles({
@@ -66,13 +66,13 @@ const styles = (theme: Theme) => createStyles({
         top: theme.spacing(2),
         left: theme.spacing(2),
         '&:hover': {
-            color: theme.palette.secondary.main
+            color: theme.palette.primary.main
         }
     },
     addIcon: {
         fontSize: 80,
         '&:hover': {
-            color: theme.palette.secondary.main
+            color: theme.palette.primary.main
         }
     },
     tabTitle: {
@@ -333,7 +333,7 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
                             onClick={() => onAddClick()}
                             className={classes.addIcon}
                             fontSize="large"
-                            color="primary" />
+                            color="secondary" />
                     </Grid>}
             </Grid>
         </Grid>

@@ -1,8 +1,8 @@
-import React, { useState, createContext, useContext } from 'react'
+import React, { useState, createContext } from 'react'
 import { contentMaster } from '../content'
 import { addEditDeleteArticle, articlesReOrder } from './ArticlesFunctions'
 import { tabsReOrder } from './TabFunctions'
-import { ThemeContext } from './ThemeContext'
+
 
 const initContent: Content = contentMaster
 const emptyArticle = {
@@ -83,7 +83,6 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
         })
     }
     const deleteTab = (tab: PanelTab) => {
-        console.log('tab', tab)
         tabs.splice(tab.index, 1)
         setContent({
             ...content,
@@ -131,8 +130,6 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
             deleteTab,
             setTabIcon,
             tooglePublished
-
-
         }}>
             {props.children}
         </ContentContext.Provider>

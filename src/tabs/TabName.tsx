@@ -206,7 +206,7 @@ const TabName: React.FC<Props> = ({ classes, tab, editMode }) => {
         <Grid container spacing={2} className={classes.tab} >
             {renderEditMenu(tab)}
 
-            <Grid className={classes.gridImg} item xs={12} md={6}>
+            <Grid className={classes.gridImg} item xs={12} md={5}>
 
                 <FormControlLabel
                     control={
@@ -222,9 +222,16 @@ const TabName: React.FC<Props> = ({ classes, tab, editMode }) => {
             </Grid>
             {tab.tabName &&
 
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={3}>
                     <Typography className={classes.tabTitle} variant="h6" color="textSecondary">
                         {tab.tabName}
+                    </Typography>
+                </Grid>}
+            {tab.tabType &&
+
+                <Grid item xs={12} md={3}>
+                    <Typography className={classes.tabTitle} variant="h6" color="textSecondary">
+                        {tab.tabType}
                     </Typography>
                 </Grid>}
 
