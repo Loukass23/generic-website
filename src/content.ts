@@ -68,6 +68,14 @@ export const contentMaster = {
             },
             {
                 index: 3,
+                tabName: 'Map',
+                published: true,
+                tabType: 'map',
+                icon: 'map',
+
+            },
+            {
+                index: 4,
                 tabName: 'Articles Page',
                 tabType: 'articles',
                 published: true,

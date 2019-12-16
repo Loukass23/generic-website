@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Toolbar, IconButton, Typography, Menu, MenuItem, Badge, AppBar, InputBase } from '@material-ui/core'
+import { Toolbar, IconButton, Typography, Menu, MenuItem, Badge, AppBar, InputBase, Avatar } from '@material-ui/core'
 import { AuthContext } from '../context/AuthContext';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import SearchIcon from '@material-ui/icons/Search';
@@ -86,7 +86,7 @@ const styles = (theme: Theme) => createStyles({
 
 
 const AuthToolbar: React.FC<Props> = ({ classes }) => {
-    const { isAuthenticated, user } = useContext(AuthContext)
+    const { logIn, isAuthenticated, user } = useContext(AuthContext)
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const isMenuOpen = Boolean(anchorEl);
@@ -100,23 +100,45 @@ const AuthToolbar: React.FC<Props> = ({ classes }) => {
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
+    const handleLogIn = () => {
+        setAnchorEl(null);
+        logIn()
+    };
 
 
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            id={menuId}
-            keepMounted
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-        </Menu>
+        <React.Fragment >
+            {
+                !isAuthenticated ?
+                    <Menu
+                        anchorEl={anchorEl}
+                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                        id={menuId}
+                        keepMounted
+                        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                        open={isMenuOpen}
+                        onClose={handleMenuClose}
+                    >
+
+                        <MenuItem onClick={handleLogIn}>Log In</MenuItem>
+                        <MenuItem onClick={handleMenuClose}>Create Account(TBD)</MenuItem>
+                    </Menu> :
+                    <Menu
+                        anchorEl={anchorEl}
+                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                        id={menuId}
+                        keepMounted
+                        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                        open={isMenuOpen}
+                        onClose={handleMenuClose}
+                    >
+                        <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+                        <MenuItem onClick={handleMenuClose}>Create Account(TBD)</MenuItem>
+                    </Menu>
+            }
+        </React.Fragment>
     );
 
 
@@ -131,7 +153,14 @@ const AuthToolbar: React.FC<Props> = ({ classes }) => {
                 onClick={handleProfileMenuOpen}
                 color="inherit"
             >
-                <AccountCircle />
+                {!isAuthenticated ? <AccountCircle /> :
+                    <React.Fragment>
+                        {user.avatar ?
+                            <Avatar alt="Remy Sharp" src={user.avatar} /> :
+                            <Avatar>N</Avatar>}
+                    </React.Fragment>
+                }
+
             </IconButton>
 
             {renderMenu}

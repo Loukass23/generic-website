@@ -17,6 +17,7 @@ import { ContentContext } from '../context/ContentContext';
 import AddIcon from '@material-ui/icons/Add';
 import DoneIcon from '@material-ui/icons/Done';
 import TabSettings from '../tabs/TabSettings';
+import TabMap from '../tabs/TabMap';
 
 
 
@@ -105,13 +106,14 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
             case 'articles': return (<TabArticle tab={tab} />)
             case 'contact': return (<TabContact contact={tab.contact} />)
             case 'settings': return (<TabSettings />)
+            case 'map': return (<TabMap />)
         }
     }
 
     const publishedTabs = tabs.filter(tab => tab.published)
 
     const renderAppBar = (tabs: PanelTabs) => (<AppBar className={classes.tabs} position="sticky">
-        {/* <AuthToolbar /> */}
+        <AuthToolbar />
         <Tabs
             value={value}
             onChange={handleChange}

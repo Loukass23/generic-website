@@ -3,9 +3,9 @@
  * USER
  */
 interface User {
-    name: string,
-    surname: string,
-    avatar: string,
+    name: string | null,
+    surname?: string,
+    avatar: string | null,
     isAdmin: Boolean
 }
 interface MaterialIcons {
@@ -88,7 +88,8 @@ interface Contact {
 
 interface AuthContextInterface {
     isAuthenticated: Boolean,
-    user: User
+    user: User,
+    logIn: any
 }
 interface ArticleContextInterface {
     content: Content,
