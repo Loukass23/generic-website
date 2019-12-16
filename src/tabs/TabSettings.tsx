@@ -15,6 +15,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import red from '@material-ui/core/colors/red';
 import TabName from './TabName'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleSharp';
+import Button from '@material-ui/core/Button';
 
 
 
@@ -98,7 +99,7 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
     } = useContext(ThemeContext)
 
     const { content, editTabTitle, editMode,
-        toggleEditMode, addTab } = useContext(ContentContext)
+        toggleEditMode, addTab, firestorePush } = useContext(ContentContext)
     const { tabs } = content.panel
     const [addTabName, setAddTabName] = React.useState(false);
     const [tabName, setTabName] = React.useState('');
@@ -239,6 +240,9 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
 
     return (
         <div>
+            <Button onClick={firestorePush} variant="contained" color="primary">
+                Validate changes
+            </Button>
             <Typography variant="h3" color="textSecondary">
                 Settings
             </Typography>

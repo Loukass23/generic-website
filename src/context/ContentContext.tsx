@@ -2,6 +2,15 @@ import React, { useState, createContext } from 'react'
 import { contentMaster } from '../content'
 import { addEditDeleteArticle, articlesReOrder } from './ArticlesFunctions'
 import { tabsReOrder } from './TabFunctions'
+import * as firebase from "firebase/app";
+
+import 'firebase/firestore';
+
+// import { firebaseConfig } from '../config/keys';
+var database = firebase.firestore()
+
+
+// firebase.initializeApp(firebaseConfig);
 
 
 const initContent: Content = contentMaster
@@ -48,14 +57,15 @@ export const ContentContext = createContext<ContentContextInterface>({
     },
     tooglePublished: () => {
         throw new Error('tooglePublished() not implemented');
+    },
+    firestorePush: () => {
+        throw new Error('firestorePush() not implemented');
     }
 });
 
 const ContentContextProvider = (props: { children: React.ReactNode; }) => {
     const [content, setContent] = useState(initContent)
     const { tabs } = content.panel
-
-
     const [editMode, toggleEditMode] = React.useState(true);
     const [article, setArticle] = React.useState<Article>(emptyArticle)
 
@@ -114,6 +124,18 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
             ...content,
         })
     }
+    const firestorePush = () => {
+
+        // Add a new document with a generated id.
+        database.collection("content").add(content)
+            .then(function (docRef) {
+                console.log("Document written with ID: ", docRef.id);
+            })
+            .catch(function (error) {
+                console.error("Error adding document: ", error);
+            });
+
+    }
 
     return (
         <ContentContext.Provider value={{
@@ -129,7 +151,8 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
             changeTabOrder,
             deleteTab,
             setTabIcon,
-            tooglePublished
+            tooglePublished,
+            firestorePush
         }}>
             {props.children}
         </ContentContext.Provider>

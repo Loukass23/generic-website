@@ -14,6 +14,7 @@
     "@types/react-swipeable-views": "^0.13.0",
     "dotenv": "^8.2.0",
     "firebase": "^7.6.0",
+    "firebase-admin": "^8.8.0",
     "firebase-tools": "^7.10.0",
     "markdown-to-jsx": "^6.10.3",
     "react": "^16.10.2",

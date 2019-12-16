@@ -115,6 +115,7 @@ interface ContentContextInterface {
     deleteTab: any,
     setTabIcon: any,
     tooglePublished: any,
+    firestorePush: any
 
 
 }

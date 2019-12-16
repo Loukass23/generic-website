@@ -6,6 +6,7 @@ import { firebaseConfig } from '../config/keys';
 
 firebase.initializeApp(firebaseConfig);
 
+
 const initUser: User = {
     name: 'Lucas',
     surname: 'DPS',
@@ -30,7 +31,6 @@ export const AuthContext = createContext<AuthContextInterface>({
 
 
 const AuthContextProvider = (props: { children: React.ReactNode; }) => {
-    const [auth, setAuth] = useState(initAuth)
     const [user, setUser] = useState()
     const [isAuthenticated, setIsAuthenticated] = useState(false)
 
@@ -59,13 +59,6 @@ const AuthContextProvider = (props: { children: React.ReactNode; }) => {
             });
     }
 
-    // const setUserAuth = (user: User) => {
-    //     setAuth({
-    //         isAuthenticated: true,
-    //         user,
-
-    //     })
-    //}
 
 
     return (
