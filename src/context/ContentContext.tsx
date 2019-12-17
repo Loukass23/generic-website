@@ -3,7 +3,7 @@ import { contentMaster } from '../content'
 import { addEditDeleteArticle, articlesReOrder } from '../reducers/ArticlesFunctions'
 import { tabsReOrder } from '../reducers/TabFunctions'
 import * as firebase from "firebase/app";
-
+import 'firebase/storage';
 import 'firebase/firestore';
 import { AuthContext } from './AuthContext';
 import { ThemeContext } from './ThemeContext';
@@ -69,6 +69,9 @@ export const ContentContext = createContext<ContentContextInterface>({
     },
     firestorePull: () => {
         throw new Error('firestorePush() not implemented');
+    },
+    firebaseStorageUpload: () => {
+        throw new Error('firebaseStorageUpload() not implemented');
     }
 });
 
@@ -185,6 +188,40 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
         setColors(color.primary, 'primary')
         setColors(color.secondary, 'secondary')
     }
+    const firebaseStorageUpload = async (file: File) => {
+        const storageService = firebase.storage();
+        const storageRef = storageService.ref();
+
+
+        // this.setState({ isUploading: true, progress: 0 })
+
+        const uploadTask = storageRef.child(`article/${file.name}`).put(file); //create a child directory called images, and place the file inside this directory
+
+        uploadTask.on('state_changed', (snapshot) => {
+            console.log(snapshot)
+            let prog = Math.round(snapshot.bytesTransferred * 100 / snapshot.totalBytes)
+            // this.setState({ progress: prog });
+
+        }, (error) => {
+
+            console.log(error);
+        }, () => {
+            console.log('success');
+            // this.setState({ isUploading: false, progress: 100 })
+            firebase
+                .storage()
+                .ref("article")
+                .child(`${file.name}`)
+                .getDownloadURL()
+                .then(url => setArticle({
+                    ...article,
+                    img: url
+
+                }));
+
+        });
+
+    }
 
     return (
         <ContentContext.Provider value={{
@@ -203,7 +240,8 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
             tooglePublished,
             setColorsContent,
             firestorePush,
-            firestorePull
+            firestorePull,
+            firebaseStorageUpload
         }}>
             {props.children}
         </ContentContext.Provider>

@@ -118,7 +118,8 @@ interface ContentContextInterface {
     tooglePublished: any,
     firestorePush: any,
     setColorsContent: any
-    firestorePull: any
+    firestorePull: any,
+    firebaseStorageUpload: any
 
 
 }

@@ -5,6 +5,8 @@ import TextField from '@material-ui/core/TextField';
 import { Input, FormControlLabel, Switch, CardMedia, Grid } from '@material-ui/core';
 import { ContentContext } from '../../context/ContentContext';
 
+
+
 const styles = (theme: Theme) => createStyles({
     container: {
         display: 'flex',
@@ -81,7 +83,7 @@ interface Props extends WithStyles<typeof styles> {
 const AddEditArticle: React.FC<Props> = ({ classes }) => {
 
 
-    const { article, setArticle } = useContext(ContentContext)
+    const { article, setArticle, firebaseStorageUpload } = useContext(ContentContext)
 
     const handleChange = (name: keyof Article) => (event: React.ChangeEvent<HTMLInputElement>) => {
         setArticle({ ...article, [name]: event.target.value });
@@ -89,8 +91,79 @@ const AddEditArticle: React.FC<Props> = ({ classes }) => {
     const toggleLayout = () => (event: React.ChangeEvent<HTMLInputElement>) => {
         setArticle({ ...article, sideImg: event.target.checked });
     };
-
     const { sideImg, title, text, img } = article
+
+    // firebaseUpload = async () => {
+    //     const uri = this.props.issue.PICTURE_FILE
+    //     const id = `${this.props.location.ADDRESS.city}-${this.props.issue.CATEGORY}-${new Date()}`;
+    //     this.setState({ photoUploading: true })
+    //     const response = await fetch(uri);
+    //     const blob = await response.blob();
+    //     console.log('blob :', blob);
+
+    //     return new Promise((resolve, reject) => {
+    //         const storageRef = firebase
+    //             .storage()
+    //             .ref()
+    //             .child(`issues/${id}`);
+    //         const uploadTask = storageRef.put(blob)
+    //         uploadTask.on('state_changed',
+    //             snapshot => {
+    //                 let progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
+    //                 this.setState({ progress: progress / 100 });
+    //                 console.log(this.state.progress);
+    //             },
+    //             err => {
+    //                 console.log('error', err)
+    //                 reject()
+    //             },
+    //             () => {
+    //                 uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+    //                     console.log('downloadURL :', downloadURL);
+    //                     resolve(downloadURL)
+    //                 })
+    //             }
+    //         )
+    //     })
+    // }
+    const handleUpload = (files: FileList | null) => {
+        const file = files![0]
+
+        console.log(file.name)
+
+        firebaseStorageUpload(file)
+        // const storageService = firebase.storage();
+        // const storageRef = storageService.ref();
+
+
+        // // this.setState({ isUploading: true, progress: 0 })
+
+        // const uploadTask = storageRef.child(`artcle/${file.name}`).put(file); //create a child directory called images, and place the file inside this directory
+
+        // uploadTask.on('state_changed', (snapshot) => {
+        //     console.log(snapshot)
+        //     let prog = Math.round(snapshot.bytesTransferred * 100 / snapshot.totalBytes)
+        //     // this.setState({ progress: prog });
+
+        // }, (error) => {
+
+        //     console.log(error);
+        // }, () => {
+        //     console.log('success');
+        //     // this.setState({ isUploading: false, progress: 100 })
+        //     firebase
+        //         .storage()
+        //         .ref("itinerary")
+        //         .child(`${file.name}`)
+        //         .getDownloadURL()
+        //         .then(url => console.log('url', url));
+
+        // });
+
+
+    }
+
+
     return (
         <form className={classes.container} color="secondary" autoComplete="off">
             <Grid className={classes.gridImg} item xs={12} >
@@ -113,18 +186,31 @@ const AddEditArticle: React.FC<Props> = ({ classes }) => {
                                 image={img}
                                 title="img"
                             /> :
-                            <Input
+                            <input required accept="image/*" type="file"
+                                // {...input}
+                                onChange={(e) => {
+                                    if (e.target.files!) {
+                                        handleUpload(e.target.files)
+                                    }
 
-                                id="image-input"
-                                // className={classes.responsiveField}
-                                // accept="image/*"
-                                type="file"
-                            // multiple
-                            // {...input}
-                            // onChange={(e) => {
-                            //     this.setState({ file: e.target.files[0], isUploading: true }, this.handleUpload)
-                            // }} 
-                            />}
+                                }
+
+
+                                }
+                            />
+                            // <Input
+
+                            //     id="image-input"
+                            //     // className={classes.responsiveField}
+                            //     //accept="image/*"
+                            //     type="file"
+                            //     // multiple
+                            //     // {...input}
+                            //     onChange={(e) =>
+                            //         handleUpload(e.target)
+                            //     }
+                            // />
+                        }
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <TextField
@@ -183,18 +269,30 @@ const AddEditArticle: React.FC<Props> = ({ classes }) => {
                                     title="img"
                                     className={clsx(classes.responsiveImg)}
                                 /> :
-                                <Input
+                                <input required accept="image/*" type="file"
+                                    // {...input}
+                                    onChange={(e) => {
+                                        if (e.target.files!) {
+                                            handleUpload(e.target.files)
+                                        }
 
-                                    id="image-input"
-                                    // className={classes}
-                                    // accept="image/*"
-                                    type="file"
-                                // multiple
-                                // {...input}
-                                // onChange={(e) => {
-                                //     this.setState({ file: e.target.files[0], isUploading: true }, this.handleUpload)
-                                // }} 
+                                    }
+
+
+                                    }
                                 />
+                                // <Input
+
+                                //     id="image-input"
+                                //     // className={classes}
+                                //     // accept="image/*"
+                                //     type="file"
+                                // // multiple
+                                // // {...input}
+                                // // onChange={(e) => {
+                                // //     this.setState({ file: e.target.files[0], isUploading: true }, this.handleUpload)
+                                // // }} 
+                                // />
 
                             }
                         </Grid>

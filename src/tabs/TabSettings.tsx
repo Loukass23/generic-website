@@ -240,13 +240,13 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
 
     return (
         <div>
-            <Button onClick={firestorePush} variant="contained" color="primary">
-                Validate changes
-            </Button>
+
             <Typography variant="h3" color="textSecondary">
                 Settings
             </Typography>
-
+            <Button onClick={firestorePush} variant="contained" color="primary">
+                Validate changes
+            </Button>
 
 
             <Typography variant="h4" color="textSecondary">

@@ -9,6 +9,7 @@ import { ContentContext } from './context/ContentContext';
 import ContentContextProvider from './context/ContentContext';
 import ThemeContextProvider, { ThemeContext } from './context/ThemeContext';
 import AuthToolbar from './layout/AuthToolbar';
+import Landing from './layout/Landing';
 
 
 
@@ -29,7 +30,7 @@ const RenderWebsite: React.FC<Props> = () => {
   return (
     <MuiThemeProvider theme={theme}>
       <Hero hero={hero} />
-      {isAuthenticated ? <TabPanel panel={panel} /> : <AuthToolbar />}
+      {isAuthenticated ? <TabPanel panel={panel} /> : <Landing />}
 
       <Footer footer={footer} />
     </MuiThemeProvider>)
