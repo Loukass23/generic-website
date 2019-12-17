@@ -150,6 +150,7 @@ interface Content {
         secondary: string
     },
     hero: {
+        display: boolean,
         title: string,
         text: string,
         img: string,

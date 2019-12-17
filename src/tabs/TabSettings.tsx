@@ -93,11 +93,7 @@ interface Props {
 
 const TabSettings: React.FC<Props> = ({ classes }) => {
 
-    const {
-
-        theme
-    } = useContext(ThemeContext)
-
+    const { theme } = useContext(ThemeContext)
     const { content, editTabTitle, editMode,
         toggleEditMode, addTab, firestorePush, setColorsContent } = useContext(ContentContext)
     const { tabs } = content.panel
@@ -247,7 +243,9 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
             <Button onClick={firestorePush} variant="contained" color="primary">
                 Validate changes
             </Button>
-
+            <Typography variant="h4" color="textSecondary">
+                General
+            </Typography>
 
             <Typography variant="h4" color="textSecondary">
                 Colors
@@ -292,6 +290,9 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
                     </div>
                 </Grid>
             </Grid>
+            <Typography variant="h4" color="textSecondary">
+                Header
+            </Typography>
 
             <Typography variant="h4" color="textSecondary">
                 Tabs
@@ -300,10 +301,7 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
                 tabs.map(tab => {
                     if (tab.tabType !== 'settings') {
                         return (
-
-
                             <TabName key={tab.index} tab={tab} editMode={true} />
-
                         )
                     }
 

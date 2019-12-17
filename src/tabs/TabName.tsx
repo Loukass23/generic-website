@@ -146,7 +146,7 @@ const TabName: React.FC<Props> = ({ classes, tab, editMode }) => {
                     </Fab>
                 </Tooltip>
                 <Tooltip
-                    onClick={() => deleteTab(tab)}
+                    onClick={() => deleteTab(tabs, tab)}
                     title="delete" aria-label="delete">
                     <Fab size="small" color="primary"
                         className={classes.buttonDel}

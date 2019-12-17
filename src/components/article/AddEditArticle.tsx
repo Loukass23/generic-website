@@ -1,9 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import clsx from 'clsx';
 import { Theme, createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { Input, FormControlLabel, Switch, CardMedia, Grid } from '@material-ui/core';
+import { Input, FormControlLabel, Switch, CardMedia, Grid, LinearProgress, Tooltip, Fab } from '@material-ui/core';
 import { ContentContext } from '../../context/ContentContext';
+import * as firebase from "firebase/app";
+import 'firebase/storage';
+import { AuthContext } from '../../context/AuthContext';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { red } from '@material-ui/core/colors';
 
 
 
@@ -73,7 +78,15 @@ const styles = (theme: Theme) => createStyles({
         },
 
     },
-
+    buttonDel: {
+        color: "white",
+        backgroundColor: red[500],
+    },
+    absoluteL: {
+        position: 'absolute',
+        top: theme.spacing(2),
+        left: theme.spacing(2),
+    },
 })
 
 interface Props extends WithStyles<typeof styles> {
@@ -83,7 +96,9 @@ interface Props extends WithStyles<typeof styles> {
 const AddEditArticle: React.FC<Props> = ({ classes }) => {
 
 
-    const { article, setArticle, firebaseStorageUpload } = useContext(ContentContext)
+    const { article, setArticle } = useContext(ContentContext)
+    const { user } = useContext(AuthContext)
+    const [imgLoading, setImgLoading] = useState(0)
 
     const handleChange = (name: keyof Article) => (event: React.ChangeEvent<HTMLInputElement>) => {
         setArticle({ ...article, [name]: event.target.value });
@@ -94,37 +109,39 @@ const AddEditArticle: React.FC<Props> = ({ classes }) => {
     const { sideImg, title, text, img } = article
 
     // firebaseUpload = async () => {
-    //     const uri = this.props.issue.PICTURE_FILE
-    //     const id = `${this.props.location.ADDRESS.city}-${this.props.issue.CATEGORY}-${new Date()}`;
-    //     this.setState({ photoUploading: true })
-    //     const response = await fetch(uri);
-    //     const blob = await response.blob();
-    //     console.log('blob :', blob);
+    const firebaseStorageUpload = (file: File) => {
+        const storageService = firebase.storage();
+        const storageRef = storageService.ref();
 
-    //     return new Promise((resolve, reject) => {
-    //         const storageRef = firebase
-    //             .storage()
-    //             .ref()
-    //             .child(`issues/${id}`);
-    //         const uploadTask = storageRef.put(blob)
-    //         uploadTask.on('state_changed',
-    //             snapshot => {
-    //                 let progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
-    //                 this.setState({ progress: progress / 100 });
-    //                 console.log(this.state.progress);
-    //             },
-    //             err => {
-    //                 console.log('error', err)
-    //                 reject()
-    //             },
-    //             () => {
-    //                 uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-    //                     console.log('downloadURL :', downloadURL);
-    //                     resolve(downloadURL)
-    //                 })
-    //             }
-    //         )
-    //     })
+
+        setImgLoading(0)
+        const uploadTask = storageRef.child(`${user.uid}/articles/${file.name}`).put(file); //create a child directory called images, and place the file inside this directory
+
+        uploadTask.on('state_changed', (snapshot) => {
+            console.log(snapshot)
+            let prog = Math.round(snapshot.bytesTransferred * 100 / snapshot.totalBytes)
+            setImgLoading(prog)
+
+        }, (error) => {
+
+            console.log(error);
+        }, () => {
+            console.log('success');
+            setImgLoading(100)
+            firebase
+                .storage()
+                .ref(`${user.uid}/articles/`)
+                .child(`${file.name}`)
+                .getDownloadURL()
+                .then(url => setArticle({
+                    ...article,
+                    img: url
+
+                }));
+
+        });
+
+    }
     // }
     const handleUpload = (files: FileList | null) => {
         const file = files![0]
@@ -179,37 +196,43 @@ const AddEditArticle: React.FC<Props> = ({ classes }) => {
 
                     <Grid className={classes.gridImg} item xs={12} md={6}>
                         {img ?
-                            <CardMedia
-                                component="img"
-                                alt="img"
-                                className={classes.sideImg}
-                                image={img}
-                                title="img"
-                            /> :
-                            <input required accept="image/*" type="file"
-                                // {...input}
-                                onChange={(e) => {
-                                    if (e.target.files!) {
-                                        handleUpload(e.target.files)
+                            <React.Fragment>
+                                <div className={classes.absoluteL} >
+                                    <Tooltip
+                                        onClick={() => setArticle({ ...article, img: '' })}
+                                        title="delete" aria-label="delete">
+                                        <Fab size="small" color="primary"
+                                            className={classes.buttonDel}
+                                        >
+                                            <DeleteIcon />
+                                        </Fab>
+                                    </Tooltip>
+                                </div>
+                                <CardMedia
+                                    component="img"
+                                    alt="img"
+                                    className={classes.sideImg}
+                                    image={img}
+                                    title="img"
+                                />
+                            </React.Fragment> :
+                            <React.Fragment>
+                                <LinearProgress variant="buffer" value={imgLoading} valueBuffer={imgLoading} color="secondary" />
+                                <input required accept="image/*" type="file"
+                                    // {...input}
+                                    onChange={(e) => {
+                                        if (e.target.files!) {
+                                            handleUpload(e.target.files)
+                                        }
+
                                     }
 
-                                }
+
+                                    }
+                                />
+                            </React.Fragment>
 
 
-                                }
-                            />
-                            // <Input
-
-                            //     id="image-input"
-                            //     // className={classes.responsiveField}
-                            //     //accept="image/*"
-                            //     type="file"
-                            //     // multiple
-                            //     // {...input}
-                            //     onChange={(e) =>
-                            //         handleUpload(e.target)
-                            //     }
-                            // />
                         }
                     </Grid>
                     <Grid item xs={12} md={6}>
@@ -258,41 +281,41 @@ const AddEditArticle: React.FC<Props> = ({ classes }) => {
                             margin="normal"
                             variant="filled"
                         />
-                        <Grid item xs={12}>
+                        <Grid className={classes.gridImg} item xs={12}>
                             {img ?
+                                <React.Fragment>
+                                    <Tooltip
+                                        onClick={() => setArticle({ ...article, img: '' })}
+                                        title="delete" aria-label="delete">
+                                        <Fab size="small" color="primary"
+                                            className={classes.buttonDel}
+                                        >
+                                            <DeleteIcon />
+                                        </Fab>
+                                    </Tooltip>
+                                    <CardMedia
+                                        component="img"
+                                        alt="img"
+                                        className={classes.sideImg}
+                                        image={img}
+                                        title="img"
+                                    />
+                                </React.Fragment> :
+                                <React.Fragment>
+                                    <LinearProgress variant="buffer" value={imgLoading} valueBuffer={imgLoading} color="secondary" />
+                                    <input required accept="image/*" type="file"
+                                        onChange={(e) => {
+                                            if (e.target.files!) {
+                                                handleUpload(e.target.files)
+                                            }
 
-                                <CardMedia
-                                    component="img"
-                                    alt="img"
-                                    height="140"
-                                    image={article.img}
-                                    title="img"
-                                    className={clsx(classes.responsiveImg)}
-                                /> :
-                                <input required accept="image/*" type="file"
-                                    // {...input}
-                                    onChange={(e) => {
-                                        if (e.target.files!) {
-                                            handleUpload(e.target.files)
                                         }
 
-                                    }
 
+                                        }
+                                    />
+                                </React.Fragment>
 
-                                    }
-                                />
-                                // <Input
-
-                                //     id="image-input"
-                                //     // className={classes}
-                                //     // accept="image/*"
-                                //     type="file"
-                                // // multiple
-                                // // {...input}
-                                // // onChange={(e) => {
-                                // //     this.setState({ file: e.target.files[0], isUploading: true }, this.handleUpload)
-                                // // }} 
-                                // />
 
                             }
                         </Grid>
@@ -312,8 +335,9 @@ const AddEditArticle: React.FC<Props> = ({ classes }) => {
                         </Grid>
                     </Grid>
 
-                </Grid>}
-        </form>
+                </Grid>
+            }
+        </form >
     );
 }
 export default withStyles(styles)(AddEditArticle)

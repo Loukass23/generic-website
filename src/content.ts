@@ -5,6 +5,7 @@ export const contentMaster = {
         secondary: '#D9C7FF'
     },
     hero: {
+        display: true,
         title: 'Website Builder',
         text: 'Simple Website Builder',
         img: 'https://source.unsplash.com/user/loukass23',

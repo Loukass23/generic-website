@@ -17,7 +17,6 @@ export const tabsReOrder = (selectedTab: PanelTab, tabs: PanelTabs, action: stri
 }
 
 
-
 const reIndexArticles = (tabs: PanelTabs) => {
     tabs.forEach((tab, i) => {
         tabs.slice(0, i)

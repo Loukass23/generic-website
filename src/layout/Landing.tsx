@@ -21,7 +21,7 @@ const styles = (theme: Theme) => createStyles({
         height: '100vh',
     },
     image: {
-        backgroundImage: 'url(https://source.unsplash.com/random)',
+        backgroundImage: 'url(https://source.unsplash.com/user/loukass23)',
         backgroundRepeat: 'no-repeat',
         backgroundColor:
             theme.palette.type === 'dark' ? theme.palette.grey[900] : theme.palette.grey[50],

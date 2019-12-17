@@ -80,15 +80,19 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
     const { tabs } = content.panel
     const [editMode, toggleEditMode] = React.useState(true);
     const [article, setArticle] = React.useState<Article>(emptyArticle)
+    // const [tabs, setArticle] = React.useState<Article>(emptyArticle)
     const { user } = useContext(AuthContext)
     const { setColors } = useContext(ThemeContext)
 
-    const editTabTitle = (panelTab: PanelTab, value: string, type: string) => {
-        if (type === 'title') panelTab.tabTitle = value
-        if (type === 'name') panelTab.tabName = value
+    const updateContent = () => {
         setContent({
             ...content,
         })
+    }
+    const editTabTitle = (panelTab: PanelTab, value: string, type: string) => {
+        if (type === 'title') panelTab.tabTitle = value
+        if (type === 'name') panelTab.tabName = value
+        updateContent()
     }
     const addTab = () => {
 
@@ -102,22 +106,18 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
             contact: ''
         }
         tabs.push(newTab)
-        setContent({
-            ...content,
-        })
+        updateContent()
     }
-    const deleteTab = (tab: PanelTab) => {
-        tabs.splice(tab.index, 1)
-        setContent({
-            ...content,
-        })
-    }
+    // const deleteTab = (tab: PanelTab) => {
+    //     tabs.splice(tab.index, 1)
+    //     setContent({
+    //         ...content,
+    //     })
+    // }
     const setTabIcon = (currentTab: PanelTab, icon: MaterialIcons) => {
         var index = tabs.findIndex(tab => tab.index === currentTab.index);
         tabs[index].icon = icon
-        setContent({
-            ...content,
-        })
+        updateContent()
     }
     const tooglePublished = (currentTab: PanelTab) => {
         var index = tabs.findIndex(tab => tab.index === currentTab.index);
@@ -132,6 +132,7 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
             ...content,
         })
     }
+
     const changeTabOrder = (panelTab: PanelTab, tabs: PanelTabs, action: string) => {
         tabsReOrder(panelTab, tabs, action)
         setContent({
@@ -146,6 +147,10 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
         setContent({
             ...content,
         })
+    }
+    const deleteTab = (tabs: PanelTabs, tab: PanelTab) => {
+        tabs.splice(tab.index, 1)
+        updateContent()
     }
     const firestorePush = async () => {
 
@@ -188,6 +193,8 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
         setColors(color.primary, 'primary')
         setColors(color.secondary, 'secondary')
     }
+
+
     const firebaseStorageUpload = async (file: File) => {
         const storageService = firebase.storage();
         const storageRef = storageService.ref();
@@ -241,7 +248,7 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
             setColorsContent,
             firestorePush,
             firestorePull,
-            firebaseStorageUpload
+            firebaseStorageUpload,
         }}>
             {props.children}
         </ContentContext.Provider>

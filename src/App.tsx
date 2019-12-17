@@ -29,8 +29,12 @@ const RenderWebsite: React.FC<Props> = () => {
 
   return (
     <MuiThemeProvider theme={theme}>
-      <Hero hero={hero} />
-      {isAuthenticated ? <TabPanel panel={panel} /> : <Landing />}
+
+      {isAuthenticated ?
+        <React.Fragment>
+          {hero.display && <Hero hero={hero} />}
+          <TabPanel panel={panel} />
+        </React.Fragment> : <Landing />}
 
       <Footer footer={footer} />
     </MuiThemeProvider>)
