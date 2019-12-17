@@ -11,15 +11,10 @@ const initUser: User = {
     name: 'Lucas',
     surname: 'DPS',
     avatar: 'https://res.cloudinary.com/ds3w3iwbk/image/upload/v1560349630/MERN/20170409_193026.jpg',
-    isAdmin: false
+    isAdmin: false,
+    uid: ''
 }
-const initAuth: AuthContextInterface = {
-    isAuthenticated: false,
-    user: initUser,
-    logIn: () => {
-        throw new Error('logIn() not implemented');
-    },
-}
+
 export const AuthContext = createContext<AuthContextInterface>({
     isAuthenticated: false,
     user: initUser,
@@ -49,10 +44,12 @@ const AuthContextProvider = (props: { children: React.ReactNode; }) => {
                 if (user) setUser({
                     name: user.displayName,
                     avatar: user.photoURL,
-                    isAdmin: true
+                    isAdmin: true,
+                    uid: user.uid
 
                 })
                 setIsAuthenticated(true)
+
             })
             .catch(function (error) {
                 console.log(error);

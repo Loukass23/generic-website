@@ -3,6 +3,7 @@
  * USER
  */
 interface User {
+    uid: string | null,
     name: string | null,
     surname?: string,
     avatar: string | null,
@@ -115,7 +116,9 @@ interface ContentContextInterface {
     deleteTab: any,
     setTabIcon: any,
     tooglePublished: any,
-    firestorePush: any
+    firestorePush: any,
+    setColorsContent: any
+    firestorePull: any
 
 
 }

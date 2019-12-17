@@ -94,12 +94,12 @@ interface Props {
 const TabSettings: React.FC<Props> = ({ classes }) => {
 
     const {
-        setColors,
+
         theme
     } = useContext(ThemeContext)
 
     const { content, editTabTitle, editMode,
-        toggleEditMode, addTab, firestorePush } = useContext(ContentContext)
+        toggleEditMode, addTab, firestorePush, setColorsContent } = useContext(ContentContext)
     const { tabs } = content.panel
     const [addTabName, setAddTabName] = React.useState(false);
     const [tabName, setTabName] = React.useState('');
@@ -267,7 +267,7 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
                     >
                         <SwatchesPicker
                             color={content.color.primary}
-                            onChangeComplete={(color) => setColors(color.hex, 'primary')}
+                            onChangeComplete={(color) => setColorsContent(color.hex, 'primary')}
                         />
                     </div>
 
@@ -287,7 +287,7 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
                     >
                         <SwatchesPicker
                             color={content.color.secondary}
-                            onChangeComplete={(color) => setColors(color.hex, 'secondary')}
+                            onChangeComplete={(color) => setColorsContent(color.hex, 'secondary')}
                         />
                     </div>
                 </Grid>

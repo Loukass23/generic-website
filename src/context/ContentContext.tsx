@@ -1,10 +1,12 @@
-import React, { useState, createContext } from 'react'
+import React, { useState, createContext, useContext } from 'react'
 import { contentMaster } from '../content'
-import { addEditDeleteArticle, articlesReOrder } from './ArticlesFunctions'
-import { tabsReOrder } from './TabFunctions'
+import { addEditDeleteArticle, articlesReOrder } from '../reducers/ArticlesFunctions'
+import { tabsReOrder } from '../reducers/TabFunctions'
 import * as firebase from "firebase/app";
 
 import 'firebase/firestore';
+import { AuthContext } from './AuthContext';
+import { ThemeContext } from './ThemeContext';
 
 // import { firebaseConfig } from '../config/keys';
 var database = firebase.firestore()
@@ -58,7 +60,14 @@ export const ContentContext = createContext<ContentContextInterface>({
     tooglePublished: () => {
         throw new Error('tooglePublished() not implemented');
     },
+    setColorsContent: () => {
+        throw new Error('setColorsContent() not implemented');
+    },
     firestorePush: () => {
+        throw new Error('firestorePush() not implemented');
+
+    },
+    firestorePull: () => {
         throw new Error('firestorePush() not implemented');
     }
 });
@@ -68,6 +77,8 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
     const { tabs } = content.panel
     const [editMode, toggleEditMode] = React.useState(true);
     const [article, setArticle] = React.useState<Article>(emptyArticle)
+    const { user } = useContext(AuthContext)
+    const { setColors } = useContext(ThemeContext)
 
     const editTabTitle = (panelTab: PanelTab, value: string, type: string) => {
         if (type === 'title') panelTab.tabTitle = value
@@ -124,17 +135,55 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
             ...content,
         })
     }
-    const firestorePush = () => {
+    const setColorsContent = (hex: string, type: string) => {
+        if (type === 'primary') content.color.primary = hex
+        if (type === 'secondary') content.color.secondary = hex
+
+        setColors(hex, type)
+        setContent({
+            ...content,
+        })
+    }
+    const firestorePush = async () => {
 
         // Add a new document with a generated id.
-        database.collection("content").add(content)
+        database.collection(`websites`).doc(`${user.uid}`).set(content)
             .then(function (docRef) {
-                console.log("Document written with ID: ", docRef.id);
+                console.log("Document written with ID: ", docRef);
             })
             .catch(function (error) {
                 console.error("Error adding document: ", error);
             });
 
+    }
+    const firestorePull = () => {
+
+        database.collection(`websites`).doc(`${user.uid}`).get().then(doc => {
+            if (!doc.exists) {
+                console.log('No such document!');
+            } else {
+                console.log('Document data:', doc.data());
+                const data = doc!.data()
+                if (data) {
+                    setContent({
+                        color: data.color,
+                        hero: data.hero,
+                        panel: data.panel,
+                        footer: data.footer
+                    })
+                    setUserTheme(data.color)
+                }
+
+            }
+        })
+            .catch(err => {
+                console.log('Error getting document', err);
+            });
+
+    }
+    const setUserTheme = (color: Content["color"]) => {
+        setColors(color.primary, 'primary')
+        setColors(color.secondary, 'secondary')
     }
 
     return (
@@ -152,7 +201,9 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
             deleteTab,
             setTabIcon,
             tooglePublished,
-            firestorePush
+            setColorsContent,
+            firestorePush,
+            firestorePull
         }}>
             {props.children}
         </ContentContext.Provider>
