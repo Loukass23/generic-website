@@ -101,7 +101,7 @@ const ScrollableTabsBar: React.FC<Props> = ({ classes, panel }) => {
         setValue(index);
     };
     const renderTab = (tab: PanelTab) => {
-        console.log('tab', tab)
+
         switch (tab.tabType) {
             case 'articles': return (<TabArticle tab={tab} />)
             case 'contact': return (<TabContact contact={tab.contact} />)

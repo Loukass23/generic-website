@@ -313,7 +313,8 @@ const TabArticles: React.FC<Props> = ({ classes, tab }) => {
                                         {article.img && <CardMedia
                                             component="img"
                                             alt="img"
-                                            height="140"
+                                            height="500"
+
                                             image={article.img}
                                             title="img"
                                         />}

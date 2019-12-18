@@ -299,11 +299,14 @@ const TabSettings: React.FC<Props> = ({ classes }) => {
             </Typography>
             {
                 tabs.map(tab => {
-                    if (tab.tabType !== 'settings') {
-                        return (
-                            <TabName key={tab.index} tab={tab} editMode={true} />
-                        )
-                    }
+                    //  if (tab.tabType !== 'settings') {
+                    return (
+                        <React.Fragment key={tab.index}>
+                            {tab.tabType !== 'settings' && <TabName key={tab.index} tab={tab} editMode={true} />}
+
+                        </React.Fragment>
+                    )
+                    //}
 
 
 

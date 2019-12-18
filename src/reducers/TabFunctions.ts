@@ -1,3 +1,6 @@
+
+
+
 export const tabsReOrder = (selectedTab: PanelTab, tabs: PanelTabs, action: string) => {
     // const { articles } = panelTab
     var index = tabs.findIndex(tab => tab.index === selectedTab.index);
@@ -13,11 +16,11 @@ export const tabsReOrder = (selectedTab: PanelTab, tabs: PanelTabs, action: stri
             break
     }
 
-    reIndexArticles(tabs)
+    reIndexTabs(tabs)
 }
 
 
-const reIndexArticles = (tabs: PanelTabs) => {
+export const reIndexTabs = (tabs: PanelTabs) => {
     tabs.forEach((tab, i) => {
         tabs.slice(0, i)
         tabs[i] = {

@@ -1,7 +1,8 @@
-import React, { useState, createContext, useContext } from 'react'
+import React, { useState, createContext, useContext, useReducer } from 'react'
 import { contentMaster } from '../content'
 import { addEditDeleteArticle, articlesReOrder } from '../reducers/ArticlesFunctions'
-import { tabsReOrder } from '../reducers/TabFunctions'
+import { tabsReOrder, reIndexTabs } from '../reducers/TabFunctions'
+// import { tabsReducer } from '../reducers/tabsReducers'
 import * as firebase from "firebase/app";
 import 'firebase/storage';
 import 'firebase/firestore';
@@ -80,7 +81,11 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
     const { tabs } = content.panel
     const [editMode, toggleEditMode] = React.useState(true);
     const [article, setArticle] = React.useState<Article>(emptyArticle)
-    // const [tabs, setArticle] = React.useState<Article>(emptyArticle)
+    // const [tabs, setTabs] = React.useState<PanelTabs>(content.panel.tabs)
+
+    // const [tabs, dispatch] = useReducer(tabsReducer, [content.panel]);
+
+
     const { user } = useContext(AuthContext)
     const { setColors } = useContext(ThemeContext)
 
@@ -98,15 +103,18 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
 
         const newTab = {
             index: tabs.length,
-            tabName: '',
+            tabName: 'Tab Name (optional)',
             tabTitle: 'Tab Tible',
             articles: [],
             tabType: 'articles',
-            icon: '',
-            contact: ''
+            icon: 'favorite',
+            //contact: ''
         }
         tabs.push(newTab)
+        reIndexTabs(tabs)
         updateContent()
+        console.log('tabs :', tabs);
+
     }
     // const deleteTab = (tab: PanelTab) => {
     //     tabs.splice(tab.index, 1)
@@ -150,6 +158,7 @@ const ContentContextProvider = (props: { children: React.ReactNode; }) => {
     }
     const deleteTab = (tabs: PanelTabs, tab: PanelTab) => {
         tabs.splice(tab.index, 1)
+        reIndexTabs(tabs)
         updateContent()
     }
     const firestorePush = async () => {
